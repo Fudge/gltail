@@ -136,7 +136,7 @@ class Element
       $BLOBS[txt] = list
     end
 
-    if( $BLOBS[@name].nil? )
+    if( $BLOBS[@name + @right.to_s].nil? )
       list = glGenLists(1)
       glNewList(list, GL_COMPILE)
       if @x < 0
@@ -150,15 +150,15 @@ class Element
 
 
       glEndList()
-      $BLOBS[@name] = list
+      $BLOBS[@name + @right.to_s] = list
     end
 
     if @x < 0
-      glCallList($BLOBS[@name])
+      glCallList($BLOBS[@name + @right.to_s])
       glCallList($BLOBS[txt])
     else
       glCallList($BLOBS[txt])
-      glCallList($BLOBS[@name])
+      glCallList($BLOBS[@name + @right.to_s])
     end
 
     glPopMatrix()

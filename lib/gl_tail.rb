@@ -55,8 +55,6 @@ $FPS = 50.0
 $ASPECT = 0.6
 
 $TOP = 0.9
-$RIGHT_COL = 1.0
-$LEFT_COL = -1.0
 $LINE_SIZE = 0.03
 $STATS = []
 
