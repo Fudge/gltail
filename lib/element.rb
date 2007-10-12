@@ -5,7 +5,7 @@
 #
 
 class Element
-  attr_accessor :wy, :active
+  attr_accessor :wy, :active, :average_size, :right
   attr_reader   :rate, :messages, :name, :activities, :queue, :updates, :average, :total
 
   def initialize(name, color, type = 0, right = false, start_position = -$TOP)
@@ -15,6 +15,7 @@ class Element
     @y = start_position
     @z = 0
     @wy = start_position
+    @right = right
 
     @color = color
     @size = 0.01
@@ -92,7 +93,7 @@ class Element
   end
 
   def render(options = { })
-    @x = (@right ? $RIGHT_COL : $LEFT_COL)
+    @x = (@right ? ($RIGHT_COL - ($COLUMN_SIZE_RIGHT+8)*8.0 / ($WINDOW_WIDTH / 2.0)) : $LEFT_COL)
 
     d = @wy - @y
     if d.abs < 0.001
@@ -103,26 +104,27 @@ class Element
 
     glPushMatrix()
     glMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, ( @queue.size > 0 ? [10.0, 1.0, 1.0, 1.0] : @color.map { |c| c*3.0} ) )
+
     glTranslate(@x, @y, @z)
     glRasterPos(0.0, 0.0)
 
     if @type == 0
       if @rate < 0.0001
-        txt = "   r/m "
+        txt = "    r/m "
       else
-        txt = "#{sprintf("%6.2f",@rate * 60)} "
+        txt = "#{sprintf("%7.2f",@rate * 60)} "
       end
     elsif @type == 1
       if @total == 0
-        txt = " total "
+        txt = "  total "
       else
-        txt = "#{sprintf("%6d",@total)} "
+        txt = "#{sprintf("%7d",@total)} "
       end
     elsif @type == 2
       if @average == 0
-        txt = "   avg "
+        txt = "    avg "
       else
-        txt = "#{sprintf("%6.2f",@average)} "
+        txt = "#{sprintf("%7.2f",@average)} "
       end
     end
 
@@ -138,9 +140,12 @@ class Element
       list = glGenLists(1)
       glNewList(list, GL_COMPILE)
       if @x < 0
-        print_text( sprintf("%35s ", @name) )
+        if @name.length > $COLUMN_SIZE_LEFT
+          @name = @name[-$COLUMN_SIZE_LEFT..-1]
+        end
+        print_text( sprintf("%#{$COLUMN_SIZE_LEFT}s ", @name) )
       else
-        print_text @name
+        print_text @name[0..$COLUMN_SIZE_RIGHT-1]
       end
 
 
@@ -170,6 +175,7 @@ class Element
       size = item.size
       type = item.type
 
+
       if size < $MIN_BLOB_SIZE
         size = $MIN_BLOB_SIZE
       elsif size > $MAX_BLOB_SIZE
@@ -177,7 +183,7 @@ class Element
       end
 
       if type == 2
-        @activities.push Activity.new(url, 0.0 - (0.043 * url.length), $TOP, 0.0, color, size, type)
+        @activities.push Activity.new(url, 0.0 - (0.013 * url.length), $TOP, 0.0, color, size, type)
       elsif type == 5
         a = Activity.new(url, 0.0, $TOP, 0.0, color, size, type)
         a.wx = @x
@@ -185,9 +191,9 @@ class Element
         @activities.push a
       elsif type != 4
         if @x >= 0
-          @activities.push Activity.new(url, @x, @y, @z, color, size, type)
+          @activities.push Activity.new(url, ($RIGHT_COL - ($COLUMN_SIZE_RIGHT+8)*8.0 / ($WINDOW_WIDTH / 2.0)), @y, @z, color, size, type)
         else
-          @activities.push Activity.new(url, @x + $BLOB_OFFSET, @y, @z, color, size, type)
+          @activities.push Activity.new(url, ($LEFT_COL + ($COLUMN_SIZE_LEFT+8)*8.0 / ($WINDOW_WIDTH / 2.0) ), @y, @z, color, size, type)
         end
       end
       num += 1
@@ -195,7 +201,7 @@ class Element
 #    @last_time = glutGet(GLUT_ELAPSED_TIME)
 
     @activities.each do |a|
-      if a.x > 18.0 || a.x < -18.0
+      if a.x > 1.0 || a.x < -1.0
         @activities.delete a
       else
         a.wy = @y + 0.05 if a.type == 5

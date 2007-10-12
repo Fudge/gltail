@@ -19,12 +19,15 @@
 ### Configuration
 ###
 
-#ENV['__GL_SYNC_TO_VBLANK']="1"
+ENV['__GL_SYNC_TO_VBLANK']="1"
 $WINDOW_WIDTH = 1200
 $WINDOW_HEIGHT = 760
 
-$MIN_BLOB_SIZE = 0.07
-$MAX_BLOB_SIZE = 0.6
+$COLUMN_SIZE_LEFT  = 25 # in characters, will be truncated
+$COLUMN_SIZE_RIGHT = 25 # in characters, will be truncated
+
+$MIN_BLOB_SIZE = 0.004
+$MAX_BLOB_SIZE = 0.04
 
 $SERVERS = [
             # List of machines to log in to via SSH, and which files to tail for traffic data.
@@ -33,6 +36,7 @@ $SERVERS = [
             {:name => 'mail', :host => 'mail.spamme.com', :user => 'otheruser', :password => 'othersecret', :command => 'tail -f', :files => ['/var/log/maillog'], :color => [0.8, 1.0, 0.0, 1.0], :parser => :postfix },
             {:name => 'database', :host => 'db.example.com', :user => 'db', :password => 'othersecret', :command => 'tail -f', :files => ['/var/log/pgsql.log'], :color => [0.6, 0.6, 1.0, 1.0], :parser => :postgresql },
            ]
+
 
 $BLOCKS = [
            # Sections with different information to display on the screen

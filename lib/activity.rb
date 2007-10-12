@@ -10,8 +10,8 @@ class Activity
   def initialize(message, x,y,z, color, size, type=0)
     @message = message
     @x, @y, @z = x, y, z
-    @xi, @yi, @zi = 0.18 + ( (rand(100)/100.0 - 0.5) * 0.01 ), (rand(100)/100.0 - 0.5) * 0.04, 0
-#    @xi, @yi, @zi = 0.18 , 0.03, 0
+#    @xi, @yi, @zi = 0.020 + ( (rand(100)/100.0 - 0.5) * 0.01 ), (rand(100)/100.0 - 0.6) * 0.0025, 0
+    @xi, @yi, @zi = 0.015 , 0.0025, 0
 
     if @x >= 0.0
       @xi = -@xi
@@ -68,7 +68,8 @@ class Activity
         @x = 30.0 #if @type == 2
       end
 
-      @yi -= 0.003
+     @yi = @yi - 0.0005
+#      @yi = @yi * 1.01
 
     end
 

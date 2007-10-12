@@ -13,19 +13,20 @@ class Server
     @color = options[:color] || [1.0, 1.0, 1.0, 1.0]
     @parser = Parser.registry[ options[:parser] ] || Parser.registry[ :apache ]
     @blocks = options[:blocks]
-    
+
     # instantiate the parser
     @parser = @parser.new( self )
+
   end
 
   #block, message, size
   def add_activity(options = { })
-    block = @blocks[options[:block]].add_activity( { :name => @name, :color => @color, :size => 0.03 }.update(options) ) if (options[:block] && @blocks[options[:block]])
+    block = @blocks[options[:block]].add_activity( { :name => @name, :color => @color, :size => $MIN_BLOB_SIZE }.update(options) ) if (options[:block] && @blocks[options[:block]])
   end
 
   #block, message
   def add_event(options = { })
-    block = @blocks[options[:block]].add_event( { :name => @name, :color => @color, :size => 0.03}.update(options) ) if (options[:block] && @blocks[options[:block]])
+    block = @blocks[options[:block]].add_event( { :name => @name, :color => @color, :size => $MIN_BLOB_SIZE}.update(options) ) if (options[:block] && @blocks[options[:block]])
   end
 
 end

@@ -1,9 +1,9 @@
 ?? Oct 2007 - v0.06 - Handle referrals including your site as params
                     - Handle disabling a block without disabling the source
+                    - Rework coordinate systems, and swap to glOrtho instead of glFrustum
                     - Split source into several files (Ben Bleything <ben@bleything.net>)
                     - qmail/vmpop3d parser (James Grant <james@lightbox.org>)
                     - Postfix fixes (Andre Luiz dos Santos <andre@netvision.com.br>)
-                    - Use timer instead of idle function (Nigel Williams <nwilliams@movenetworks.com>)
                     - TShark parser (Landy Bible <landy@ljb2of3.net>)
                     - Updated Squid parser (Isuraeru Ochoa <isuraeru@gmail.com>)
 

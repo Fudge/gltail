@@ -54,11 +54,10 @@ $BLOBS = { }
 $FPS = 50.0
 $ASPECT = 0.6
 
-$TOP = 11.0
-$RIGHT_COL = 11.0
-$LEFT_COL = -20.0
-$LINE_SIZE = 0.3
-$BLOB_OFFSET = 7.0
+$TOP = 0.9
+$RIGHT_COL = 1.0
+$LEFT_COL = -1.0
+$LINE_SIZE = 0.03
 $STATS = []
 
 $BITMAP_MODE = 0
@@ -120,22 +119,24 @@ class GlTail
   def reshape(width, height)
     $ASPECT = height.to_f / width.to_f
 
+    $WINDOW_WIDTH, $WINDOW_HEIGHT = width, height
+
     puts "Reshape: #{width}x#{height} = #{$ASPECT}"
 
     glViewport(0, 0, width, height)
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
 
-    glFrustum(-2.0, 2.0, -$ASPECT*2, $ASPECT*2, 5.0, 60.0)
+#    glFrustum(-2.0, 2.0, -$ASPECT*2, $ASPECT*2, 5.0, 60.0)
+    glOrtho(-1.0, 1.0, -$ASPECT, $ASPECT, -1.0, 1.0)
 
-    $TOP = 19.0 * $ASPECT
-    $LINE_SIZE = 0.5 * (1122/height.to_f) * $ASPECT
-    $BLOB_OFFSET = 11.6 * (1122/height.to_f) * $ASPECT
-    $RIGHT_COL = 18.3 * $ASPECT
+    $TOP = $ASPECT - ($ASPECT/20)
+    $LINE_SIZE = 0.025 * (1122/height.to_f) * $ASPECT
+
 
     glMatrixMode(GL_MODELVIEW)
     glLoadIdentity()
-    glTranslate(0.0, 0.0, -50.0)
+    glTranslate(0.0, 0.0, 0.0)
   end
 
   def init
@@ -181,13 +182,13 @@ class GlTail
 
   def timer(value)
     glutPostRedisplay()
-    glutTimerFunc(20, method(:timer).to_proc, 0)
+    glutTimerFunc(33, method(:timer).to_proc, 0)
     do_process
   end
 
   def visible(vis)
-    glutTimerFunc(20, method(:timer).to_proc, 0)
-#    glutIdleFunc((vis == GLUT_VISIBLE ? method(:idle).to_proc : nil))
+#    glutTimerFunc(33, method(:timer).to_proc, 0)
+    glutIdleFunc((vis == GLUT_VISIBLE ? method(:idle).to_proc : nil))
   end
 
   def mouse(button, state, x, y)
