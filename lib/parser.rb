@@ -1,0 +1,23 @@
+# gl_tail.rb - OpenGL visualization of your server traffic
+# Copyright 2007 Erlend Simonsen <mr@fudgie.org>
+#
+# Licensed under the GNU General Public License v2 (see LICENSE)
+#
+
+class Parser
+  def self::inherited( klass )
+    parser_name = klass.to_s.sub( /Parser$/, '' ).downcase.intern
+    
+    @registry ||= {}
+    @registry[ parser_name ] = klass
+  end
+  
+  def self::registry
+    return @registry
+  end
+  
+  def parse( server, line )
+    raise NotImplementedError,
+      "Concrete parsers must implement parse()"
+  end
+end

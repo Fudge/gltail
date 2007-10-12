@@ -1,0 +1,30 @@
+?? Oct 2007 - v0.06 - Handle referrals including your site as params
+                    - Handle disabling a block without disabling the source
+                    - qmail/vmpop3d parser (James Grant <james@lightbox.org>)
+                    - Postfix fixes (Andre Luiz dos Santos <andre@netvision.com.br>)
+                    - Use timer instead of idle function (Nigel Williams <nwilliams@movenetworks.com>)
+		    - TShark parser (Landy Bible <landy@ljb2of3.net>)
+		    - Updated Squid parser (Isuraeru Ochoa <isuraeru@gmail.com>)
+
+10 Oct 2007 - v0.05 - Basic instructions on missing gems
+                    - Fallback to BitmapCharacterX on RangeError
+                    - Attempt to fix text color on non Linux platforms
+                    - SASL Usernames (Andre Luiz dos Santos <andre@netvision.com.br>)
+                    - SSH auth methods <leif@denali.net>
+                    - PostgreSQL parser (Andrew MacBride <amacbride@yahoo.com>)
+                    - Postfix warnings (Jim Pingle <jpingle@gmail.com)
+
+09 Oct 2007 - v0.04 - Upgraded to GL/GLUT new syntax
+                      Should fix several os/x and windows problems
+                    - Nginx parser (Ian Ownbey <iownbey@notesake.com>)
+                    - Squid parser (Benjamin Schweizer <2007@benjamin-schweizer.de>)
+                    - SSH Keys support (Jason Drage <jasond@ibsglobalweb.com>)
+                    - Postfix spamd/clamd (Jim Pingle <jpingle@gmail.com>)
+
+08 Oct 2007 - v0.03 - Update Apache Combined parser to handle hostnames
+                    - Handle message rates > (60000/FPS)
+
+07 Oct 2007 - v0.02 - Postfix parser
+                    - IIS parser (Tucker Sizemore <w8emx@sera.org>)
+
+06 Oct 2007 - v0.01 - Initial release
