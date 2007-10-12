@@ -16,6 +16,7 @@ class ApacheParser < Parser
     if host
       _, referrer_host, referrer_url = /^http[s]?:\/\/([^\/]+)(\/.*)/.match(referrer).to_a if referrer
       method, url, http_version = url.split(" ")
+      url = method if url.nil?
       url, parameters = url.split('?')
 
       server.add_activity(:block => 'sites', :name => server.name, :size => size.to_i/1000000.0) # Size of activity based on size of request
