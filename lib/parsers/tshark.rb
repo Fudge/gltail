@@ -4,10 +4,10 @@
 # Licensed under the GNU General Public License v2 (see LICENSE)
 #
 
-# Parser which handles squid logs
+# Parser which handles tshark logs
 class TSharkParser < Parser
 
-  def parse( server, line )
+  def parse( line )
     if(line.include?('->'))
       time, srcip, arrow, destip, type, = line.split(" ")
       server.add_activity(:block => 'users', :name => srcip)

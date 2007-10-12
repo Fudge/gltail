@@ -6,7 +6,7 @@
 
 # Parser which handles PostgreSQL logs
 class PostgreSQLParser < Parser
-  def parse( server, line )
+  def parse( line )
     # here's an example parser for postgres log files; adjust accordingly for different logfile setups.
     #
     # postgresql.conf:

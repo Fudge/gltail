@@ -236,7 +236,7 @@ class GlTail
       line.gsub!(/\n\n/, "\n")
 
       server = @servers.values.find { |v| (v.host == ch[:host]) && (v.name == ch[:name]) }
-      server.parser.parse(server, line)
+      server.parser.parse(line)
     end
     ch[:buffer] = "" if ch[:buffer].include? "\n"
   end

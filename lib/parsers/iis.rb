@@ -6,7 +6,7 @@
 
 # Parser which handles Internet Information Server (IIS) logs
 class IISParser < Parser
-  def parse( server, line )
+  def parse( line )
     _, date, time,serverip, url, referrer, port, size, host, useragent, status = /^([\d-]+) ([\d:]+) ([\d.]+) (.+? .+?) (\S+) (.+?) (\S+) ([\d.]+) (.+?) (\d+) (.*)$/.match(line).to_a
 
     if host

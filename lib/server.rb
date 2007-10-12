@@ -15,7 +15,7 @@ class Server
     @blocks = options[:blocks]
     
     # instantiate the parser
-    @parser = @parser.new
+    @parser = @parser.new( self )
   end
 
   #block, message, size

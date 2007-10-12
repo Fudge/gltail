@@ -5,6 +5,12 @@
 #
 
 class Parser
+  attr_reader :server
+
+  def initialize( server )
+    @server = server
+  end
+
   def self::inherited( klass )
     parser_name = klass.to_s.sub( /Parser$/, '' ).downcase.intern
     
@@ -16,7 +22,7 @@ class Parser
     return @registry
   end
   
-  def parse( server, line )
+  def parse( line )
     raise NotImplementedError,
       "Concrete parsers must implement parse()"
   end

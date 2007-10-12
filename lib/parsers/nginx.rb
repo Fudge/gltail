@@ -6,7 +6,7 @@
 
 # Parser which handles nginx logs
 class NginxParser < Parser
-  def parse( server, line )
+  def parse( line )
     _, remote_addr, remote_user, status, request, size, referrer, http_user_agent, http_x_forwarded_for = /^([^\s]+) - ([^\s]+) \[.*\] (\d+) \"(.+)\" (\d+) \"(.*)\" \"([^\"]*)\" \"(.*)\"/.match(line).to_a
 
     if request

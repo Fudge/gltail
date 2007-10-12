@@ -6,7 +6,7 @@
 
 # Parser which handles squid logs
 class SquidParser < Parser
-  def parse( server, line )
+  def parse( line )
     _, delay, host, size, method, uri, user = /\d+.\d+ +(\d+) +(\d+.\d+.\d+.\d+.\d+).+ (\d+) (.+) (.+) (.+) .+ .+/.match(line).to_a
     if method != 'ICP_QUERY'
       size = size.to_f / 100000.0

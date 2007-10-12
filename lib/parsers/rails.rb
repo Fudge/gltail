@@ -6,7 +6,7 @@
 
 # Parser which handles Rails access logs
 class RailsParser < Parser
-  def parse( server, line )
+  def parse( line )
     #Completed in 0.02100 (47 reqs/sec) | Rendering: 0.01374 (65%) | DB: 0.00570 (27%) | 200 OK [http://example.com/whatever/whatever]
     _, ms, url = /^Completed in ([\d.]+) .* \[([^\]]+)\]/.match(line).to_a
 

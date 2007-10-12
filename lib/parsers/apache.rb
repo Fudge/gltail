@@ -6,7 +6,7 @@
 
 # Parser which handles access_logs in combined format from Apache
 class ApacheParser < Parser
-  def parse( server, line )
+  def parse( line )
     _, host, user, domain, date, url, status, size, referrer, useragent = /^([\d\S.]+) (\S+) (\S+) \[([^\]]+)\] \"(.+?)\" (\d+) ([\S]+) \"([^\"]+)\" \"([^\"]+)\"/.match(line).to_a
 
     unless host

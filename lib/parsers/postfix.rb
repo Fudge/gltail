@@ -5,7 +5,7 @@
 
 # Parser which handles Postfix logs
 class PostfixParser < Parser
-  def parse( server, line )
+  def parse( line )
     if line.include?(': connect from')
       _, host, ip = /: connect from ([^\[]+)\[(\d+.\d+.\d+.\d+)\]/.match(line).to_a
       if host

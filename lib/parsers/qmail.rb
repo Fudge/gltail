@@ -6,7 +6,7 @@
 
 # Parser which handles qmail logs
 class QmailParser < Parser
-  def parse( server, line )
+  def parse( line )
     if line.include?(' logged in from ')
       _, user, host, ip = /: User \'([^']+)\' of \'([^']+)\' logged in from (\d+.\d+.\d+.\d+)/.match(line).to_a
       if host
