@@ -19,11 +19,11 @@ class ApacheParser < Parser
       url = method if url.nil?
       url, parameters = url.split('?')
 
-      server.add_activity(:block => 'sites', :name => server.name, :size => size.to_i/1000000.0) # Size of activity based on size of request
-      server.add_activity(:block => 'urls', :name => url)
-      server.add_activity(:block => 'users', :name => host, :size => size.to_i/1000000.0)
-      server.add_activity(:block => 'referrers', :name => referrer) unless (referrer_host.nil? || referrer_host.include?(server.name) || referrer_host.include?(server.host))
-      server.add_activity(:block => 'user agents', :name => useragent, :type => 3) unless useragent.nil?
+      add_activity(:block => 'sites', :name => server.name, :size => size.to_i/1000000.0) # Size of activity based on size of request
+      add_activity(:block => 'urls', :name => url)
+      add_activity(:block => 'users', :name => host, :size => size.to_i/1000000.0)
+      add_activity(:block => 'referrers', :name => referrer) unless (referrer_host.nil? || referrer_host.include?(server.name) || referrer_host.include?(server.host))
+      add_activity(:block => 'user agents', :name => useragent, :type => 3) unless useragent.nil?
 
       if( url.include?('.gif') || url.include?('.jpg') || url.include?('.png') || url.include?('.ico'))
         type = 'image'
@@ -40,13 +40,13 @@ class ApacheParser < Parser
       else
         type = 'page'
       end
-      server.add_activity(:block => 'content', :name => type)
-      server.add_activity(:block => 'status', :name => status, :type => 3) # don't show a blob
+      add_activity(:block => 'content', :name => type)
+      add_activity(:block => 'status', :name => status, :type => 3) # don't show a blob
 
       # Events to pop up
-      server.add_event(:block => 'info', :name => "Logins", :message => "Login...", :update_stats => true, :color => [1.5, 1.0, 0.5, 1.0]) if method == "POST" && url.include?('login')
-      server.add_event(:block => 'info', :name => "Sales", :message => "$", :update_stats => true, :color => [1.5, 0.0, 0.0, 1.0]) if method == "POST" && url.include?('/checkout')
-      server.add_event(:block => 'info', :name => "Signups", :message => "New User...", :update_stats => true, :color => [1.0, 1.0, 1.0, 1.0]) if( method == "POST" && (url.include?('/signup') || url.include?('/users/create')))
+      add_event(:block => 'info', :name => "Logins", :message => "Login...", :update_stats => true, :color => [1.5, 1.0, 0.5, 1.0]) if method == "POST" && url.include?('login')
+      add_event(:block => 'info', :name => "Sales", :message => "$", :update_stats => true, :color => [1.5, 0.0, 0.0, 1.0]) if method == "POST" && url.include?('/checkout')
+      add_event(:block => 'info', :name => "Signups", :message => "New User...", :update_stats => true, :color => [1.0, 1.0, 1.0, 1.0]) if( method == "POST" && (url.include?('/signup') || url.include?('/users/create')))
     end
   end
 end

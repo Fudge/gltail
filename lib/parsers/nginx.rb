@@ -14,11 +14,11 @@ class NginxParser < Parser
       method, full_url, _ = request.split(' ')
       url, parameters = full_url.split('?')
 
-      server.add_activity(:block => 'sites', :name => server.name, :size => size.to_i/1000000.0)
-      server.add_activity(:block => 'urls', :name => url)
-      server.add_activity(:block => 'users', :name => remote_addr, :size => size.to_i/1000000.0)
-      server.add_activity(:block => 'referrers', :name => referrer) unless (referrer_host.nil? || referrer_host.include?(server.name) || referrer_host.include?(server.host) || referrer == '-')
-      server.add_activity(:block => 'user agents', :name => http_user_agent, :type => 3) unless http_user_agent.nil?
+      add_activity(:block => 'sites', :name => server.name, :size => size.to_i/1000000.0)
+      add_activity(:block => 'urls', :name => url)
+      add_activity(:block => 'users', :name => remote_addr, :size => size.to_i/1000000.0)
+      add_activity(:block => 'referrers', :name => referrer) unless (referrer_host.nil? || referrer_host.include?(server.name) || referrer_host.include?(server.host) || referrer == '-')
+      add_activity(:block => 'user agents', :name => http_user_agent, :type => 3) unless http_user_agent.nil?
 
       if( url.include?('.gif') || url.include?('.jpg') || url.include?('.png') || url.include?('.ico'))
         type = 'image'
@@ -36,11 +36,11 @@ class NginxParser < Parser
         type = 'page'
       end
 
-      server.add_activity(:block => 'content', :name => type)
-      server.add_activity(:block => 'status', :name => status, :type => 3)
+      add_activity(:block => 'content', :name => type)
+      add_activity(:block => 'status', :name => status, :type => 3)
 
-      server.add_event(:block => 'info', :name => "Logins", :message => "Login...", :update_stats => true, :color => [1.5, 1.0, 0.5, 1.0]) if method == "POST" && url.include?('/login')
-      server.add_event(:block => 'info', :name => "Registration", :message => "Register", :update_stats => true, :color => [1.5, 0.0, 0.0, 1.0]) if method == "POST" && url.include?('/register')
+      add_event(:block => 'info', :name => "Logins", :message => "Login...", :update_stats => true, :color => [1.5, 1.0, 0.5, 1.0]) if method == "POST" && url.include?('/login')
+      add_event(:block => 'info', :name => "Registration", :message => "Register", :update_stats => true, :color => [1.5, 0.0, 0.0, 1.0]) if method == "POST" && url.include?('/register')
     end
   end
 end

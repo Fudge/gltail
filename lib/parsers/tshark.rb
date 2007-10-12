@@ -10,14 +10,14 @@ class TSharkParser < Parser
   def parse( line )
     if(line.include?('->'))
       time, srcip, arrow, destip, type, = line.split(" ")
-      server.add_activity(:block => 'users', :name => srcip)
-      server.add_activity(:block => 'types', :name => type)
+      add_activity(:block => 'users', :name => srcip)
+      add_activity(:block => 'types', :name => type)
     end
 
     if(line.include?('DNS Standard query A'))
       foo, name = line.split(" A ")
       if(name != nil)
-        server.add_event(:block => 'status', :name => "DNS Queries", :message => "DNS Request: " + name, :update_stats => true, :color => [1.5, 1.0, 0.5, 1.0])
+        add_event(:block => 'status', :name => "DNS Queries", :message => "DNS Request: " + name, :update_stats => true, :color => [1.5, 1.0, 0.5, 1.0])
       end
     end 
   end 

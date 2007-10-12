@@ -26,4 +26,14 @@ class Parser
     raise NotImplementedError,
       "Concrete parsers must implement parse()"
   end
+  
+  # dsl-ish helper methods so the parsers don't call server.add_* anymore.  That
+  # seems magical now that server isn't be explicitly passed anymore.
+  def add_activity( opts = {} )
+    @server.add_activity( opts )
+  end
+  
+  def add_event( opts = {} )
+    @server.add_event( opts )
+  end
 end

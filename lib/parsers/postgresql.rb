@@ -19,7 +19,7 @@ class PostgreSQLParser < Parser
     _, database, datetime, activity, description = /^\[(.*), (.* .* .*)\] LOG:  ([a-zA-Z0-9\s]*): (.*)/.match(line).to_a
 
     if database
-      server.add_activity(:block => 'database', :name => database, :size => 0.2)
+      add_activity(:block => 'database', :name => database, :size => 0.2)
     else
       _, datetime, activity, description = /^(.* .* .*) LOG:  ([a-zA-Z0-9\s]*): (.*)/.match(line).to_a
     end
@@ -28,13 +28,13 @@ class PostgreSQLParser < Parser
       activity = 'vacuum' if(description.include?('vacuum') || activity == 'autovacuum')
       case activity
       when 'duration'
-        server.add_activity(:block => 'database', :name => 'duration', :size => description.to_f / 100.0)
+        add_activity(:block => 'database', :name => 'duration', :size => description.to_f / 100.0)
       when 'statement'
-        server.add_activity(:block => 'database', :name => 'activity', :size => 0.2)
+        add_activity(:block => 'database', :name => 'activity', :size => 0.2)
       when 'connection authorized', 'disconnection'
-        server.add_activity(:block => 'database', :name => 'login/logout', :size => 0.2)
+        add_activity(:block => 'database', :name => 'login/logout', :size => 0.2)
       when 'vacuum'
-        server.add_event(:block => 'database', :name => 'vacuum', :message => description, :update_stats => true, :color => [1.0, 1.0, 0.0, 1.0])
+        add_event(:block => 'database', :name => 'vacuum', :message => description, :update_stats => true, :color => [1.0, 1.0, 0.0, 1.0])
       end
     end
 

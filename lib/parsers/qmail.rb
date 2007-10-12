@@ -10,20 +10,20 @@ class QmailParser < Parser
     if line.include?(' logged in from ')
       _, user, host, ip = /: User \'([^']+)\' of \'([^']+)\' logged in from (\d+.\d+.\d+.\d+)/.match(line).to_a
       if host
-        server.add_activity(:block => 'logins', :name => user+'@'+host, :size => 0.05)
-        server.add_activity(:block => 'sites', :name => server.name, :size => 0.05)
+        add_activity(:block => 'logins', :name => user+'@'+host, :size => 0.05)
+        add_activity(:block => 'sites', :name => server.name, :size => 0.05)
       end
     elsif line.include?(' to local ')
       _, prefix, host = / to local ([^@]+)@(.*)/.match(line).to_a
       if host
-        server.add_activity(:block => 'mail to', :name => host, :size => 0.05)
-        server.add_activity(:block => 'sites', :name => server.name, :size => 0.05)
+        add_activity(:block => 'mail to', :name => host, :size => 0.05)
+        add_activity(:block => 'sites', :name => server.name, :size => 0.05)
       end
     elsif line.include?(' to remote ')
       _, prefix, host = / to remote ([^@]+)@(.*)/.match(line).to_a
       if host
-        server.add_activity(:block => 'mail from', :name => host, :size => 0.05)
-        server.add_activity(:block => 'sites', :name => server.name, :size => 0.05)
+        add_activity(:block => 'mail from', :name => host, :size => 0.05)
+        add_activity(:block => 'sites', :name => server.name, :size => 0.05)
       end
     end
   end

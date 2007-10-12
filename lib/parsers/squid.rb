@@ -11,12 +11,12 @@ class SquidParser < Parser
     if method != 'ICP_QUERY'
       size = size.to_f / 100000.0
       #Uncomment if you authenticate to use the proxy
-      #server.add_activity(:block => 'users', :name => user, :size => size)
-      server.add_activity(:block => 'hosts', :name => host, :size => size)
-      server.add_activity(:block => 'types', :name => method, :size => size)
+      #add_activity(:block => 'users', :name => user, :size => size)
+      add_activity(:block => 'hosts', :name => host, :size => size)
+      add_activity(:block => 'types', :name => method, :size => size)
       _, site = /http:\/\/(.+?)\/.+/.match(uri).to_a
       if site:
-          server.add_activity(:block => 'sites', :name => site, :size => size)
+          add_activity(:block => 'sites', :name => site, :size => size)
       end
     end
   end
