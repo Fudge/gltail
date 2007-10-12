@@ -26,6 +26,9 @@ $WINDOW_HEIGHT = 760
 $COLUMN_SIZE_LEFT  = 25 # in characters, will be truncated
 $COLUMN_SIZE_RIGHT = 25 # in characters, will be truncated
 
+$RIGHT_COL = 0.99
+$LEFT_COL = -0.99
+
 $MIN_BLOB_SIZE = 0.004
 $MAX_BLOB_SIZE = 0.04
 
@@ -36,7 +39,6 @@ $SERVERS = [
             {:name => 'mail', :host => 'mail.spamme.com', :user => 'otheruser', :password => 'othersecret', :command => 'tail -f', :files => ['/var/log/maillog'], :color => [0.8, 1.0, 0.0, 1.0], :parser => :postfix },
             {:name => 'database', :host => 'db.example.com', :user => 'db', :password => 'othersecret', :command => 'tail -f', :files => ['/var/log/pgsql.log'], :color => [0.6, 0.6, 1.0, 1.0], :parser => :postgresql },
            ]
-
 
 $BLOCKS = [
            # Sections with different information to display on the screen
