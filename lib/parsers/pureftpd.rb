@@ -7,7 +7,6 @@
 # Parser which handles logs from PureFTPD
 class PureftpdParser < Parser
   def parse( line )
-    puts "got: #{line}"
     _, host, domain, user, date, url, status, size = /^([\d\S.]+) (\S+) (\S+) \[([^\]]+)\] \"(.+?)\" (\d+) ([\S]+)/.match(line).to_a
 
     if host
