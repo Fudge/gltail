@@ -185,7 +185,7 @@ class GlTail
       session_options = { }
       session_options[:port] = s[:port] if s[:port]
       session_options[:keys] = s[:keys] if s[:keys]
-#      session_options[:verbose] = :debug
+      session_options[:verbose] = :debug if $DBG > 1
 
       if s[:password]
         session_options[:auth_methods] = [ "password","keyboard-interactive" ]
@@ -255,8 +255,11 @@ class GlTail
         next
       end
 
+
       line.gsub!(/\n\n/, "\n")
       line.gsub!(/\n\n/, "\n")
+
+      puts "#{ch[:host]}[#{ch[:name]}]: #{line}" if $DBG > 0
 
       server = @servers.values.find { |v| (v.host == ch[:host]) && (v.name == ch[:name]) }
       server.parser.parse(line)
