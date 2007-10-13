@@ -3,7 +3,7 @@ $WINDOW_WIDTH = 1200
 $WINDOW_HEIGHT = 760
 
 $COLUMN_SIZE_LEFT  = 25 # in characters, will be truncated
-$COLUMN_SIZE_RIGHT = 45 # in characters, will be truncated
+$COLUMN_SIZE_RIGHT = 25 # in characters, will be truncated
 
 $RIGHT_COL = 0.99
 $LEFT_COL = -0.99
