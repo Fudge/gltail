@@ -204,7 +204,7 @@ class Element
       if a.x > 1.0 || a.x < -1.0
         @activities.delete a
       else
-        a.wy = @y + 0.05 if a.type == 5
+        a.wy = @wy + 0.005 if a.type == 5
         a.render
         $STATS[1] += 1
       end
