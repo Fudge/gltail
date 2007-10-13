@@ -56,15 +56,15 @@ $SERVERS = Array.new unless $SERVERS
 yaml['servers'].each do |server|
   hash = {:name => server.shift}
   server.flatten[0].each do |key, value|
-    if key == 'files'
-      hash2 = {key.to_sym, value.split(',')}
-    elsif key == 'color'
-      hash2 = {key.to_sym, value.split(',').map {|x| x.to_f}}
-    elsif key == 'parser'
-      hash2 = {key.to_sym, value.to_sym}
-    else
-      hash2 = {key.to_sym, value}
+    case key
+    when 'files'
+      value = value.split(',')
+    when 'color'
+      value = value.split(',').map {|x| x.to_f}
+    when 'parser'
+      value = value.to_sym
     end
+    hash2 = {key.to_sym => value}
     hash.merge!(hash2)
   end
   $SERVERS << hash
