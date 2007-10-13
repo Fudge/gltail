@@ -15,6 +15,25 @@
 #   Geolocation on IPS
 #
 
+
 require 'config.rb'
 require 'lib/gl_tail.rb'
+
+ARGV.each do |arg|
+  case arg
+  when '-help','--help'
+    puts "gl_tail.rb [-help|-parsers] [configfile]"
+    exit
+  when '-parsers','--parsers'
+    puts "Supported Parsers [" + Parser::registry.keys.sort { |a,b| a.to_s <=> b.to_s }.collect{ |p| ":#{p.to_s}"}.join(", ") + "]"
+    exit
+  else
+    require arg
+  end
+
+end
+
+
+
+
 GlTail.new.start
