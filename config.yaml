@@ -10,6 +10,7 @@ servers:
     rails:
         host: anotherfunsite.com
         user: anotherfunuser
+        port: 222
         command: tail -f
         files: /var/www/apps/funapp/current/log/production.log
         parser: rails
