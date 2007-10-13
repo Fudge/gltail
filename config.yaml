@@ -6,14 +6,14 @@ servers:
         command: tail -f
         files: /var/log/apache/access_log
         parser: apache
-        color: 0.6, 1, 0.3, 1.0
+        color: 0.2, 1.0, 0.2, 1.0
     rails:
         host: anotherfunsite.com
         user: anotherfunuser
         command: tail -f
         files: /var/www/apps/funapp/current/log/production.log
         parser: rails
-        color: 0.1, 1, 1, 1.9
+        color: 0.2, 0.2, 1.0, 1.0
 config:
     dimensions: 1200x600
     min_blob_size: 0.004
