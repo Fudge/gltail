@@ -41,14 +41,14 @@ class Activity
 
     if @type == 5
       dy = @wy - @y
-      if dy.abs < 0.01
+      if dy.abs < 0.001
         @y = @wy
       else
         @y += dy / 20
       end
 
       dx = @wx - @x
-      if dx.abs < 0.03
+      if dx.abs < 0.001
         @x = @wx
       else
         @x += dx / 20
