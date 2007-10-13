@@ -1,0 +1,15 @@
+site1:
+    host: foobar.com
+    user: foo
+    password: topsecret
+    command: tail -f
+    files: /var/log/apache/access_log
+    parser: apache
+    color: 0.6, 1, 0.3, 1.0
+rails:
+    host: anotherfunsite.com
+    user: anotherfunuser
+    command: tail -f
+    files: /var/www/apps/funapp/current/log/production.log
+    parser: rails
+    color: 0.1, 1, 1, 1.9

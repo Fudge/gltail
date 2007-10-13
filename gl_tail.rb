@@ -39,7 +39,25 @@ ARGV.each do |arg|
 
 end
 
-
-
+require 'yaml'
+$SERVERS = Array.new unless $SERVERS
+servers = YAML.load_file($SERVER_YAML_FILE)
+servers.inspect
+servers.each do |server|
+  hash = {:name => server.shift}
+  server.flatten[0].each do |key, value|
+    if key == 'files'
+      hash2 = {key.to_sym, value.split(',')}
+    elsif key == 'color'
+      hash2 = {key.to_sym, value.split(',').map {|x| x.to_f}}
+    elsif key == 'parser'
+      hash2 = {key.to_sym, value.to_sym}
+    else
+      hash2 = {key.to_sym, value}
+    end
+    hash.merge!(hash2)
+  end
+  $SERVERS << hash
+end
 
 GlTail.new.start

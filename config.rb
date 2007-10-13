@@ -11,13 +11,9 @@ $LEFT_COL = -0.99
 $MIN_BLOB_SIZE = 0.004
 $MAX_BLOB_SIZE = 0.04
 
-# List of machines to log in to via SSH, and which files to tail for traffic data.
-$SERVERS = [
-            {:name => 'server1', :host => 'server1.example.com', :user => 'joeuser', :password => 'secret', :command => 'tail -f', :files => ['/var/log/apache/access_log'], :color => [0.2, 1.0, 0.2, 1.0], :parser => :apache },
-            {:name => 'server2', :host => 'login.mycoolsite.com', :user => 'otheruser', :password => 'othersecret', :port => 22222, :command => 'xtail', :files => ['/usr/local/www/apps/myapp/current/log/production.log'], :color => [0.2, 0.2, 1.0, 1.0], :parser => :rails },
-            {:name => 'mail', :host => 'mail.spamme.com', :user => 'otheruser', :password => 'othersecret', :command => 'tail -f', :files => ['/var/log/maillog'], :color => [0.8, 1.0, 0.0, 1.0], :parser => :postfix },
-            {:name => 'database', :host => 'db.example.com', :user => 'db', :password => 'othersecret', :command => 'tail -f', :files => ['/var/log/pgsql.log'], :color => [0.6, 0.6, 1.0, 1.0], :parser => :postgresql },
-           ]
+# File which to load servers config from. Default is servers.yaml
+
+$SERVER_YAML_FILE = 'servers.yaml'
 
 # Sections with different information to display on the screen, will be hidden unless they get any activity
 $BLOCKS = [
