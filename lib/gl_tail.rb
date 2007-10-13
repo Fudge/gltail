@@ -72,6 +72,30 @@ class GlTail
 
     $STATS = [0,0]
 
+    glPushMatrix()
+
+    char_size = 1 * 8.0 / ($WINDOW_WIDTH / 2.0)
+
+    left_left = $LEFT_COL + char_size * ($COLUMN_SIZE_LEFT + 1)
+    left_right = $LEFT_COL + char_size * ($COLUMN_SIZE_LEFT + 8)
+
+    right_left = $RIGHT_COL - char_size * ($COLUMN_SIZE_RIGHT + 1)
+    right_right = $RIGHT_COL - char_size * ($COLUMN_SIZE_RIGHT + 8)
+
+    glMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, ( [0.1, 0.1, 0.1, 1.0]  ) )
+    glBegin(GL_QUADS)
+      glVertex3f(left_left, 1.0, 0.0)
+      glVertex3f(left_right, 1.0, 0.0)
+      glVertex3f(left_right, -1.0, 0.0)
+      glVertex3f(left_left, -1.0, 0.0)
+
+      glVertex3f(right_left, 1.0, 0.0)
+      glVertex3f(right_right, 1.0, 0.0)
+      glVertex3f(right_right, -1.0, 0.0)
+      glVertex3f(right_left, -1.0, 0.0)
+    glEnd()
+    glPopMatrix()
+
     @blocks.values.sort { |k,v| k.order <=> v.order}.each do |block|
       positions[block.position] = block.render( positions[block.position] || 0 )
     end
