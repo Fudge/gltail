@@ -1,11 +1,15 @@
-?? Oct 2007 - v0.06 - Handle referrals including your site as params
+13 Oct 2007 - v0.06 - Handle referrals including your site as params
                     - Handle disabling a block without disabling the source
                     - Rework coordinate systems, and swap to glOrtho instead of glFrustum
+                    - PureFTPD parser
+                    - MySQL activity log parser
+                    - Highlight rate/total/avg column
                     - Split source into several files (Ben Bleything <ben@bleything.net>)
                     - qmail/vmpop3d parser (James Grant <james@lightbox.org>)
                     - Postfix fixes (Andre Luiz dos Santos <andre@netvision.com.br>)
                     - TShark parser (Landy Bible <landy@ljb2of3.net>)
                     - Updated Squid parser (Isuraeru Ochoa <isuraeru@gmail.com>)
+
 
 10 Oct 2007 - v0.05 - Basic instructions on missing gems
                     - Fallback to BitmapCharacterX on RangeError
