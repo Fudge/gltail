@@ -23,54 +23,73 @@ config:
         alignment: -0.99
         blocks:
             info:
+                order: 0
                 size: 10
                 auto_clean: false
                 show: total
             hosts:
+                order: 1
                 size: 3
             sites:
+                order: 2
                 size: 10
             content:
+                order: 3
                 size: 5
                 show: total
                 color: 1.0, 0.8, 0.4, 1.0
             status:
+                order: 4
                 size: 10
                 color: 1.0, 0.8, 0.4, 1.0
             types:
+                order: 5
                 size: 5
                 color: 1.0, 0.4, 0.2, 1.0
             users:
+                order: 6
                 size: 10
             smtp:
+                order: 7
                 size: 5
             logins:
+                order: 8
                 size: 5
             database:
+                order: 9
                 size: 10
-    
+
     right_column:
         size: 25
         alignment: 0.99
         blocks:
             urls:
+                order: 0
                 size: 15
             slow requests:
+                order: 1
                 size: 5
                 show: average
             refferers:
+                order: 2
                 size: 10
             user agents:
+                order: 3
                 size: 5
                 color: 1.0, 1.0, 1.0, 1.0
             mail from:
+                order: 4
                 size: 5
             mail to:
+                order: 5
                 size: 5
             viruses:
+                order: 6
                 size: 5
             rejections:
+                order: 7
                 size: 5
                 color: 1.0, 0.2, 0.2, 1.0
             warnings:
+                order: 8
                 size: 5

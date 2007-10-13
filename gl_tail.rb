@@ -33,11 +33,16 @@ ARGV.each do |arg|
   when '-debug-ssh', '--debug-ssh', '-ds'
     $DBG=2
   else
-    $CONFIG = arg
+    if File.exist? arg
+      $CONFIG = arg
+    else
+      $CONFIG = "#{arg}.yaml"
+    end
   end
 
 end
 
+######## LOAD YAML CONFIG FILE ###########
 require 'yaml'
 
 yaml = YAML.load_file($CONFIG || 'config.yaml')
@@ -77,8 +82,8 @@ yaml['config'].each do |key, config|
         when 'alignment'
           $LEFT_COL = left_column.to_f
         when 'blocks'
+          puts left_column.inspect
           $BLOCKS = Array.new unless $BLOCKS
-          order = 0
           left_column.each do |block, value|
             hash = {:name => block}
             value.each do |key, value|
@@ -91,13 +96,14 @@ yaml['config'].each do |key, config|
                 value = ( value == 'true' ? true : false )
               when 'color'
                 value = value.split(',').map {|x| x.to_f}
+              when 'order'
+                value = value.to_int
               end
               hash.merge!({key.to_sym => value})
             end
-            h2 = {:order => order, :position => :left}
+            h2 = {:position => :left}
             hash.merge! h2
             $BLOCKS << hash
-            order += 1
           end
         end
       end
@@ -110,7 +116,6 @@ yaml['config'].each do |key, config|
           $RIGHT_COL = right_column.to_f
         when 'blocks'
           $BLOCKS ||= Array.new
-          order = 0
           right_column.each do |block, value|
             hash = {:name => block}
             value.each do |key, value|
@@ -123,20 +128,19 @@ yaml['config'].each do |key, config|
                 value = ( value == 'true' ? true : false )
               when 'color'
                 value = value.split(',').map {|x| x.to_f}
+              when 'order'
+                value = value.to_int
               end
               hash.merge!({key.to_sym => value})
             end
-            h2 = {:order => order, :position => :right}
+            h2 = {:position => :right}
             hash.merge! h2
             $BLOCKS << hash
-            order += 1
           end
         end
       end
     end
   end
 end
-
-puts $BLOCKS.inspect
 
 GlTail.new.start
