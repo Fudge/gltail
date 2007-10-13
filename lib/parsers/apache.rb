@@ -19,6 +19,8 @@ class ApacheParser < Parser
       url = method if url.nil?
       url, parameters = url.split('?')
 
+      referrer.gsub!(/http:\/\//,'')
+
       add_activity(:block => 'sites', :name => server.name, :size => size.to_i/1000000.0) # Size of activity based on size of request
       add_activity(:block => 'urls', :name => url)
       add_activity(:block => 'users', :name => host, :size => size.to_i/1000000.0)
