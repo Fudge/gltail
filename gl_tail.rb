@@ -23,7 +23,12 @@ require 'lib/gl_tail.rb'
 ARGV.each do |arg|
   case arg
   when '-help','--help','-h'
-    puts "gl_tail.rb [--help|-h] [--parsers|-p] [--debug|-d] [--debug-ssh|-ds] [configfile]"
+    puts "gl_tail.rb [--help|-h] [--parsers|-p] [--debug|-d] [--debug-ssh|-ds] [configfile]",
+         '[--help|-h]        This help screen',
+         '[--parsers|-p]     List available parsers',
+         '[--debug|-d]       Turn on debugging',
+         '[--debug-ssh|-ds]  Only debug SSH',
+         '[configfile]       The YAML config file you wish to load (default = config.yaml)'
     exit
   when '-parsers','--parsers', '-p'
     puts "Supported Parsers [" + Parser::registry.keys.sort { |a,b| a.to_s <=> b.to_s }.collect{ |p| ":#{p.to_s}"}.join(", ") + "]"
