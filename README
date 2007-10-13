@@ -4,6 +4,15 @@ I know, horrible code and global variables, and what not. But, it works,
 and it's too fun to watch my servers traffic in real time to clean up
 everything before releasing it.
 
+Configuration:
+  Open config.rb in a text editor, and tweak to your liking. Either include
+  a :password for each of your servers, or make sure your ssh-keys are
+  correctly set up. If you need to specify a SSH key replace
+  :password => 'secret' with :keys => ['/path/to/key'] in $SERVERS
+
+Running:
+  ./gl_tail.rb
+
 Versions tested:
   rubygems    0.9.4
   ruby-opengl 0.40.1
@@ -22,16 +31,7 @@ Installation instructions (Mac OS/X):
   <install ruby & rubygems>
   sudo gem install -y net-ssh ruby-opengl -r
 
-Installation instructions (Windows)
+Installation instructions (Windows):
   One-click Ruby installer from rubyforge (not Cygwin ruby)
   gem install net-ssh ruby-opengl
-
-Configuration:
-  Modify $SERVERS, $BLOCKS & $PARSERS to your liking. Either include a
-  :password for each of your servers, or make sure your ssh-keys are
-  correctly set up. If you need to specify a key replace
-  :password => 'secret' with :keys => ['/path/to/key'] in $SERVERS
-
-Running:
-  ./gl_tail.rb
 
