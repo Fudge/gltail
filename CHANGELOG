@@ -3,6 +3,8 @@
                     - Rework coordinate systems, and swap to glOrtho instead of glFrustum
                     - PureFTPD parser
                     - MySQL activity log parser
+                    - Background reverse IP lookup
+                    - Use yaml for config file (Ian Ownbey <iownbey@notesake.com>)
                     - Highlight rate/total/avg column
                     - Split source into several files (Ben Bleything <ben@bleything.net>)
                     - qmail/vmpop3d parser (James Grant <james@lightbox.org>)
