@@ -77,6 +77,11 @@ class Element
     end
     @last_time = glutGet(GLUT_ELAPSED_TIME)
 #    @last_time -= @step unless @queue.size == 1
+
+    if @name =~ /^\d+.\d+.\d+.\d+$/
+      @name = Resolver.resolv(@name)
+    end
+
   end
 
   def print_text(m)

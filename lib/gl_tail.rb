@@ -42,8 +42,9 @@ rescue LoadError
   exit
 end
 
+
 # load our libraries
-%w( activity block item element server parser ).each {|f| require "lib/#{f}" }
+%w( activity block item element server parser resolver ).each {|f| require "lib/#{f}" }
 
 Dir.glob( "lib/parsers/*.rb" ).each {|f| require f }
 
