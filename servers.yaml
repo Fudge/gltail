@@ -1,15 +1,76 @@
-site1:
-    host: foobar.com
-    user: foo
-    password: topsecret
-    command: tail -f
-    files: /var/log/apache/access_log
-    parser: apache
-    color: 0.6, 1, 0.3, 1.0
-rails:
-    host: anotherfunsite.com
-    user: anotherfunuser
-    command: tail -f
-    files: /var/www/apps/funapp/current/log/production.log
-    parser: rails
-    color: 0.1, 1, 1, 1.9
+servers:
+    site1:
+        host: foobar.com
+        user: foo
+        password: topsecret
+        command: tail -f
+        files: /var/log/apache/access_log
+        parser: apache
+        color: 0.6, 1, 0.3, 1.0
+    rails:
+        host: anotherfunsite.com
+        user: anotherfunuser
+        command: tail -f
+        files: /var/www/apps/funapp/current/log/production.log
+        parser: rails
+        color: 0.1, 1, 1, 1.9
+config:
+    dimensions: 1200x600
+    min_blob_size: 0.004
+    max_blob_size: 0.04
+    left_column:
+        size: 25
+        alignment: -0.99
+        blocks:
+            info:
+                size: 10
+                auto_clean: false
+                show: total
+            hosts:
+                size: 3
+            sites:
+                size: 10
+            content:
+                size: 5
+                show: total
+                color: 1.0, 0.8, 0.4, 1.0
+            status:
+                size: 10
+                color: 1.0, 0.8, 0.4, 1.0
+            types:
+                size: 5
+                color: 1.0, 0.4, 0.2, 1.0
+            users:
+                size: 10
+            smtp:
+                size: 5
+            logins:
+                size: 5
+            database:
+                size: 10
+    
+    right_column:
+        size: 25
+        alignment: 0.99
+        blocks:
+            urls:
+                size: 15
+            slow requests:
+                size: 5
+                show: average
+            refferers:
+                size: 10
+            user agents:
+                size: 5
+                color: 1.0, 1.0, 1.0, 1.0
+            mail from:
+                size: 5
+            mail to:
+                size: 5
+            viruses:
+                size: 5
+            rejections:
+                size: 5
+                color: 1.0, 0.2, 0.2, 1.0
+            warnings:
+                size: 5

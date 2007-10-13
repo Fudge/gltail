@@ -40,10 +40,11 @@ ARGV.each do |arg|
 end
 
 require 'yaml'
+
+yaml = YAML.load_file($SERVER_YAML_FILE)
+# Parse servers first
 $SERVERS = Array.new unless $SERVERS
-servers = YAML.load_file($SERVER_YAML_FILE)
-servers.inspect
-servers.each do |server|
+yaml['servers'].each do |server|
   hash = {:name => server.shift}
   server.flatten[0].each do |key, value|
     if key == 'files'
@@ -59,5 +60,78 @@ servers.each do |server|
   end
   $SERVERS << hash
 end
+
+# Now configs
+yaml['config'].each do |key, config|
+  unless key == ('left_column' || 'right_column')
+    instance_variable_set "$#{key}", value.to_f
+  else
+    if key == 'left_column'
+      key.each do |key, left_column|
+        case key
+        when 'size'
+          $COLUMN_SIZE_LEFT = left_column.to_f
+        when 'alignment'
+          $LEFT_COL = left_column.to_f
+        when 'blocks'
+          $BLOCKS = Array.new unless $BLOCKS
+          left_column.each do |block, value|
+            order ||= 0
+            hash = {:name => block}
+            value.each do |key, value|
+              case key
+              when 'size'
+                value = value.to_f
+              when 'auto_clean'
+                value = ( value == 'true' ? true : false )
+              when 'color'
+                value = value.split(',').map {|x| x.to_f}
+              end
+              hash.merge!({key.to_sym => value})
+            end
+            hash.merge! {:order => order, :position => :left}
+            $BLOCKS << hash
+            order += 1
+          end
+        end
+      end
+    end
+    if key == 'right_column'
+      key.each do |key, right_column|
+        case key
+        when 'size'
+          $COLUMN_SIZE_RIGHT = right_column.to_f
+        when 'alignment'
+          $RIGHT_COL = right_column.to_f
+        when 'blocks'
+          $BLOCKS ||= Array.new
+          right_column.each do |block, value|
+            order ||= 0
+            hash = {:name => block}
+            value.each do |key, value|
+              case key
+              when 'size'
+                value = value.to_f
+              when 'auto_clean'
+                value = ( value == 'true' ? true : false )
+              when 'color'
+                value = value.split(',').map {|x| x.to_f}
+              end
+              hash.merge!({key.to_sym => value})
+            end
+            hash.merge! {:order => order, :position => :right}
+            $BLOCKS << hash
+            order += 1
+          end
+        end
+      end
+    end
+  end
+end
+
+puts $BLOCKS
+                
+            
+            
 
 GlTail.new.start
