@@ -18,7 +18,6 @@
 
 $DBG=0
 
-require 'config.rb'
 require 'lib/gl_tail.rb'
 
 ARGV.each do |arg|
@@ -34,14 +33,14 @@ ARGV.each do |arg|
   when '-debug-ssh', '--debug-ssh', '-ds'
     $DBG=2
   else
-    require arg
+    $CONFIG = arg
   end
 
 end
 
 require 'yaml'
 
-yaml = YAML.load_file($SERVER_YAML_FILE)
+yaml = YAML.load_file($CONFIG || 'config.yaml')
 # Parse servers first
 $SERVERS = Array.new unless $SERVERS
 yaml['servers'].each do |server|
@@ -63,25 +62,31 @@ end
 
 # Now configs
 yaml['config'].each do |key, config|
-  unless key == ('left_column' || 'right_column')
-    instance_variable_set "$#{key}", value.to_f
+  unless config.is_a? Hash
+    if key == 'dimensions'
+      $WINDOW_WIDTH, $WINDOW_HEIGHT = config.split('x').map{|x| x.to_f}
+    else
+      eval "$#{key.upcase} = #{config.to_f}"
+    end
   else
     if key == 'left_column'
-      key.each do |key, left_column|
+      config.each do |key, left_column|
         case key
         when 'size'
-          $COLUMN_SIZE_LEFT = left_column.to_f
+          $COLUMN_SIZE_LEFT = left_column.to_int
         when 'alignment'
           $LEFT_COL = left_column.to_f
         when 'blocks'
           $BLOCKS = Array.new unless $BLOCKS
+          order = 0
           left_column.each do |block, value|
-            order ||= 0
             hash = {:name => block}
             value.each do |key, value|
               case key
               when 'size'
                 value = value.to_f
+              when 'show'
+                value = value.to_sym
               when 'auto_clean'
                 value = ( value == 'true' ? true : false )
               when 'color'
@@ -89,29 +94,31 @@ yaml['config'].each do |key, config|
               end
               hash.merge!({key.to_sym => value})
             end
-            hash.merge! {:order => order, :position => :left}
+            h2 = {:order => order, :position => :left}
+            hash.merge! h2
             $BLOCKS << hash
             order += 1
           end
         end
       end
-    end
-    if key == 'right_column'
-      key.each do |key, right_column|
+    elsif key == 'right_column'
+      config.each do |key, right_column|
         case key
         when 'size'
-          $COLUMN_SIZE_RIGHT = right_column.to_f
+          $COLUMN_SIZE_RIGHT = right_column.to_int
         when 'alignment'
           $RIGHT_COL = right_column.to_f
         when 'blocks'
           $BLOCKS ||= Array.new
+          order = 0
           right_column.each do |block, value|
-            order ||= 0
             hash = {:name => block}
             value.each do |key, value|
               case key
               when 'size'
                 value = value.to_f
+              when 'show'
+                value = value.to_sym
               when 'auto_clean'
                 value = ( value == 'true' ? true : false )
               when 'color'
@@ -119,7 +126,8 @@ yaml['config'].each do |key, config|
               end
               hash.merge!({key.to_sym => value})
             end
-            hash.merge! {:order => order, :position => :right}
+            h2 = {:order => order, :position => :right}
+            hash.merge! h2
             $BLOCKS << hash
             order += 1
           end
@@ -129,9 +137,6 @@ yaml['config'].each do |key, config|
   end
 end
 
-puts $BLOCKS
-                
-            
-            
+puts $BLOCKS.inspect
 
 GlTail.new.start
