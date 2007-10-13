@@ -5,10 +5,15 @@ and it's too fun to watch my servers traffic in real time to clean up
 everything before releasing it.
 
 Configuration:
-  Open config.rb in a text editor, and tweak to your liking. Either include
-  a :password for each of your servers, or make sure your ssh-keys are
-  correctly set up. If you need to specify a SSH key replace
-  :password => 'secret' with :keys => ['/path/to/key'] in $SERVERS
+  Open config.yaml in a text editor, and tweak to your liking. You might want to save the
+  result to another file, and include that on the command line.
+  Either include a password for each of your servers, or make sure your ssh-keys are
+  correctly set up.
+
+  If you need to specify a SSH key replace
+    password: secret
+  with
+    keys: /path/to/key
 
 Running:
   ./gl_tail.rb
