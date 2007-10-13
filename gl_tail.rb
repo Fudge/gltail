@@ -82,7 +82,6 @@ yaml['config'].each do |key, config|
         when 'alignment'
           $LEFT_COL = left_column.to_f
         when 'blocks'
-          puts left_column.inspect
           $BLOCKS = Array.new unless $BLOCKS
           left_column.each do |block, value|
             hash = {:name => block}
