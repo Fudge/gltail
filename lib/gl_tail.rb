@@ -187,12 +187,21 @@ class GlTail
       session_options[:port] = s[:port] if s[:port]
       session_options[:keys] = s[:keys] if s[:keys]
       session_options[:verbose] = :debug if $DBG > 1
-
+      begin
       if s[:password]
         session_options[:auth_methods] = [ "password","keyboard-interactive" ]
         session = Net::SSH.start(s[:host], s[:user], s[:password], session_options)
       else
         session = Net::SSH.start(s[:host], s[:user], session_options)
+      end
+      rescue SocketError => e
+        puts "!!! Could not connect to #{s[:host]}. Check to make sure that this is the correct url."
+        puts $! if $DBG > 0
+        exit
+      rescue Net::SSH::AuthenticationFailed => e
+        puts "!!! Could not authenticate on #{s[:host]}. Make sure you have set the username and password correctly. Or if you are using SSH keys make sure you have not set a password."
+        puts $! if $DBG > 0
+        exit
       end
       do_tail session, s[:name], s[:color], s[:files].join(" "), s[:command]
       session.connection.process
