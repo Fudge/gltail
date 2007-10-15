@@ -1,10 +1,11 @@
 class FontStore
   @textures = nil
   @call_lists = []
+  @font = []
 
   def self.generate_textures
     if @textures.nil?
-      @textures = glGenTextures(256-32)
+      @textures = glGenTextures(256)
       texture_data = []
       width = 8
       height = 13
@@ -19,10 +20,13 @@ class FontStore
         end
       end
 
-      texture_data = texture_data.pack("C*")
+      File.open("lib/font.bin") do |f|
+        @font = Marshal.load(f)
+      end
 
-      @textures.each do |t|
-        glBindTexture(GL_TEXTURE_2D, t)
+      32.upto(255) do |c|
+
+        glBindTexture(GL_TEXTURE_2D, @textures[c])
 #    glTexParameter(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
 #    glTexParameter(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
@@ -31,7 +35,7 @@ class FontStore
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP)
 #    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL)
 #    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE)
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 8, 13, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture_data)
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 8, 13, 0, GL_RGB, GL_UNSIGNED_BYTE, @font[c])
 
         glBindTexture(GL_TEXTURE_2D, 0)
       end
@@ -41,7 +45,11 @@ class FontStore
 
   def self.generate_font
     self.generate_textures
+    return
 
+    # Ignore the rest for now, used only to create font.bin
+
+    glPushMatrix
     glViewport(0, 0, 8, 15)
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
@@ -64,11 +72,12 @@ class FontStore
         glutBitmapCharacterX(c)
       end
 
-      glBindTexture(GL_TEXTURE_2D, @textures[c-32])
+      glBindTexture(GL_TEXTURE_2D, @textures[c])
       glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 0, 13, 8, 13, 0)
+
+
       glBindTexture(GL_TEXTURE_2D, 0)
     end
-
     glClearColor(0.0, 0.0, 0.0, 1.0)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
@@ -77,7 +86,7 @@ class FontStore
   end
 
   def self.get_texture(c)
-    @textures[c-32]
+    @textures[c]
   end
 
   def self.render_char(c)
