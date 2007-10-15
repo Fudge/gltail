@@ -60,11 +60,11 @@ class Block
           e.activities.delete a
         end
       end
-      if e.activities.size == 0 && @clean && e.updates > 4
+      if e.activities.size == 0 && @clean && e.updates > 59
         @elements.delete(e.name)
       end
     end
-    @elements.delete_if { |k,v| (!sorted.include? v) && v.active && v.activities.size == 0} if @clean
+    @elements.delete_if { |k,v| (!sorted.include? v) && v.active && v.activities.size == 0 && v.updates > 59} if @clean
     @bottom_position = $TOP - ((sorted.size > 0 ? (num-1) : num) * $LINE_SIZE)
     num + 1
   end
