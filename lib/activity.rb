@@ -47,21 +47,21 @@ class Activity
       end
 
     else
-      if $WANTED_FPS == 0
+      if $CONFIG.wanted_fps == 0
         @x += @xi/2
         @y += @yi/2
         @yi = @yi - 0.0005/2
       else
-        @x += (@xi/2) * (60.0 / $WANTED_FPS)
-        @y += (@yi/2) * (60.0 / $WANTED_FPS)
-        @yi = @yi - (0.0005/2) * (60.0 / $WANTED_FPS)
+        @x += (@xi/2) * (60.0 / $CONFIG.wanted_fps)
+        @y += (@yi/2) * (60.0 / $CONFIG.wanted_fps)
+        @yi = @yi - (0.0005/2) * (60.0 / $CONFIG.wanted_fps)
       end
 
 #      @yi = @yi * 1.01
 #      @xi = @xi * 0.9995
 
-      if @y - @size/2 < -$TOP
-        @y = -$TOP + @size/2
+      if @y - @size/2 < -$CONFIG.top
+        @y = -$CONFIG.top + @size/2
         @yi = -@yi * 0.7
         @x = 30.0 #if @type == 2
       end
@@ -96,7 +96,7 @@ class Activity
         unless BlobStore.has(@size)
           list = glGenLists(1)
           glNewList(list, GL_COMPILE)
-          glutSolidSphere(@size, 10 + 10 * ((@size-$MIN_BLOB_SIZE)/$MAX_BLOB_SIZE), 2)
+          glutSolidSphere(@size, 10 + 10 * ((@size-$CONFIG.min_blob_size)/$CONFIG.max_blob_size), 2)
           glEndList()
           BlobStore.put(@size,list)
         end

@@ -50,14 +50,14 @@ Dir.glob( "lib/parsers/*.rb" ).each {|f| require f }
 include Gl
 include Glut
 
-$WANTED_FPS = 0
-$ASPECT = 0.6
+$CONFIG.wanted_fps = 0
+$CONFIG.aspect = 0.6
 
-$TOP = 0.9
-$LINE_SIZE = 0.03
-$STATS = []
+$CONFIG.top = 0.9
+$CONFIG.line_size = 0.03
+$CONFIG.stats = []
 
-$BITMAP_MODE = 0
+$CONFIG.bitmap_mode = 0
 
 class GlTail
 
@@ -72,29 +72,29 @@ class GlTail
 
     positions = Hash.new
 
-    $STATS = [0,0]
+    $CONFIG.stats = [0,0]
 
     glPushMatrix()
 
-    char_size = 1 * 8.0 / ($WINDOW_WIDTH / 2.0)
+    char_size = 1 * 8.0 / ($CONFIG.window_width / 2.0)
 
-    left_left = $LEFT_COL + char_size * ($COLUMN_SIZE_LEFT + 1)
-    left_right = $LEFT_COL + char_size * ($COLUMN_SIZE_LEFT + 8)
+    left_left = $CONFIG.left[:alignment] + char_size * ($CONFIG.left[:size] + 1)
+    left_right = $CONFIG.left[:alignment] + char_size * ($CONFIG.left[:size] + 8)
 
-    right_left = $RIGHT_COL - char_size * ($COLUMN_SIZE_RIGHT + 1)
-    right_right = $RIGHT_COL - char_size * ($COLUMN_SIZE_RIGHT + 8)
+    right_left = $CONFIG.right[:alignment] - char_size * ($CONFIG.right[:size] + 1)
+    right_right = $CONFIG.right[:alignment] - char_size * ($CONFIG.right[:size] + 8)
 
     glMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, ( [0.2, 0.2, 0.2, 10.0]  ) )
     glBegin(GL_QUADS)
-      glVertex3f(left_left, $ASPECT, 0.0)
-      glVertex3f(left_right, $ASPECT, 0.0)
-      glVertex3f(left_right, -$ASPECT, 0.0)
-      glVertex3f(left_left, -$ASPECT, 0.0)
+      glVertex3f(left_left, $CONFIG.aspect, 0.0)
+      glVertex3f(left_right, $CONFIG.aspect, 0.0)
+      glVertex3f(left_right, -$CONFIG.aspect, 0.0)
+      glVertex3f(left_left, -$CONFIG.aspect, 0.0)
 
-      glVertex3f(right_left, $ASPECT, 0.0)
-      glVertex3f(right_right, $ASPECT, 0.0)
-      glVertex3f(right_right, -$ASPECT, 0.0)
-      glVertex3f(right_left, -$ASPECT, 0.0)
+      glVertex3f(right_left, $CONFIG.aspect, 0.0)
+      glVertex3f(right_right, $CONFIG.aspect, 0.0)
+      glVertex3f(right_right, -$CONFIG.aspect, 0.0)
+      glVertex3f(right_left, -$CONFIG.aspect, 0.0)
     glEnd()
     glPopMatrix()
 
@@ -115,7 +115,7 @@ class GlTail
       printf("%d frames in %6.3f seconds = %6.3f FPS\n",
              @frames, seconds, $FPS)
       @t0, @frames = t, 0
-      puts "Elements[#{$STATS[0]}], Activities[#{$STATS[1]}], Blobs[#{BlobStore.used}/#{BlobStore.size}]"
+      puts "Elements[#{$CONFIG.stats[0]}], Activities[#{$CONFIG.stats[1]}], Blobs[#{BlobStore.used}/#{BlobStore.size}]"
     end
     @render_time = (Time.new - @t)
   end
@@ -124,14 +124,14 @@ class GlTail
     @last_run ||= Time.new
     @last_run_time ||= 0
     delta = (Time.new - @last_run) - @last_run_time
-    if $WANTED_FPS > 0 && delta < (1000.0/($WANTED_FPS*1000.0))
-      sleep((1000.0/($WANTED_FPS*1000.0) - delta))
+    if $CONFIG.wanted_fps > 0 && delta < (1000.0/($CONFIG.wanted_fps*1000.0))
+      sleep((1000.0/($CONFIG.wanted_fps*1000.0) - delta))
     end
     @last_run = Time.new
     glutPostRedisplay()
     glutSwapBuffers()
     do_process
-    @last_run_time = (@last_run_time.to_f * ($WANTED_FPS-1.0) + (Time.new - @last_run).to_f) / $WANTED_FPS.to_f if $WANTED_FPS > 0
+    @last_run_time = (@last_run_time.to_f * ($CONFIG.wanted_fps-1.0) + (Time.new - @last_run).to_f) / $CONFIG.wanted_fps.to_f if $CONFIG.wanted_fps > 0
   end
 
   def timer(value)
@@ -149,7 +149,7 @@ class GlTail
     when 27 # Escape
       exit
     when 102 #f
-      $WANTED_FPS = case $WANTED_FPS
+      $CONFIG.wanted_fps = case $CONFIG.wanted_fps
              when 0
                60
              when 60
@@ -165,7 +165,7 @@ class GlTail
              when 20
                0
              end
-      puts "WANTED_FPS[#{$WANTED_FPS}]"
+      puts "WANTED_FPS[#{$CONFIG.wanted_fps}]"
     when 98
       $MODE = 1 - $MODE.to_i
       BlobStore.empty
@@ -181,22 +181,22 @@ class GlTail
 
   # New window size or exposure
   def reshape(width, height)
-    $ASPECT = height.to_f / width.to_f
+    $CONFIG.aspect = height.to_f / width.to_f
 
-    $WINDOW_WIDTH, $WINDOW_HEIGHT = width, height
+    $CONFIG.window_width, $CONFIG.window_height = width, height
 
 
     glViewport(0, 0, width, height)
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
 
-#    glFrustum(-2.0, 2.0, -$ASPECT*2, $ASPECT*2, 5.0, 60.0)
-    glOrtho(-1.0, 1.0, -$ASPECT, $ASPECT, -1.0, 1.0)
+#    glFrustum(-2.0, 2.0, -$CONFIG.aspect*2, $CONFIG.aspect*2, 5.0, 60.0)
+    glOrtho(-1.0, 1.0, -$CONFIG.aspect, $CONFIG.aspect, -1.0, 1.0)
 
-    $LINE_SIZE = $ASPECT * 2 / ($WINDOW_HEIGHT/13.0)
-    $TOP = $ASPECT - $LINE_SIZE
+    $CONFIG.line_size = $CONFIG.aspect * 2 / ($CONFIG.window_height/13.0)
+    $CONFIG.top = $CONFIG.aspect - $CONFIG.line_size
 
-    puts "Reshape: #{width}x#{height} = #{$ASPECT}/#{$LINE_SIZE}"
+    puts "Reshape: #{width}x#{height} = #{$CONFIG.aspect}/#{$CONFIG.line_size}"
 
     glMatrixMode(GL_MODELVIEW)
     glLoadIdentity()
@@ -224,11 +224,11 @@ class GlTail
     @blocks = Hash.new
     @mode = 0
 
-    $BLOCKS.each do |b|
+    $CONFIG.blocks.each do |b|
       @blocks[b[:name]] = Block.new b
     end
 
-    $SERVERS.each do |s|
+    $CONFIG.servers.each do |s|
       puts "Connecting to #{s[:host]}..."
       session_options = { }
       session_options[:port] = s[:port] if s[:port]
@@ -280,7 +280,7 @@ class GlTail
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE)
 
     glutInitWindowPosition(0, 0)
-    glutInitWindowSize($WINDOW_WIDTH, $WINDOW_HEIGHT)
+    glutInitWindowSize($CONFIG.window_width, $CONFIG.window_height)
     glutCreateWindow('glTail')
     init()
 

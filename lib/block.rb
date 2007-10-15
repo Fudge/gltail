@@ -26,14 +26,14 @@ class Block
     @header = Element.new(@name.upcase , [1.0, 1.0, 1.0, 1.0], @show, @position == :right)
 
     @elements = { }
-    @bottom_position = -$TOP
+    @bottom_position = -$CONFIG.top
   end
 
   def render(num)
     return num if @elements.size == 0
 
-    @header.wy = $TOP - (num * $LINE_SIZE)
-#    @header.y = @header.wy if @header.y == -$TOP
+    @header.wy = $CONFIG.top - (num * $CONFIG.line_size)
+#    @header.y = @header.wy if @header.y == -$CONFIG.top
     @header.render
     num += 1
 
@@ -44,19 +44,19 @@ class Block
              end
 
     sorted.each do |e|
-      e.wy = $TOP - (num * $LINE_SIZE)
+      e.wy = $CONFIG.top - (num * $CONFIG.line_size)
       e.render
-      $STATS[0] += 1
+      $CONFIG.stats[0] += 1
       if e.rate <= 0.0001 && e.active && e.updates > 59 && @clean
         @elements.delete(e.name)
       end
       num += 1
     end
     (@elements.values - sorted).each do |e|
-      $STATS[0] += 1
+      $CONFIG.stats[0] += 1
       e.activities.each do |a|
         a.render
-        if a.x > 1.0 || a.x < -1.0 || a.y > $ASPECT
+        if a.x > 1.0 || a.x < -1.0 || a.y > $CONFIG.aspect
           e.activities.delete a
         end
       end
@@ -65,7 +65,7 @@ class Block
       end
     end
     @elements.delete_if { |k,v| (!sorted.include? v) && v.active && v.activities.size == 0 && v.updates > 59} if @clean
-    @bottom_position = $TOP - ((sorted.size > 0 ? (num-1) : num) * $LINE_SIZE)
+    @bottom_position = $CONFIG.top - ((sorted.size > 0 ? (num-1) : num) * $CONFIG.line_size)
     num + 1
   end
 

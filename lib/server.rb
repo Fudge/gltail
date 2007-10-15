@@ -21,12 +21,12 @@ class Server
 
   #block, message, size
   def add_activity(options = { })
-    block = @blocks[options[:block]].add_activity( { :name => @name, :color => @color, :size => $MIN_BLOB_SIZE }.update(options) ) if (options[:block] && @blocks[options[:block]])
+    block = @blocks[options[:block]].add_activity( { :name => @name, :color => @color, :size => $CONFIG.min_blob_size }.update(options) ) if (options[:block] && @blocks[options[:block]])
   end
 
   #block, message
   def add_event(options = { })
-    block = @blocks[options[:block]].add_event( { :name => @name, :color => @color, :size => $MIN_BLOB_SIZE}.update(options) ) if (options[:block] && @blocks[options[:block]])
+    block = @blocks[options[:block]].add_event( { :name => @name, :color => @color, :size => $CONFIG.min_blob_size}.update(options) ) if (options[:block] && @blocks[options[:block]])
   end
 
 end

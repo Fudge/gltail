@@ -8,13 +8,13 @@ class Element
   attr_accessor :wy, :y, :active, :average_size, :right
   attr_reader   :rate, :messages, :name, :activities, :queue, :updates, :average, :total
 
-  def initialize(name, color, type = 0, right = false, start_position = -$TOP)
+  def initialize(name, color, type = 0, right = false, start_position = -$CONFIG.top)
 
-    char_size = 8.0 / ($WINDOW_WIDTH / 2.0)
+    char_size = 8.0 / ($CONFIG.window_width / 2.0)
 
     @name = name
     @right = right
-    @x = (right ? $RIGHT_COL : ($LEFT_COL - char_size * ($COLUMN_SIZE_LEFT + 8)))
+    @x = (right ? $CONFIG.right[:alignment] : ($CONFIG.left[:alignment] - char_size * ($CONFIG.left[:size] + 8)))
     @y = start_position
     @z = 0
     @wy = start_position
@@ -35,7 +35,7 @@ class Element
     @active = false
     @type = type
 
-    texture_width = (right ? $COLUMN_SIZE_RIGHT + 8 : $COLUMN_SIZE_LEFT + 8) * 8
+    texture_width = (right ? $CONFIG.right[:size] + 8 : $CONFIG.left[:size] + 8) * 8
     texture_height = 16
     @texture = glGenTextures(1)[0]
     @texture_data = "\x00" * texture_width * texture_height * 3
@@ -95,9 +95,9 @@ class Element
   end
 
   def render(options = { })
-    @wx = (@right ? ($RIGHT_COL - ($COLUMN_SIZE_RIGHT+8)*8.0 / ($WINDOW_WIDTH / 2.0)) : $LEFT_COL)
+    @wx = (@right ? ($CONFIG.right[:alignment] - ($CONFIG.right[:size]+8)*8.0 / ($CONFIG.window_width / 2.0)) : $CONFIG.left[:alignment])
 
-    if(@y == -$TOP)
+    if(@y == -$CONFIG.top)
       @y = @wy
     end
 
@@ -117,10 +117,10 @@ class Element
 
     glPushMatrix()
 
-#    ty = 700 - ((($ASPECT*2) - (@y+$ASPECT))/($ASPECT*2) * $WINDOW_HEIGHT + 0.5).to_i
-#    ty2 = 700 - ((($ASPECT*2) - (@y+$ASPECT+$LINE_SIZE))/($ASPECT*2) * $WINDOW_HEIGHT + 0.5).to_i
+#    ty = 700 - ((($CONFIG.aspect*2) - (@y+$CONFIG.aspect))/($CONFIG.aspect*2) * $CONFIG.window_height + 0.5).to_i
+#    ty2 = 700 - ((($CONFIG.aspect*2) - (@y+$CONFIG.aspect+$CONFIG.line_size))/($CONFIG.aspect*2) * $CONFIG.window_height + 0.5).to_i
 
-#    corrected_y = ((ty2 - ty) == 13) ? @y : (ty+1) / $WINDOW_HEIGHT.to_f * ($ASPECT * 2) - $ASPECT
+#    corrected_y = ((ty2 - ty) == 13) ? @y : (ty+1) / $CONFIG.window_height.to_f * ($CONFIG.aspect * 2) - $CONFIG.aspect
 
     glTranslate(@x, @y, @z)
     glRasterPos(0.0, 0.0)
@@ -148,9 +148,9 @@ class Element
     end
 
    if @x < 0
-     str = sprintf("%#{$COLUMN_SIZE_LEFT}s %s", @name.length > $COLUMN_SIZE_LEFT ? @name[-$COLUMN_SIZE_LEFT..-1] : @name, txt)
+     str = sprintf("%#{$CONFIG.left[:size]}s %s", @name.length > $CONFIG.left[:size] ? @name[-$CONFIG.left[:size]..-1] : @name, txt)
     else
-     str = sprintf("%s %s", txt, @name[0..$COLUMN_SIZE_RIGHT-1])
+     str = sprintf("%s %s", txt, @name[0..$CONFIG.right[:size]-1])
     end
 
     FontStore.render_string(str)
@@ -170,24 +170,24 @@ class Element
       type = item.type
 
 
-      if size < $MIN_BLOB_SIZE
-        size = $MIN_BLOB_SIZE
-      elsif size > $MAX_BLOB_SIZE
-        size = $MAX_BLOB_SIZE
+      if size < $CONFIG.min_blob_size
+        size = $CONFIG.min_blob_size
+      elsif size > $CONFIG.max_blob_size
+        size = $CONFIG.max_blob_size
       end
 
       if type == 2
-        @activities.push Activity.new(url, 0.0 - (0.013 * url.length), $TOP, 0.0, color, size, type)
+        @activities.push Activity.new(url, 0.0 - (0.013 * url.length), $CONFIG.top, 0.0, color, size, type)
       elsif type == 5
-        a = Activity.new(url, 0.0, $TOP, 0.0, color, size, type)
+        a = Activity.new(url, 0.0, $CONFIG.top, 0.0, color, size, type)
         a.wx = @wx
         a.wy = @wy + 0.05
         @activities.push a
       elsif type != 4
         if @x >= 0
-          @activities.push Activity.new(url, ($RIGHT_COL - ($COLUMN_SIZE_RIGHT+8)*8.0 / ($WINDOW_WIDTH / 2.0)), @y + $LINE_SIZE/2, @z, color, size, type)
+          @activities.push Activity.new(url, ($CONFIG.right[:alignment] - ($CONFIG.right[:size]+8)*8.0 / ($CONFIG.window_width / 2.0)), @y + $CONFIG.line_size/2, @z, color, size, type)
         else
-          @activities.push Activity.new(url, ($LEFT_COL + ($COLUMN_SIZE_LEFT+8)*8.0 / ($WINDOW_WIDTH / 2.0) ), @y + $LINE_SIZE/2, @z, color, size, type)
+          @activities.push Activity.new(url, ($CONFIG.left[:alignment] + ($CONFIG.left[:size]+8)*8.0 / ($CONFIG.window_width / 2.0) ), @y + $CONFIG.line_size/2, @z, color, size, type)
         end
       end
       num += 1
@@ -195,12 +195,12 @@ class Element
 #    @last_time = glutGet(GLUT_ELAPSED_TIME)
 
     @activities.each do |a|
-      if a.x > 1.0 || a.x < -1.0 || a.y > $ASPECT*1.5 || a.y < -($ASPECT*1.5)
+      if a.x > 1.0 || a.x < -1.0 || a.y > $CONFIG.aspect*1.5 || a.y < -($CONFIG.aspect*1.5)
         @activities.delete a
       else
         a.wy = @wy + 0.005 if a.type == 5
         a.render
-        $STATS[1] += 1
+        $CONFIG.stats[1] += 1
       end
     end
 

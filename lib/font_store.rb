@@ -98,7 +98,7 @@ class FontStore
 
   def self.render_char(c)
     glBindTexture(GL_TEXTURE_2D, FontStore.get_texture(c))
-    char_size = 8.0 / ($WINDOW_WIDTH / 2.0)
+    char_size = 8.0 / ($CONFIG.window_width / 2.0)
     glBegin(GL_QUADS)
 
     glTexCoord2f(0,0)
@@ -108,10 +108,10 @@ class FontStore
     glVertex3f(char_size, 0.0, 0.0)
 
     glTexCoord2f(1,13/16.0)
-    glVertex3f(char_size, $LINE_SIZE, 0.0)
+    glVertex3f(char_size, $CONFIG.line_size, 0.0)
 
     glTexCoord2f(0,13/16.0)
-    glVertex3f(0, $LINE_SIZE, 0.0)
+    glVertex3f(0, $CONFIG.line_size, 0.0)
     glEnd
 
     glTranslate(char_size, 0, 0)
