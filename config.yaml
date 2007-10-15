@@ -3,7 +3,7 @@ servers:
         host: foobar.com
         user: foo
         password: topsecret
-        command: tail -f
+        command: tail -f -n0
         files: /var/log/apache/access_log
         parser: apache
         color: 0.2, 1.0, 0.2, 1.0
@@ -11,7 +11,7 @@ servers:
         host: anotherfunsite.com
         user: anotherfunuser
         port: 222
-        command: tail -f
+        command: tail -f -n0
         files: /var/www/apps/funapp/current/log/production.log
         parser: rails
         color: 0.2, 0.2, 1.0, 1.0
