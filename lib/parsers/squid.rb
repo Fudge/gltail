@@ -8,15 +8,17 @@
 class SquidParser < Parser
   def parse( line )
     _, delay, host, size, method, uri, user = /\d+.\d+ +(\d+) +(\d+.\d+.\d+.\d+.\d+).+ (\d+) (.+) (.+) (.+) .+ .+/.match(line).to_a
-    if method != 'ICP_QUERY'
-      size = size.to_f / 100000.0
-      #Uncomment if you authenticate to use the proxy
-      #add_activity(:block => 'users', :name => user, :size => size)
-      add_activity(:block => 'hosts', :name => host, :size => size)
-      add_activity(:block => 'types', :name => method, :size => size)
-      _, site = /http:\/\/(.+?)\/.+/.match(uri).to_a
-      if site:
-          add_activity(:block => 'sites', :name => site, :size => size)
+    if host
+      if method != 'ICP_QUERY'
+        size = size.to_f / 100000.0
+        #Uncomment if you authenticate to use the proxy
+        #add_activity(:block => 'users', :name => user, :size => size)
+        add_activity(:block => 'hosts', :name => host, :size => size)
+        add_activity(:block => 'types', :name => method, :size => size)
+        _, site = /http:\/\/(.+?)\/.+/.match(uri).to_a
+        if site:
+            add_activity(:block => 'sites', :name => site, :size => size)
+        end
       end
     end
   end
