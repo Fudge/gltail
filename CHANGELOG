@@ -1,3 +1,16 @@
+?? Oct 2007 - v0.07 - Make textures from BitmapCharacter font
+                    - Use textured quads instead of BitmapCharacter
+                    - Cache callLists for complete strings in BlobStore
+                    - Clean out callLists in BlobStore regularly
+                    - Slide new Elements in from left/right
+                    - Don't crash if unable to parse Squid logs
+                    - Keep non-showing elements around longer to help with
+                      bursts in varied traffic
+                    - add_activity(...{:type => 1}) renders quads instead of balls
+                    - Use 'f' to toggle attempted framerate
+                    - Use 'b' to toggle between balls and quads
+                    - Consume all waiting data when checking for SSH activity
+
 13 Oct 2007 - v0.06 - Handle referrals including your site as params
                     - Handle disabling a block without disabling the source
                     - Rework coordinate systems, and swap to glOrtho instead of glFrustum

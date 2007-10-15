@@ -10,7 +10,7 @@ class Activity
   def initialize(message, x,y,z, color, size, type=0)
     @message = message
     @x, @y, @z = x, y, z
-    @xi, @yi, @zi = 0.017 , (rand(100)/100.0 ) * 0.0025, 0
+    @xi, @yi, @zi = 0.012 + (rand(100)/100.0 ) * 0.0012 , 0.002 + (rand(1000)/1000.0 ) * 0.002, 0
 #    @xi, @yi, @zi = 0.015 , 0.0025, 0
 
     if @x >= 0.0
@@ -22,19 +22,7 @@ class Activity
     @color = color
     @size  = size
     @type  = type
-  end
-
-  def print_text(m)
-    if $BITMAP_MODE == 0
-      begin
-        m.each_byte do |c| glutBitmapCharacter(GLUT_BITMAP_8_BY_13, c) end
-      rescue RangeError
-        $BITMAP_MODE = 1
-        m.each_byte do |c| glutBitmapCharacterX(c) end
-      end
-    else
-      m.each_byte do |c| glutBitmapCharacterX(c) end
-    end
+    @rx, @ry, @rz = rand(360), rand(360), 0
   end
 
   def render
@@ -59,8 +47,18 @@ class Activity
       end
 
     else
-      @x += @xi
-      @y += @yi
+      if $WANTED_FPS == 0
+        @x += @xi/2
+        @y += @yi/2
+        @yi = @yi - 0.0005/2
+      else
+        @x += (@xi/2) * (60.0 / $WANTED_FPS)
+        @y += (@yi/2) * (60.0 / $WANTED_FPS)
+        @yi = @yi - (0.0005/2) * (60.0 / $WANTED_FPS)
+      end
+
+#      @yi = @yi * 1.01
+#      @xi = @xi * 0.9995
 
       if @y - @size/2 < -$TOP
         @y = -$TOP + @size/2
@@ -68,10 +66,6 @@ class Activity
         @x = 30.0 #if @type == 2
       end
 
-      @yi = @yi - 0.0005
-      @yi = @yi * 1.01
-
-      @xi = @xi * 0.9995
 
     end
 
@@ -79,45 +73,69 @@ class Activity
       glPushMatrix()
       glMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, @color)
       glTranslate(@x, @y, @z)
+      if $MODE == 1
+        glRotatef(@rx, 1.0, 0.0, 0.0)
+        glRotatef(@ry, 0.0, 1.0, 0.0)
+        @rx += 2
+        @ry += 1
+        unless BlobStore.has(@size)
+          list = glGenLists(1)
+          glNewList(list, GL_COMPILE)
 
+          glBegin(GL_QUADS)
+          glVertex3f(-@size,  @size, 0)
+          glVertex3f( @size,  @size, 0)
+          glVertex3f( @size, -@size, 0)
+          glVertex3f(-@size, -@size, 0)
+          glEnd
 
-      if( $BLOBS[@size].nil? )
-        list = glGenLists(1)
-        glNewList(list, GL_COMPILE)
-        glutSolidSphere(@size, 10, 2)
-        glEndList()
-        $BLOBS[@size] = list
+          glEndList()
+          BlobStore.put(@size,list)
+        end
+      else
+        unless BlobStore.has(@size)
+          list = glGenLists(1)
+          glNewList(list, GL_COMPILE)
+          glutSolidSphere(@size, 10 + 10 * ((@size-$MIN_BLOB_SIZE)/$MAX_BLOB_SIZE), 2)
+          glEndList()
+          BlobStore.put(@size,list)
+        end
       end
-      glCallList($BLOBS[@size])
+      glCallList(BlobStore.get(@size))
       glPopMatrix()
     elsif @type == 1
       glPushMatrix()
       glMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, @color)
       glTranslate(@x, @y, @z)
-
-      if( $BLOBS[@size].nil? )
+      glRotatef(@rx, 1.0, 0.0, 0.0)
+      glRotatef(@ry, 0.0, 1.0, 0.0)
+      @rx += 2
+      @ry += 1
+      unless BlobStore.has(@size.to_s)
         list = glGenLists(1)
         glNewList(list, GL_COMPILE)
-        glutSolidSphere(@size, 10, 2)
+
+        glBegin(GL_QUADS)
+        glVertex3f(-@size,  @size, 0)
+        glVertex3f( @size,  @size, 0)
+        glVertex3f( @size, -@size, 0)
+        glVertex3f(-@size, -@size, 0)
+        glEnd
+
         glEndList()
-        $BLOBS[@size] = list
+        BlobStore.put(@size.to_s,list)
       end
-      glCallList($BLOBS[@size])
+
+      glCallList(BlobStore.get(@size.to_s))
       glPopMatrix()
     elsif @type == 2
       glPushMatrix()
-      glMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, @color.map { |c| c*3.0} )
+      glMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, @color.map { |c| c*10.0} )
       glTranslate(@x, @y, @z)
       glRasterPos(0.0, 0.0)
 
-      if( $BLOBS[@message].nil? )
-        list = glGenLists(1)
-        glNewList(list, GL_COMPILE)
-        print_text @message
-        glEndList()
-        $BLOBS[@message] = list
-      end
-      glCallList($BLOBS[@message])
+      FontStore.render_string @message
+
       glPopMatrix()
     end
   end

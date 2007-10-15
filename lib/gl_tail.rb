@@ -42,17 +42,15 @@ rescue LoadError
   exit
 end
 
-
 # load our libraries
-%w( activity block item element server parser resolver ).each {|f| require "lib/#{f}" }
+%w( activity block item element server parser resolver blob_store font_store).each {|f| require "lib/#{f}" }
 
 Dir.glob( "lib/parsers/*.rb" ).each {|f| require f }
 
 include Gl
 include Glut
 
-$BLOBS = { }
-$FPS = 50.0
+$WANTED_FPS = 0
 $ASPECT = 0.6
 
 $TOP = 0.9
@@ -64,6 +62,9 @@ $BITMAP_MODE = 0
 class GlTail
 
   def draw
+    @render_time ||= 0
+    @t = Time.new
+
     glClear(GL_COLOR_BUFFER_BIT);
 #    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -83,17 +84,17 @@ class GlTail
     right_left = $RIGHT_COL - char_size * ($COLUMN_SIZE_RIGHT + 1)
     right_right = $RIGHT_COL - char_size * ($COLUMN_SIZE_RIGHT + 8)
 
-    glMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, ( [0.1, 0.1, 0.1, 1.0]  ) )
+    glMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, ( [0.2, 0.2, 0.2, 10.0]  ) )
     glBegin(GL_QUADS)
-      glVertex3f(left_left, 1.0, 0.0)
-      glVertex3f(left_right, 1.0, 0.0)
-      glVertex3f(left_right, -1.0, 0.0)
-      glVertex3f(left_left, -1.0, 0.0)
+      glVertex3f(left_left, $ASPECT, 0.0)
+      glVertex3f(left_right, $ASPECT, 0.0)
+      glVertex3f(left_right, -$ASPECT, 0.0)
+      glVertex3f(left_left, -$ASPECT, 0.0)
 
-      glVertex3f(right_left, 1.0, 0.0)
-      glVertex3f(right_right, 1.0, 0.0)
-      glVertex3f(right_right, -1.0, 0.0)
-      glVertex3f(right_left, -1.0, 0.0)
+      glVertex3f(right_left, $ASPECT, 0.0)
+      glVertex3f(right_right, $ASPECT, 0.0)
+      glVertex3f(right_right, -$ASPECT, 0.0)
+      glVertex3f(right_left, -$ASPECT, 0.0)
     glEnd()
     glPopMatrix()
 
@@ -102,7 +103,6 @@ class GlTail
     end
 
     glPopMatrix()
-    glutSwapBuffers()
 
     @frames = 0 if not defined? @frames
     @t0 = 0 if not defined? @t0
@@ -115,13 +115,32 @@ class GlTail
       printf("%d frames in %6.3f seconds = %6.3f FPS\n",
              @frames, seconds, $FPS)
       @t0, @frames = t, 0
-      puts "Elements[#{$STATS[0]}], Activities[#{$STATS[1]}]"
+      puts "Elements[#{$STATS[0]}], Activities[#{$STATS[1]}], Blobs[#{BlobStore.used}/#{BlobStore.size}]"
     end
+    @render_time = (Time.new - @t)
   end
 
   def idle
+    @last_run ||= Time.new
+    @last_run_time ||= 0
+    delta = (Time.new - @last_run) - @last_run_time
+    if $WANTED_FPS > 0 && delta < (1000.0/($WANTED_FPS*1000.0))
+      sleep((1000.0/($WANTED_FPS*1000.0) - delta))
+    end
+    @last_run = Time.new
+    glutPostRedisplay()
+    glutSwapBuffers()
+    do_process
+    @last_run_time = (@last_run_time.to_f * ($WANTED_FPS-1.0) + (Time.new - @last_run).to_f) / $WANTED_FPS.to_f if $WANTED_FPS > 0
+  end
+
+  def timer(value)
+    t = glutGet(GLUT_ELAPSED_TIME)
     glutPostRedisplay()
     do_process
+    t = glutGet(GLUT_ELAPSED_TIME) - t
+    t = 29 if t > 29
+    glutTimerFunc(30 - t, method(:timer).to_proc, 0)
   end
 
   # Change view angle, exit upon ESC
@@ -129,7 +148,29 @@ class GlTail
     case k
     when 27 # Escape
       exit
+    when 102 #f
+      $WANTED_FPS = case $WANTED_FPS
+             when 0
+               60
+             when 60
+               50
+             when 50
+               45
+             when 45
+               30
+             when 30
+               25
+             when 25
+               20
+             when 20
+               0
+             end
+      puts "WANTED_FPS[#{$WANTED_FPS}]"
+    when 98
+      $MODE = 1 - $MODE.to_i
+      BlobStore.empty
     end
+    puts "Keypress: #{k}"
     glutPostRedisplay()
   end
 
@@ -144,7 +185,6 @@ class GlTail
 
     $WINDOW_WIDTH, $WINDOW_HEIGHT = width, height
 
-    puts "Reshape: #{width}x#{height} = #{$ASPECT}"
 
     glViewport(0, 0, width, height)
     glMatrixMode(GL_PROJECTION)
@@ -153,23 +193,30 @@ class GlTail
 #    glFrustum(-2.0, 2.0, -$ASPECT*2, $ASPECT*2, 5.0, 60.0)
     glOrtho(-1.0, 1.0, -$ASPECT, $ASPECT, -1.0, 1.0)
 
-    $TOP = $ASPECT - ($ASPECT/20)
-    $LINE_SIZE = 0.025 * (1122/height.to_f) * $ASPECT
+    $LINE_SIZE = $ASPECT * 2 / ($WINDOW_HEIGHT/13.0)
+    $TOP = $ASPECT - $LINE_SIZE
 
+    puts "Reshape: #{width}x#{height} = #{$ASPECT}/#{$LINE_SIZE}"
 
     glMatrixMode(GL_MODELVIEW)
     glLoadIdentity()
     glTranslate(0.0, 0.0, 0.0)
+
+    BlobStore.empty
   end
 
   def init
-    glLightfv(GL_LIGHT0, GL_POSITION, [5.0, 5.0, 10.0, 0.0])
+    glLightfv(GL_LIGHT0, GL_POSITION, [-5.0, 5.0, 10.0, 0.0])
     glDisable(GL_CULL_FACE)
     glEnable(GL_LIGHTING)
     glEnable(GL_LIGHT0)
+    glEnable(GL_TEXTURE_2D)
 
     glDisable(GL_DEPTH_TEST)
     glDisable(GL_NORMALIZE)
+#    glHint(GL_PERSPECTIVE_CORRECTION_HINT,GL_NICEST)
+
+    FontStore.generate_font
 
     @channels = Array.new
     @sessions = Array.new
@@ -212,12 +259,6 @@ class GlTail
     @since = glutGet(GLUT_ELAPSED_TIME)
   end
 
-  def timer(value)
-    glutPostRedisplay()
-    glutTimerFunc(33, method(:timer).to_proc, 0)
-    do_process
-  end
-
   def visible(vis)
 #    glutTimerFunc(33, method(:timer).to_proc, 0)
     glutIdleFunc((vis == GLUT_VISIBLE ? method(:idle).to_proc : nil))
@@ -237,7 +278,6 @@ class GlTail
   def initialize
     glutInit()
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE)
-    glutInitDisplayMode(GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE)
 
     glutInitWindowPosition(0, 0)
     glutInitWindowSize($WINDOW_WIDTH, $WINDOW_HEIGHT)
@@ -254,7 +294,11 @@ class GlTail
   end
 
   def start
-    glutMainLoop()
+    while true
+      t = glutGet(GLUT_ELAPSED_TIME)
+      glutCheckLoop()
+      puts "#{glutGet(GLUT_ELAPSED_TIME) - t} ms"
+    end
   end
 
   def parse_line( ch, data )
@@ -316,7 +360,9 @@ class GlTail
     active = 0
     @channels.each do |ch|
       active += 1
-      ch.connection.process(true)
+      while ch.connection.reader_ready?
+        ch.connection.process(true)
+      end
     end
 
     break if active == 0
@@ -328,6 +374,8 @@ class GlTail
       @blocks.each_value do |b|
         b.update
       end
+
+      BlobStore.prune
     end
     self
   end

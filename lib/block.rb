@@ -16,9 +16,9 @@ class Block
     @color = options[:color]
 
     @show = case options[:show]
-             when :rate: 0
-             when :total: 1
-             when :average: 2
+            when :rate: 0
+            when :total: 1
+            when :average: 2
             else
               0
             end
@@ -33,6 +33,7 @@ class Block
     return num if @elements.size == 0
 
     @header.wy = $TOP - (num * $LINE_SIZE)
+#    @header.y = @header.wy if @header.y == -$TOP
     @header.render
     num += 1
 
@@ -46,7 +47,7 @@ class Block
       e.wy = $TOP - (num * $LINE_SIZE)
       e.render
       $STATS[0] += 1
-      if e.rate <= 0.0001 && e.active && e.updates > 4
+      if e.rate <= 0.0001 && e.active && e.updates > 59 && @clean
         @elements.delete(e.name)
       end
       num += 1
@@ -55,7 +56,7 @@ class Block
       $STATS[0] += 1
       e.activities.each do |a|
         a.render
-        if a.x > 18.0 || a.x < -18.0
+        if a.x > 1.0 || a.x < -1.0 || a.y > $ASPECT
           e.activities.delete a
         end
       end
@@ -69,7 +70,7 @@ class Block
   end
 
   def add_activity(options = { })
-    @elements[options[:name]] ||= Element.new(options[:name], @color || options[:color], @show, @position == :right, @bottom_position)
+    @elements[options[:name]] ||= Element.new(options[:name], @color || options[:color], @show, @position == :right)
     @elements[options[:name]].add_activity(options[:message], options[:size] || 0.01, options[:type] || 0 )
   end
 

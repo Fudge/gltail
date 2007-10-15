@@ -16,7 +16,9 @@ Configuration:
     keys: /path/to/key
 
 Running:
-  ./gl_tail.rb
+  ./gl_tail.rb <config.yaml>
+
+  You can also press 'f' while running to toggle the attempted frames per second.
 
 Versions tested:
   rubygems    0.9.4

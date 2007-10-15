@@ -5,13 +5,16 @@
 #
 
 class Element
-  attr_accessor :wy, :active, :average_size, :right
+  attr_accessor :wy, :y, :active, :average_size, :right
   attr_reader   :rate, :messages, :name, :activities, :queue, :updates, :average, :total
 
   def initialize(name, color, type = 0, right = false, start_position = -$TOP)
+
+    char_size = 8.0 / ($WINDOW_WIDTH / 2.0)
+
     @name = name
     @right = right
-    @x = (right ? $RIGHT_COL : $LEFT_COL)
+    @x = (right ? $RIGHT_COL : ($LEFT_COL - char_size * ($COLUMN_SIZE_LEFT + 8)))
     @y = start_position
     @z = 0
     @wy = start_position
@@ -35,10 +38,8 @@ class Element
 
   def add_activity(message, size, type)
     @pending.push Item.new(message, size, @color, type) if(type != 3)
-    @total += 1
     @messages += 1
     @sum += size
-    @average = @sum / @total
 
     if @rate == 0
       @rate = 1.0 / 60
@@ -49,7 +50,6 @@ class Element
   def add_event(message, update_stats)
     @pending.push Item.new(message, 0.01, @color, 2)
     if update_stats
-      @total += 1
       @messages += 1
       if @rate == 0
         @rate = 1.0 / 60
@@ -64,19 +64,22 @@ class Element
     @updates += 1
     @rate = (@rate.to_f * 299 + @messages) / 300
     @messages = 0
-    if @pending.size + @queue.size> 0
-      if @pending.size + @queue.size == 1
-        @step = rand(1000) * 1.0
-      else
-        @step = 1.0 / (@queue.size + @pending.size) * 1000.0
-      end
+    if @pending.size + @queue.size > 0
+      @total += @pending.size
+      @average = @sum / @total
+
+      @step = 1.0 / (@queue.size + @pending.size) * 1000.0
       @queue = @queue + @pending
+      if @queue.size == 1
+        @step = rand(1000) * 1.0
+      end
       @pending = []
     else
       @step = 0
     end
     @last_time = glutGet(GLUT_ELAPSED_TIME)
-#    @last_time -= @step unless @queue.size == 1
+    @last_time += @step if @queue.size == 1
+#    @last_time -= @step if @queue.size != 1
 
     if @name =~ /^\d+.\d+.\d+.\d+$/
       @name = Resolver.resolv(@name)
@@ -84,21 +87,12 @@ class Element
 
   end
 
-  def print_text(m)
-    if $BITMAP_MODE == 0
-      begin
-        m.each_byte do |c| glutBitmapCharacter(GLUT_BITMAP_8_BY_13, c) end
-      rescue RangeError
-        $BITMAP_MODE = 1
-        m.each_byte do |c| glutBitmapCharacterX(c) end
-      end
-    else
-      m.each_byte do |c| glutBitmapCharacterX(c) end
-    end
-  end
-
   def render(options = { })
-    @x = (@right ? ($RIGHT_COL - ($COLUMN_SIZE_RIGHT+8)*8.0 / ($WINDOW_WIDTH / 2.0)) : $LEFT_COL)
+    @wx = (@right ? ($RIGHT_COL - ($COLUMN_SIZE_RIGHT+8)*8.0 / ($WINDOW_WIDTH / 2.0)) : $LEFT_COL)
+
+    if(@y == -$TOP)
+      @y = @wy
+    end
 
     d = @wy - @y
     if d.abs < 0.001
@@ -107,11 +101,25 @@ class Element
       @y += d / 20
     end
 
+    d = @wx - @x
+    if d.abs < 0.001
+      @x = @wx
+    else
+      @x += d / 20
+    end
+
     glPushMatrix()
-    glMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, ( @queue.size > 0 ? [10.0, 1.0, 1.0, 1.0] : @color.map { |c| c*3.0} ) )
+
+    ty = 700 - ((($ASPECT*2) - (@y+$ASPECT))/($ASPECT*2) * $WINDOW_HEIGHT + 0.5).to_i
+    ty2 = 700 - ((($ASPECT*2) - (@y+$ASPECT+$LINE_SIZE))/($ASPECT*2) * $WINDOW_HEIGHT + 0.5).to_i
+
+    corrected_y = ((ty2 - ty) == 13) ? @y : (ty+1) / $WINDOW_HEIGHT.to_f * ($ASPECT * 2) - $ASPECT
+
 
     glTranslate(@x, @y, @z)
     glRasterPos(0.0, 0.0)
+
+    glMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, ( @queue.size > 0 ? [10.0, 0.0, 0.0, 10.0] : @color.map { |c| c*10.0} ) )
 
     if @type == 0
       if @rate < 0.0001
@@ -133,40 +141,16 @@ class Element
       end
     end
 
-    if( $BLOBS[txt].nil? )
-      list = glGenLists(1)
-      glNewList(list, GL_COMPILE)
-      print_text txt
-      glEndList()
-      $BLOBS[txt] = list
-    end
-
-    if( $BLOBS[@name + @right.to_s].nil? )
-      list = glGenLists(1)
-      glNewList(list, GL_COMPILE)
-      if @x < 0
-        if @name.length > $COLUMN_SIZE_LEFT
-          @name = @name[-$COLUMN_SIZE_LEFT..-1]
-        end
-        print_text( sprintf("%#{$COLUMN_SIZE_LEFT}s ", @name) )
-      else
-        print_text @name[0..$COLUMN_SIZE_RIGHT-1]
-      end
-
-
-      glEndList()
-      $BLOBS[@name + @right.to_s] = list
-    end
-
-    if @x < 0
-      glCallList($BLOBS[@name + @right.to_s])
-      glCallList($BLOBS[txt])
+   if @x < 0
+     str = sprintf("%#{$COLUMN_SIZE_LEFT}s %s", @name.length > $COLUMN_SIZE_LEFT ? @name[-$COLUMN_SIZE_LEFT..-1] : @name, txt)
     else
-      glCallList($BLOBS[txt])
-      glCallList($BLOBS[@name + @right.to_s])
+     str = sprintf("%s %s", txt, @name[0..$COLUMN_SIZE_RIGHT-1])
     end
+
+    FontStore.render_string(str)
 
     glPopMatrix()
+
 
     t = glutGet(GLUT_ELAPSED_TIME)
     num = 0
@@ -191,14 +175,14 @@ class Element
         @activities.push Activity.new(url, 0.0 - (0.013 * url.length), $TOP, 0.0, color, size, type)
       elsif type == 5
         a = Activity.new(url, 0.0, $TOP, 0.0, color, size, type)
-        a.wx = @x
-        a.wy = @y + 0.05
+        a.wx = @wx
+        a.wy = @wy + 0.05
         @activities.push a
       elsif type != 4
         if @x >= 0
-          @activities.push Activity.new(url, ($RIGHT_COL - ($COLUMN_SIZE_RIGHT+8)*8.0 / ($WINDOW_WIDTH / 2.0)), @y, @z, color, size, type)
+          @activities.push Activity.new(url, ($RIGHT_COL - ($COLUMN_SIZE_RIGHT+8)*8.0 / ($WINDOW_WIDTH / 2.0)), @y + $LINE_SIZE/2, @z, color, size, type)
         else
-          @activities.push Activity.new(url, ($LEFT_COL + ($COLUMN_SIZE_LEFT+8)*8.0 / ($WINDOW_WIDTH / 2.0) ), @y, @z, color, size, type)
+          @activities.push Activity.new(url, ($LEFT_COL + ($COLUMN_SIZE_LEFT+8)*8.0 / ($WINDOW_WIDTH / 2.0) ), @y + $LINE_SIZE/2, @z, color, size, type)
         end
       end
       num += 1
@@ -206,7 +190,7 @@ class Element
 #    @last_time = glutGet(GLUT_ELAPSED_TIME)
 
     @activities.each do |a|
-      if a.x > 1.0 || a.x < -1.0
+      if a.x > 1.0 || a.x < -1.0 || a.y > $ASPECT*1.5 || a.y < -($ASPECT*1.5)
         @activities.delete a
       else
         a.wy = @wy + 0.005 if a.type == 5
