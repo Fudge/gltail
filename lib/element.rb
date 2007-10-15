@@ -34,6 +34,13 @@ class Element
     @step = 0, @updates = 0
     @active = false
     @type = type
+
+    texture_width = (right ? $COLUMN_SIZE_RIGHT + 8 : $COLUMN_SIZE_LEFT + 8) * 8
+    texture_height = 16
+    @texture = glGenTextures(1)[0]
+    @texture_data = "\x00" * texture_width * texture_height * 3
+    glBindTexture(GL_TEXTURE_2D, @texture)
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 8, 16, 0, GL_RGB, GL_UNSIGNED_BYTE, @texture_data)
   end
 
   def add_activity(message, size, type)
@@ -110,11 +117,10 @@ class Element
 
     glPushMatrix()
 
-    ty = 700 - ((($ASPECT*2) - (@y+$ASPECT))/($ASPECT*2) * $WINDOW_HEIGHT + 0.5).to_i
-    ty2 = 700 - ((($ASPECT*2) - (@y+$ASPECT+$LINE_SIZE))/($ASPECT*2) * $WINDOW_HEIGHT + 0.5).to_i
+#    ty = 700 - ((($ASPECT*2) - (@y+$ASPECT))/($ASPECT*2) * $WINDOW_HEIGHT + 0.5).to_i
+#    ty2 = 700 - ((($ASPECT*2) - (@y+$ASPECT+$LINE_SIZE))/($ASPECT*2) * $WINDOW_HEIGHT + 0.5).to_i
 
-    corrected_y = ((ty2 - ty) == 13) ? @y : (ty+1) / $WINDOW_HEIGHT.to_f * ($ASPECT * 2) - $ASPECT
-
+#    corrected_y = ((ty2 - ty) == 13) ? @y : (ty+1) / $WINDOW_HEIGHT.to_f * ($ASPECT * 2) - $ASPECT
 
     glTranslate(@x, @y, @z)
     glRasterPos(0.0, 0.0)
@@ -155,7 +161,6 @@ class Element
     t = glutGet(GLUT_ELAPSED_TIME)
     num = 0
     while( (@queue.size > 0) && (@last_time < t ) )
-#    if( (@queue.size > 0) && (@last_time < t ) )
 
       @last_time += @step
       item = @queue.pop

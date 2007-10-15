@@ -3,6 +3,7 @@ class FontStore
   @call_lists = []
   @font = []
 
+
   def self.generate_textures
     if @textures.nil?
       @textures = glGenTextures(256)
@@ -26,6 +27,8 @@ class FontStore
 
       32.upto(255) do |c|
 
+        @font[c] = @font[c] + [0,0,0].pack("C*") * 24
+
         glBindTexture(GL_TEXTURE_2D, @textures[c])
 #    glTexParameter(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
 #    glTexParameter(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
@@ -35,7 +38,7 @@ class FontStore
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP)
 #    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL)
 #    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE)
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 8, 13, 0, GL_RGB, GL_UNSIGNED_BYTE, @font[c])
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 8, 16, 0, GL_RGB, GL_UNSIGNED_BYTE, @font[c])
 
         glBindTexture(GL_TEXTURE_2D, 0)
       end
@@ -89,26 +92,35 @@ class FontStore
     @textures[c]
   end
 
+  def self.copy_char(tex, c, pos)
+
+  end
+
   def self.render_char(c)
     glBindTexture(GL_TEXTURE_2D, FontStore.get_texture(c))
-      char_size = 8.0 / ($WINDOW_WIDTH / 2.0)
-      glBegin(GL_QUADS)
-        glTexCoord2f(0,0)
-        glVertex3f(0, 0, 0.0)
+    char_size = 8.0 / ($WINDOW_WIDTH / 2.0)
+    glBegin(GL_QUADS)
 
-        glTexCoord2f(1,0)
-        glVertex3f(char_size, 0.0, 0.0)
+    glTexCoord2f(0,0)
+    glVertex3f(0, 0, 0.0)
 
-        glTexCoord2f(1,1)
-       glVertex3f(char_size, $LINE_SIZE, 0.0)
+    glTexCoord2f(1,0)
+    glVertex3f(char_size, 0.0, 0.0)
 
-        glTexCoord2f(0,1)
-        glVertex3f(0, $LINE_SIZE, 0.0)
-      glEnd
-      glTranslate(char_size, 0, 0)
+    glTexCoord2f(1,13/16.0)
+    glVertex3f(char_size, $LINE_SIZE, 0.0)
+
+    glTexCoord2f(0,13/16.0)
+    glVertex3f(0, $LINE_SIZE, 0.0)
+    glEnd
+
+    glTranslate(char_size, 0, 0)
   end
 
   def self.render_string(txt)
+
+
+
     glPushMatrix
     glEnable(GL_BLEND)
     glBlendFunc(GL_ONE, GL_ONE)
