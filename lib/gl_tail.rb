@@ -202,7 +202,7 @@ class GlTail
     glLoadIdentity()
     glTranslate(0.0, 0.0, 0.0)
 
-    BlobStore.empty
+    BlobStore.empty # Flush cached objects to recreate with correct size
   end
 
   def init

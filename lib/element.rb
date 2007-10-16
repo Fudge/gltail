@@ -35,12 +35,6 @@ class Element
     @active = false
     @type = type
 
-    texture_width = (right ? $CONFIG.right[:size] + 8 : $CONFIG.left[:size] + 8) * 8
-    texture_height = 16
-    @texture = glGenTextures(1)[0]
-    @texture_data = "\x00" * texture_width * texture_height * 3
-    glBindTexture(GL_TEXTURE_2D, @texture)
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 8, 16, 0, GL_RGB, GL_UNSIGNED_BYTE, @texture_data)
   end
 
   def add_activity(message, size, type)
