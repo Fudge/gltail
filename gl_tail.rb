@@ -53,7 +53,8 @@ class Configuration
   attr_reader :yaml
   attr_accessor :servers, :window_width, :window_height, :left, :right, :blocks, :wanted_fps, :top, :min_blob_size, :max_blob_size, :line_size, :aspect, :stats, :bitmap_mode, :dbg
   require 'yaml'
-  def initialize file = 'config.yaml'
+  def initialize file
+    file  ||= "config.yaml"
     @yaml   = YAML.load_file(file)
     @left   = Hash.new
     @right  = Hash.new
