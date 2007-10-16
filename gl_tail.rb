@@ -179,7 +179,6 @@ class Configuration
   end
 end
 
-$CONFIG = 'config.yaml' if $CONFIG.nil?
 $CONFIG = Configuration.new $CONFIG
 
 require 'lib/gl_tail.rb'
