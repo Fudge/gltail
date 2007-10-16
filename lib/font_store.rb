@@ -49,21 +49,16 @@ class FontStore
       glBindTexture(GL_TEXTURE_2D, @font_texture)
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
-      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP)
-      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP)
-##    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL)
-##    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE)
+#      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
+#      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
+#      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP)
+#      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP)
+      glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE)
+      #    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL)
+#    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE)
       glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 256, 256, 0, GL_RGB, GL_UNSIGNED_BYTE, font_data)
 
       glBindTexture(GL_TEXTURE_2D, 0)
-    end
-  end
-
-  def self.update_call_lists
-    32.upto(255) do |c|
-      glNewList(@list_base + c, GL_COMPILE)
-      self.render_char(c)
-      glEndList
     end
   end
 
@@ -109,9 +104,8 @@ class FontStore
 
   end
 
-  def self.render_char(c)
+  def self.render_char(c, pos)
     char_size = 8.0 / ($CONFIG.window_width / 2.0)
-    glBegin(GL_QUADS)
 
     base = c-32
 
@@ -121,20 +115,19 @@ class FontStore
     width   =  8 / 256.0
     height  = 13 / 256.0
 
+    pos_offset = char_size * pos
+
     glTexCoord2f(offsetx,offsety)
-    glVertex3f(0, 0, 0.0)
+    glVertex3f(pos_offset, 0, 0.0)
 
     glTexCoord2f(offsetx+width,offsety)
-    glVertex3f(char_size, 0.0, 0.0)
+    glVertex3f(pos_offset + char_size, 0.0, 0.0)
 
     glTexCoord2f(offsetx+width,offsety + height)
-    glVertex3f(char_size, $CONFIG.line_size, 0.0)
+    glVertex3f(pos_offset + char_size, $CONFIG.line_size, 0.0)
 
     glTexCoord2f(offsetx,offsety + height)
-    glVertex3f(0, $CONFIG.line_size, 0.0)
-    glEnd
-
-    glTranslate(char_size, 0, 0)
+    glVertex3f(pos_offset, $CONFIG.line_size, 0.0)
   end
 
 
@@ -147,9 +140,13 @@ class FontStore
     unless BlobStore.has(txt)
       list = glGenLists(1)
       glNewList(list, GL_COMPILE)
+      glBegin(GL_QUADS)
+      pos = 0
       txt.each_byte do |c|
-        self.render_char(c)
+        self.render_char(c, pos)
+        pos += 1
       end
+      glEnd
       glEndList
       BlobStore.put(txt,list)
     end
