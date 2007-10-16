@@ -215,6 +215,7 @@ class GlTail
     glDisable(GL_DEPTH_TEST)
     glDisable(GL_NORMALIZE)
 #    glHint(GL_PERSPECTIVE_CORRECTION_HINT,GL_NICEST)
+    glHint( GL_PERSPECTIVE_CORRECTION_HINT, GL_FASTEST )
 
     FontStore.generate_font
 
