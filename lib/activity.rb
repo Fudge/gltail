@@ -73,7 +73,7 @@ class Activity
       glPushMatrix()
       glMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, @color)
       glTranslate(@x, @y, @z)
-      if $MODE == 1
+      if $CONFIG.mode == 1
         glRotatef(@rx, 1.0, 0.0, 0.0)
         glRotatef(@ry, 0.0, 1.0, 0.0)
         @rx += 2

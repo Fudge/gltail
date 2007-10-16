@@ -51,8 +51,9 @@ end
 
 class Configuration
   attr_reader :yaml
-  attr_accessor :servers, :window_width, :window_height, :left, :right, :blocks, :wanted_fps, :top, :min_blob_size, :max_blob_size, :line_size, :aspect, :stats, :bitmap_mode, :dbg
+
   require 'yaml'
+  
   def initialize file
     file  ||= "config.yaml"
     @yaml   = YAML.load_file(file)
@@ -63,6 +64,16 @@ class Configuration
     parse_servers
     parse_config
   end
+  
+  def method_missing method, *arg
+    method = method.to_s
+    if method.delete! '='
+      instance_variable_set "@#{method}", arg.first
+    else
+      instance_variable_get "@#{method.to_s}"
+    end
+  end
+    
 
   def parse_servers
     self.servers = Array.new
@@ -90,9 +101,7 @@ class Configuration
         if key == 'dimensions'
           self.window_width, self.window_height = config.split('x').map{|x| x.to_f}
         else
-          if self.respond_to? key
-            instance_variable_set "@#{key}", config.to_f
-          end
+          eval "self.#{key} = #{config}"
           # TODO: Right now we ignore it if its not set right now. Maybe throw a SyntaxError?
         end
       else
@@ -170,6 +179,7 @@ class Configuration
   end
 end
 
+$CONFIG = 'config.yaml' if $CONFIG.nil?
 $CONFIG = Configuration.new $CONFIG
 
 require 'lib/gl_tail.rb'

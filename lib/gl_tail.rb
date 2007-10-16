@@ -167,7 +167,7 @@ class GlTail
              end
       puts "WANTED_FPS[#{$CONFIG.wanted_fps}]"
     when 98
-      $MODE = 1 - $MODE.to_i
+      $CONFIG.mode = 1 - $CONFIG.mode.to_i
       BlobStore.empty
     end
     puts "Keypress: #{k}"
