@@ -29,8 +29,7 @@ ARGV.each do |arg|
          '[configfile]       The YAML config file you wish to load (default = config.yaml)'
     exit
   when '-parsers','--parsers', '-p'
-    puts "Supported Parsers [" + Parser::registry.keys.sort { |a,b| a.to_s <=> b.to_s }.collect{ |p| ":#{p.to_s}"}.join(", ") + "]"
-    exit
+    @print_parsers = 1
   when '-debug', '--debug', '-d'
     $DBG=1
   when '-debug-ssh', '--debug-ssh', '-ds'
@@ -63,7 +62,7 @@ class Configuration
     parse_servers
     parse_config
   end
-  
+
   def parse_servers
     self.servers = Array.new
     self.yaml['servers'].each do |server|
@@ -83,7 +82,7 @@ class Configuration
       self.servers << hash
     end
   end
-  
+
   def parse_config
     self.yaml['config'].each do |key, config|
       unless config.is_a? Hash
@@ -104,7 +103,7 @@ class Configuration
       end
     end
   end
-  
+
   def parse_column which
     self.yaml['config']["#{which.to_s}_column"].each do |key, column|
       case key
@@ -139,11 +138,11 @@ class Configuration
       end
     end
   end
-  
+
   def setter variable, value, which
     eval "self.#{variable.to_s}[:#{which}] = #{value}"
   end
-  
+
   def parse_color v
     case v
     when /(.+),(.+),(.+),(.+)/
@@ -173,5 +172,10 @@ end
 $CONFIG = Configuration.new $CONFIG
 
 require 'lib/gl_tail.rb'
+
+if defined? @print_parsers
+  puts "Supported Parsers [" + Parser::registry.keys.sort { |a,b| a.to_s <=> b.to_s }.collect{ |p| ":#{p.to_s}"}.join(", ") + "]"
+  exit
+end
 
 GlTail.new.start
