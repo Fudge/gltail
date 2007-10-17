@@ -37,8 +37,9 @@ class Element
 
   end
 
-  def add_activity(message, size, type)
-    @pending.push Item.new(message, size, @color, type) if(type != 3)
+  def add_activity(message, color, size, type)
+    @pending.push Item.new(message, size, color, type) if(type != 3)
+    @color = color
     @messages += 1
     @sum += size
 
@@ -48,8 +49,9 @@ class Element
     end
   end
 
-  def add_event(message, update_stats)
-    @pending.push Item.new(message, 0.01, @color, 2)
+  def add_event(message, color, update_stats)
+    @pending.push Item.new(message, 0.01, color, 2)
+    @color = color
     if update_stats
       @messages += 1
       if @rate == 0
