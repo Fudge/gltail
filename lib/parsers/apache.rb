@@ -21,9 +21,9 @@ class ApacheParser < Parser
 
       referrer.gsub!(/http:\/\//,'') if referrer
 
-      add_activity(:block => 'sites', :name => server.name, :size => size.to_i/1000000.0) # Size of activity based on size of request
+      add_activity(:block => 'sites', :name => server.name, :size => size.to_i) # Size of activity based on size of request
       add_activity(:block => 'urls', :name => url)
-      add_activity(:block => 'users', :name => host, :size => size.to_i/1000000.0)
+      add_activity(:block => 'users', :name => host, :size => size.to_i)
       add_activity(:block => 'referrers', :name => referrer) unless (referrer.nil? || referrer_host.nil? || referrer_host.include?(server.name) || referrer_host.include?(server.host))
       add_activity(:block => 'user agents', :name => HttpHelper.parse_useragent(useragent), :type => 3) unless useragent.nil?
 

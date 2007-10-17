@@ -37,10 +37,11 @@ class Element
 
   end
 
-  def add_activity(message, size, type)
-    @pending.push Item.new(message, size, @color, type) if(type != 3)
+  def add_activity(message, color, size,  type)
+    @pending.push Item.new(message, size, color, type) if(type != 3)
     @messages += 1
     @sum += size
+    @color = color
 
     if @rate == 0
       @rate = 1.0 / 60
@@ -48,8 +49,8 @@ class Element
     end
   end
 
-  def add_event(message, update_stats)
-    @pending.push Item.new(message, 0.01, @color, 2)
+  def add_event(message, color, update_stats)
+    @pending.push Item.new(message, 0.01, color, 2)
     if update_stats
       @messages += 1
       if @rate == 0
@@ -111,15 +112,9 @@ class Element
 
     glPushMatrix()
 
-#    ty = 700 - ((($CONFIG.aspect*2) - (@y+$CONFIG.aspect))/($CONFIG.aspect*2) * $CONFIG.window_height + 0.5).to_i
-#    ty2 = 700 - ((($CONFIG.aspect*2) - (@y+$CONFIG.aspect+$CONFIG.line_size))/($CONFIG.aspect*2) * $CONFIG.window_height + 0.5).to_i
-
-#    corrected_y = ((ty2 - ty) == 13) ? @y : (ty+1) / $CONFIG.window_height.to_f * ($CONFIG.aspect * 2) - $CONFIG.aspect
-
     glTranslate(@x, @y, @z)
-    glRasterPos(0.0, 0.0)
 
-    glMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, ( @queue.size > 0 ? [10.0, 0.0, 0.0, 10.0] : @color.map { |c| c*10.0} ) )
+    glColor( (@queue.size > 0 ? ($CONFIG.highlight_color || [1.0, 0.0, 0.0, 1.0]) : @color ) )
 
     if @type == 0
       if @rate < 0.0001
@@ -151,9 +146,7 @@ class Element
 
     glPopMatrix()
 
-
     t = glutGet(GLUT_ELAPSED_TIME)
-    num = 0
     while( (@queue.size > 0) && (@last_time < t ) )
 
       @last_time += @step
@@ -162,13 +155,6 @@ class Element
       color = item.color
       size = item.size
       type = item.type
-
-
-      if size < $CONFIG.min_blob_size
-        size = $CONFIG.min_blob_size
-      elsif size > $CONFIG.max_blob_size
-        size = $CONFIG.max_blob_size
-      end
 
       if type == 2
         @activities.push Activity.new(url, 0.0 - (0.013 * url.length), $CONFIG.top, 0.0, color, size, type)
@@ -184,15 +170,13 @@ class Element
           @activities.push Activity.new(url, ($CONFIG.left[:alignment] + ($CONFIG.left[:size]+8)*8.0 / ($CONFIG.window_width / 2.0) ), @y + $CONFIG.line_size/2, @z, color, size, type)
         end
       end
-      num += 1
     end
-#    @last_time = glutGet(GLUT_ELAPSED_TIME)
 
     @activities.each do |a|
-      if a.x > 1.0 || a.x < -1.0 || a.y > $CONFIG.aspect*1.5 || a.y < -($CONFIG.aspect*1.5)
+      if a.x > 1.0 || a.x < -1.0 || a.y < -($CONFIG.aspect*1.5)
         @activities.delete a
       else
-        a.wy = @wy + 0.005 if a.type == 5
+        a.wy = @wy + 0.005 if(a.type == 5 && @wy != a.wy)
         a.render
         $CONFIG.stats[1] += 1
       end

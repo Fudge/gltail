@@ -52,6 +52,7 @@ class Block
       end
       num += 1
     end
+
     (@elements.values - sorted).each do |e|
       $CONFIG.stats[0] += 1
       e.activities.each do |a|
@@ -64,19 +65,19 @@ class Block
         @elements.delete(e.name)
       end
     end
-    @elements.delete_if { |k,v| (!sorted.include? v) && v.active && v.activities.size == 0 && v.updates > 59} if @clean
+    @elements.delete_if { |k,v| (!sorted.include? v) && v.active && v.activities.size == 0 && v.updates > 29} if @clean
     @bottom_position = $CONFIG.top - ((sorted.size > 0 ? (num-1) : num) * $CONFIG.line_size)
     num + 1
   end
 
   def add_activity(options = { })
     @elements[options[:name]] ||= Element.new(options[:name], @color || options[:color], @show, @position == :right)
-    @elements[options[:name]].add_activity(options[:message], options[:size] || 0.01, options[:type] || 0 )
+    @elements[options[:name]].add_activity(options[:message], @color || options[:color], options[:size] || 0.01, options[:type] || 0 )
   end
 
   def add_event(options = { })
-    @elements[options[:name]] ||= Element.new(options[:name], options[:color], @show, @position == :right)
-    @elements[options[:name]].add_event(options[:message], options[:update_stats] || false)
+    @elements[options[:name]] ||= Element.new(options[:name], options[:color] || @color, @show, @position == :right)
+    @elements[options[:name]].add_event(options[:message], options[:color] || @color, options[:update_stats] || false)
   end
 
   def update

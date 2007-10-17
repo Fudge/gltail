@@ -84,7 +84,7 @@ class GlTail
     right_left = $CONFIG.right[:alignment] - char_size * ($CONFIG.right[:size] + 1)
     right_right = $CONFIG.right[:alignment] - char_size * ($CONFIG.right[:size] + 8)
 
-    glMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, ( [0.2, 0.2, 0.2, 10.0]  ) )
+    glColor([0.2, 0.2, 0.2, 1.0])
     glBegin(GL_QUADS)
       glVertex3f(left_left, $CONFIG.aspect, 0.0)
       glVertex3f(left_right, $CONFIG.aspect, 0.0)
@@ -135,12 +135,13 @@ class GlTail
   end
 
   def timer(value)
-    t = glutGet(GLUT_ELAPSED_TIME)
+    glutTimerFunc(15, method(:timer).to_proc, 0)
+#    t = glutGet(GLUT_ELAPSED_TIME)
     glutPostRedisplay()
+    glutSwapBuffers()
     do_process
-    t = glutGet(GLUT_ELAPSED_TIME) - t
-    t = 29 if t > 29
-    glutTimerFunc(30 - t, method(:timer).to_proc, 0)
+#    t = glutGet(GLUT_ELAPSED_TIME) - t
+#    t = 14 if t > 14
   end
 
   # Change view angle, exit upon ESC
@@ -148,6 +149,9 @@ class GlTail
     case k
     when 27 # Escape
       exit
+    when 32 # Space
+      $CONFIG.bounce ||= false
+      $CONFIG.bounce = !$CONFIG.bounce
     when 102 #f
       $CONFIG.wanted_fps = case $CONFIG.wanted_fps
              when 0
@@ -190,7 +194,7 @@ class GlTail
     glMatrixMode(GL_PROJECTION)
     glLoadIdentity()
 
-#    glFrustum(-2.0, 2.0, -$CONFIG.aspect*2, $CONFIG.aspect*2, 5.0, 60.0)
+#    glFrustum(-1.0, 1.0, -$CONFIG.aspect, $CONFIG.aspect, 5.0, 60.0)
     glOrtho(-1.0, 1.0, -$CONFIG.aspect, $CONFIG.aspect, -1.0, 1.0)
 
     $CONFIG.line_size = $CONFIG.aspect * 2 / ($CONFIG.window_height/13.0)
@@ -206,16 +210,20 @@ class GlTail
   end
 
   def init
-    glLightfv(GL_LIGHT0, GL_POSITION, [-5.0, 5.0, 10.0, 0.0])
+    glLightfv(GL_LIGHT0, GL_POSITION, [5.0, 5.0, 0.0, 0.0])
+    glLightfv(GL_LIGHT0, GL_AMBIENT, [0,0,0,1])
     glDisable(GL_CULL_FACE)
     glEnable(GL_LIGHTING)
     glEnable(GL_LIGHT0)
     glEnable(GL_TEXTURE_2D)
-
+#    glShadeModel(GL_FLAT)
     glDisable(GL_DEPTH_TEST)
     glDisable(GL_NORMALIZE)
 #    glHint(GL_PERSPECTIVE_CORRECTION_HINT,GL_NICEST)
     glHint( GL_PERSPECTIVE_CORRECTION_HINT, GL_FASTEST )
+
+    glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)
+    glEnable(GL_COLOR_MATERIAL)
 
     FontStore.generate_font
 
@@ -261,8 +269,7 @@ class GlTail
   end
 
   def visible(vis)
-#    glutTimerFunc(33, method(:timer).to_proc, 0)
-    glutIdleFunc((vis == GLUT_VISIBLE ? method(:idle).to_proc : nil))
+#    glutIdleFunc((vis == GLUT_VISIBLE ? method(:idle).to_proc : nil))
   end
 
   def mouse(button, state, x, y)
@@ -292,14 +299,13 @@ class GlTail
     glutVisibilityFunc(method(:visible).to_proc)
     glutMouseFunc(method(:mouse).to_proc)
     glutMotionFunc(method(:motion).to_proc)
+
+    glutIdleFunc(method(:idle).to_proc)
+#    glutTimerFunc(33, method(:timer).to_proc, 0)
   end
 
   def start
-    while true
-      t = glutGet(GLUT_ELAPSED_TIME)
-      glutCheckLoop()
-      puts "#{glutGet(GLUT_ELAPSED_TIME) - t} ms"
-    end
+    glutMainLoop()
   end
 
   def parse_line( ch, data )
@@ -361,9 +367,9 @@ class GlTail
     active = 0
     @channels.each do |ch|
       active += 1
-      while ch.connection.reader_ready?
+#      while ch.connection.reader_ready?
         ch.connection.process(true)
-      end
+#      end
     end
 
     break if active == 0
@@ -371,6 +377,10 @@ class GlTail
     if glutGet(GLUT_ELAPSED_TIME) - @since >= 1000
       @since = glutGet(GLUT_ELAPSED_TIME)
       @channels.each { |ch| ch.connection.ping! }
+
+      @servers.each_value do |s|
+        s.update
+      end
 
       @blocks.each_value do |b|
         b.update

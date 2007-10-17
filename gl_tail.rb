@@ -41,7 +41,7 @@ class Configuration
   attr_reader :yaml
 
   require 'yaml'
-  
+
   def initialize file
     file  ||= "config.yaml"
     @yaml   = YAML.load_file(file)
@@ -52,7 +52,7 @@ class Configuration
     parse_servers
     parse_config
   end
-  
+
   def method_missing method, *arg
     method = method.to_s
     if method.delete! '='
@@ -61,7 +61,7 @@ class Configuration
       instance_variable_get "@#{method.to_s}"
     end
   end
-    
+
 
   def parse_servers
     self.servers = Array.new
@@ -88,6 +88,10 @@ class Configuration
       unless config.is_a? Hash
         if key == 'dimensions'
           self.window_width, self.window_height = config.split('x').map{|x| x.to_f}
+        elsif key == 'highlight_color'
+          self.highlight_color = parse_color config
+        elsif key == 'bounce'
+          self.bounce = ( value == 'true' ? true : false )
         else
           eval "self.#{key} = #{config}"
           # TODO: Right now we ignore it if its not set right now. Maybe throw a SyntaxError?
@@ -143,13 +147,17 @@ class Configuration
 
   def parse_color v
     @colors = {
-      'white' => %w{ 255 255 255 255 },
-      'red' => %w{ 255 0 0 255 },
-      'green' => %w{ 0 255 0 255 },
-      'blue' => %w{ 0 0 255 255 },
-      'yellow' => %w{ 255 255 0 255 },
-      'cyan' => %w{ 0 255 255 255 },
-      'magenta' => %w{ 255 0 255 255 },
+      'white'   => %w{ 255 255 255 255 },
+      'red'     => %w{ 255   0   0 255 },
+      'green'   => %w{   0 255   0 255 },
+      'blue'    => %w{   0   0 255 255 },
+      'yellow'  => %w{ 255 255   0 255 },
+      'cyan'    => %w{   0 255 255 255 },
+      'magenta' => %w{ 255   0 255 255 },
+
+      'purple'  => %w{ 128   0 255 255 },
+      'orange'  => %w{ 255 128   0 255 },
+      'pink'    => %w{ 255   0 128 255 },
     }
 
     case v

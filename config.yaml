@@ -19,6 +19,8 @@ config:
     dimensions: 1200x600
     min_blob_size: 0.004
     max_blob_size: 0.04
+    highlight_color: orange
+    bounce: false
     left_column:
         size: 25
         alignment: -0.99

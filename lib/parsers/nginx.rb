@@ -14,9 +14,9 @@ class NginxParser < Parser
       method, full_url, _ = request.split(' ')
       url, parameters = full_url.split('?')
 
-      add_activity(:block => 'sites', :name => server.name, :size => size.to_i/1000000.0)
+      add_activity(:block => 'sites', :name => server.name, :size => size.to_i)
       add_activity(:block => 'urls', :name => url)
-      add_activity(:block => 'users', :name => remote_addr, :size => size.to_i/1000000.0)
+      add_activity(:block => 'users', :name => remote_addr, :size => size.to_i)
       add_activity(:block => 'referrers', :name => referrer) unless (referrer_host.nil? || referrer_host.include?(server.name) || referrer_host.include?(server.host) || referrer == '-')
       add_activity(:block => 'user agents', :name => http_user_agent, :type => 3) unless http_user_agent.nil?
 

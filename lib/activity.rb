@@ -5,9 +5,10 @@
 #
 
 class Activity
-  attr_accessor :x, :y, :z, :type, :wx, :wy, :wz
+  attr_accessor :x, :y, :z, :wx, :wy, :wz, :xi, :yi, :zi
+  attr_accessor :message, :color, :size, :type
 
-  def initialize(message, x,y,z, color, size, type=0)
+  def initialize(message, x, y, z, color, size, type = 0)
     @message = message
     @x, @y, @z = x, y, z
     @xi, @yi, @zi = 0.012 + (rand(100)/100.0 ) * 0.0012 , 0.002 + (rand(1000)/1000.0 ) * 0.002, 0
@@ -22,12 +23,32 @@ class Activity
     @color = color
     @size  = size
     @type  = type
+
     @rx, @ry, @rz = rand(360), rand(360), 0
   end
 
   def render
+    if @type != 5
+      if $CONFIG.wanted_fps == 0
+        @x += @xi/2
+        @y += @yi/2
+        @yi = @yi - 0.0005/2
+      else
+        @fps_mod ||= (60.0 / $CONFIG.wanted_fps)
+        @x += (@xi/2) * @fps_mod
+        @y += (@yi/2) * @fps_mod
+        @yi = @yi - (0.0005/2) * @fps_mod
+      end
 
-    if @type == 5
+#      @yi = @yi * 1.01
+#      @xi = @xi * 0.9995
+
+      if @y - @size/2 < -$CONFIG.top
+        @y = -$CONFIG.top + @size/2
+        @yi = -@yi * 0.7
+        @x = 30.0 if(@type == 2 || ($CONFIG.bounce.nil? || $CONFIG.bounce == false ) )
+      end
+    else
       dy = @wy - @y
       if dy.abs < 0.001
         @y = @wy
@@ -46,32 +67,11 @@ class Activity
         @x = 20.0
       end
 
-    else
-      if $CONFIG.wanted_fps == 0
-        @x += @xi/2
-        @y += @yi/2
-        @yi = @yi - 0.0005/2
-      else
-        @x += (@xi/2) * (60.0 / $CONFIG.wanted_fps)
-        @y += (@yi/2) * (60.0 / $CONFIG.wanted_fps)
-        @yi = @yi - (0.0005/2) * (60.0 / $CONFIG.wanted_fps)
-      end
-
-#      @yi = @yi * 1.01
-#      @xi = @xi * 0.9995
-
-      if @y - @size/2 < -$CONFIG.top
-        @y = -$CONFIG.top + @size/2
-        @yi = -@yi * 0.7
-        @x = 30.0 #if @type == 2
-      end
-
-
     end
 
     if @type == 0 || @type == 5
       glPushMatrix()
-      glMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, @color)
+      glColor(@color)
       glTranslate(@x, @y, @z)
       if $CONFIG.mode == 1
         glRotatef(@rx, 1.0, 0.0, 0.0)
@@ -105,7 +105,7 @@ class Activity
       glPopMatrix()
     elsif @type == 1
       glPushMatrix()
-      glMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, @color)
+      glColor(@color)
       glTranslate(@x, @y, @z)
       glRotatef(@rx, 1.0, 0.0, 0.0)
       glRotatef(@ry, 0.0, 1.0, 0.0)
@@ -130,7 +130,7 @@ class Activity
       glPopMatrix()
     elsif @type == 2
       glPushMatrix()
-      glMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, @color.map { |c| c*10.0} )
+      glColor(@color)
       glTranslate(@x, @y, @z)
       glRasterPos(0.0, 0.0)
 
