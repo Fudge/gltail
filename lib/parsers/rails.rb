@@ -14,7 +14,7 @@ class RailsParser < Parser
       _, host, url = /^http[s]?:\/\/([^\/]+)(.*)/.match(url).to_a
 
       add_activity(:block => 'sites', :name => host, :size => ms.to_f) # Size of activity based on request time.
-      add_activity(:block => 'urls', :name => url, :size => ms.to_f)
+      add_activity(:block => 'urls', :name => HttpHelper.generalize_url(url), :size => ms.to_f)
       add_activity(:block => 'slow requests', :name => url, :size => ms.to_f)
       add_activity(:block => 'content', :name => 'page')
 
@@ -33,6 +33,8 @@ class RailsParser < Parser
       if error
         add_event(:block => 'info', :name => "Exceptions", :message => error, :update_stats => true, :color => [1.0, 0.0, 0.0, 1.0])
         add_event(:block => 'info', :name => "Exceptions", :message => msg, :update_stats => false, :color => [1.0, 0.0, 0.0, 1.0])
+        add_activity(:block => 'warnings', :name => msg)
+
       end
     end
   end

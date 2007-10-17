@@ -25,7 +25,7 @@ class ApacheParser < Parser
       add_activity(:block => 'urls', :name => url)
       add_activity(:block => 'users', :name => host, :size => size.to_i/1000000.0)
       add_activity(:block => 'referrers', :name => referrer) unless (referrer.nil? || referrer_host.nil? || referrer_host.include?(server.name) || referrer_host.include?(server.host))
-      add_activity(:block => 'user agents', :name => useragent, :type => 3) unless useragent.nil?
+      add_activity(:block => 'user agents', :name => HttpHelper.parse_useragent(useragent), :type => 3) unless useragent.nil?
 
       if( url.include?('.gif') || url.include?('.jpg') || url.include?('.png') || url.include?('.ico'))
         type = 'image'
@@ -44,6 +44,8 @@ class ApacheParser < Parser
       end
       add_activity(:block => 'content', :name => type)
       add_activity(:block => 'status', :name => status, :type => 3) # don't show a blob
+
+      add_activity(:block => 'warnings', :name => "#{status}: #{url}") if status.to_i > 400
 
       # Events to pop up
       add_event(:block => 'info', :name => "Logins", :message => "Login...", :update_stats => true, :color => [1.5, 1.0, 0.5, 1.0]) if method == "POST" && url.include?('login')
