@@ -1,0 +1,9 @@
+Allow more indicators (pulsing color/size, cubes, teapots, etc)
+Clickable links
+Drag 'n drop organizing
+Hide/show blocks with keypresses
+Limit display to specific host
+Geolocation on IPS
+Show only percentage of blobs to handle high-traffic sites
+Multi-line parsing (MySQL slow-log)
+Multiple activity providers (local tail, ssh, Splunk)
