@@ -3,18 +3,6 @@
 # Copyright 2007 Erlend Simonsen <mr@fudgie.org>
 #
 # Licensed under the GNU General Public License v2 (see LICENSE)
-#
-# Further ideas:
-#   Get rid of glutBitmapCharacter and use textured polygons instead
-#   Allow more indicators (pulsing color/size, cubes, teapots, etc)
-#   Clickable links
-#   Drag 'n drop organizing
-#   Hide/show blocks with keypresses
-#   Limit display to specific host
-#   Background IP lookups
-#   Geolocation on IPS
-#
-
 
 $DBG=0
 
@@ -154,28 +142,28 @@ class Configuration
   end
 
   def parse_color v
+    @colors = {
+      'white' => %w{ 255 255 255 255 },
+      'red' => %w{ 255 0 0 255 },
+      'green' => %w{ 0 255 0 255 },
+      'blue' => %w{ 0 0 255 255 },
+      'yellow' => %w{ 255 255 0 255 },
+      'cyan' => %w{ 0 255 255 255 },
+      'magenta' => %w{ 255 0 255 255 },
+    }
+
     case v
     when /(.+),(.+),(.+),(.+)/
       value = v.split(',')
-    when 'white'
-      value = %w{ 255 255 255 1 }
-    when 'red'
-      value = %w{ 255 0 0 1 }
-    when 'green'
-      value = %w{ 0 255 0 1 }
-    when 'blue'
-      value = %w{ 0 0 255 1 }
-    when 'yellow'
-      value = %w{ 255 255 0 1 }
-    when 'cyan'
-      value = %w{ 0 255 255 1 }
-    when 'magenta'
-      value = %w{ 255 0 255 1 }
     else
-      raise SyntaxError, 'You must give either a accepted color or a color in RGBA format. Accepted colors are: white, red, green, blue, yellow, cyan or magenta'
-      exit
+      value = @colors[v.downcase]
+      unless value
+        raise SyntaxError, "You must use either [#{@colors.keys.sort.join('|')}] or a color in RGBA format."
+        exit
+      end
+      value.map! { |x| x.to_i / 255.0 }
     end
-    value.map {|x| x.to_f}
+    value.map {|x| x.to_f }
   end
 end
 
