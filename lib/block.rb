@@ -71,12 +71,12 @@ class Block
 
   def add_activity(options = { })
     @elements[options[:name]] ||= Element.new(options[:name], @color || options[:color], @show, @position == :right)
-    @elements[options[:name]].add_activity(options[:message], @color || options[:color], options[:size] || 0.01, options[:type] || 0 )
+    @elements[options[:name]].add_activity(options[:message], options[:size] || 0.01, options[:type] || 0 )
   end
 
   def add_event(options = { })
     @elements[options[:name]] ||= Element.new(options[:name], options[:color], @show, @position == :right)
-    @elements[options[:name]].add_event(options[:message], options[:color], options[:update_stats] || false)
+    @elements[options[:name]].add_event(options[:message], options[:update_stats] || false)
   end
 
   def update
