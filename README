@@ -39,6 +39,11 @@ Installation instructions (Mac OS/X):
   sudo gem install -y net-ssh ruby-opengl -r
 
 Installation instructions (Windows):
-  One-click Ruby installer from rubyforge (not Cygwin ruby)
+  One-click Ruby installer from http://rubyforge.org/projects/rubyinstaller/
+  Start RubyGems/RubyGems Package Manager
   gem install net-ssh ruby-opengl
+
+  (Make sure you've got accelerated OpenGL installed for your graphics card. Some drivers
+  shipped with your version of Windows do not include this, and it can be installed by
+  getting the latest drivers from your graphics card vendor)
 
