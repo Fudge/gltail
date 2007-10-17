@@ -4,7 +4,7 @@
 # Licensed under the GNU General Public License v2 (see LICENSE)
 #
 
-require 'lib/http_helper'
+require 'gl_tail/http_helper'
 
 class Parser
   attr_reader :server

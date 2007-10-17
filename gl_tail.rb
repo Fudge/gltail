@@ -184,4 +184,4 @@ if defined? @print_parsers
   exit
 end
 
-GlTail.new.start
+GlTail::Engine.new.start

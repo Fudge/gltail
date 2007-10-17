@@ -9,7 +9,7 @@ class FontStore
     if @font_texture.nil?
       @font_texture = glGenTextures(1)[0]
 
-      File.open("lib/font.bin") do |f|
+      File.open("#{File.dirname(__FILE__)}/font.bin") do |f|
         @font = Marshal.load(f)
       end
 
