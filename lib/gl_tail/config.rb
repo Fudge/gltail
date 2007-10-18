@@ -147,6 +147,7 @@ module GlTail
     def update
       sources.each { |it| it.update }
       blocks.each { |it| it.update }
+      @max_size = @max_size * 0.99 if(@max_size * 0.99 > 1.0)
     end
 
     def init
