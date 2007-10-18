@@ -79,18 +79,19 @@ class Element
   end
 
   def render(engine, options = { })
-    
+
     # this used to be in the constructor, couldnt leave it there without using globals
     if not defined? @x
       @x = (@block.is_right ? @block.alignment : (@block.alignment - (8.0 / (@block.config.screen.window_width / 2.0)) * (@block.width + 8)))
       @y = @start_position
       @z = 0
       @wy = @start_position
-    
-      @color = @block.color.dup # FIXME: each element starts out with the color of the containing block
-      @size = 0.01    
+
+      @color = @block.color.dup if @color.nil? && @block.color
+      @color ||= [1.0, 1.0, 1.0, 1.0]
+      @size = 0.01
     end
-    
+
     @wx = @block.is_right ? (@block.alignment - (@block.width+8)*8.0 / (engine.screen.window_width / 2.0)) : @block.alignment
 
     if(@y == -@block.top)
@@ -114,7 +115,7 @@ class Element
     glPushMatrix()
 
     glTranslate(@x, @y, @z)
-     
+
     glColor( (@queue.size > 0 ? (engine.screen.highlight_color || [1.0, 0.0, 0.0, 1.0]) : @color ) )
 
     case @block.show

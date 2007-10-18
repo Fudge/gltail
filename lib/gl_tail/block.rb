@@ -13,7 +13,7 @@ class Block
   config_attribute :order, "FIXME"
   config_attribute :size, "FIXME"
   config_attribute :auto_clean
-  
+
   attr_accessor :column
   attr_reader :config
 
@@ -24,7 +24,7 @@ class Block
     @size = 10
     @auto_clean = true
     @order = 100
-    @color = [1.0, 1.0, 1.0, 1.0]
+#    @color = [1.0, 1.0, 1.0, 1.0]
 
     @show = 0
 
@@ -42,11 +42,11 @@ class Block
     when 'average' then 2
     else
       0
-    end    
+    end
   end
-  
+
   attr_reader :show
-  
+
   def top
     @config.screen.top
   end
@@ -114,7 +114,7 @@ class Block
 
   def add_activity(options = { })
     x = @elements[options[:name]] ||= Element.new(self, options[:name])
-    x.add_activity(options[:message], options[:color] || @color, options[:size] || 0.01, options[:type] || 0 )
+    x.add_activity(options[:message], @color || options[:color] , options[:size] || 0.01, options[:type] || 0 )
   end
 
   def add_event(options = { })
