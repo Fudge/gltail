@@ -50,6 +50,7 @@ module GlTail
 
       glColor([0.2, 0.2, 0.2, 1.0])
       glBegin(GL_QUADS)
+      glNormal3f(1.0, 1.0, 0.0)
       glVertex3f(@left_left, @config.screen.aspect, 0.0)
       glVertex3f(@left_right, @config.screen.aspect, 0.0)
       glVertex3f(@left_right, -@config.screen.aspect, 0.0)
@@ -233,7 +234,7 @@ module GlTail
 
       glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)
       glEnable(GL_COLOR_MATERIAL)
-
+      glEnable(GL_NORMALIZE)
       FontStore.generate_font
 
       @since = glutGet(GLUT_ELAPSED_TIME)
