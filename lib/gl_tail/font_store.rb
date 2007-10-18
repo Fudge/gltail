@@ -104,8 +104,8 @@ class FontStore
 
   end
 
-  def self.render_char(c, pos)
-    char_size = 8.0 / ($CONFIG.window_width / 2.0)
+  def self.render_char(engine, c, pos)
+    char_size = engine.char_size
 
     base = c-32
 
@@ -124,14 +124,14 @@ class FontStore
     glVertex3f(pos_offset + char_size, 0.0, 0.0)
 
     glTexCoord2f(offsetx+width,offsety + height)
-    glVertex3f(pos_offset + char_size, $CONFIG.line_size, 0.0)
+    glVertex3f(pos_offset + char_size, engine.line_size, 0.0)
 
     glTexCoord2f(offsetx,offsety + height)
-    glVertex3f(pos_offset, $CONFIG.line_size, 0.0)
+    glVertex3f(pos_offset, engine.line_size, 0.0)
   end
 
 
-  def self.render_string(txt)
+  def self.render_string(engine, txt)
     glPushMatrix
     glEnable(GL_BLEND)
     glBlendFunc(GL_ONE, GL_ONE)
@@ -143,7 +143,7 @@ class FontStore
       glBegin(GL_QUADS)
       pos = 0
       txt.each_byte do |c|
-        self.render_char(c, pos)
+        self.render_char(engine, c, pos)
         pos += 1
       end
       glEnd

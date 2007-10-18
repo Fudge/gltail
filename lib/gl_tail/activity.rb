@@ -27,14 +27,14 @@ class Activity
     @rx, @ry, @rz = rand(360), rand(360), 0
   end
 
-  def render
+  def render(engine)
     if @type != 5
-      if $CONFIG.wanted_fps == 0
+      if engine.screen.wanted_fps == 0
         @x += @xi/2
         @y += @yi/2
         @yi = @yi - 0.0005/2
       else
-        @fps_mod ||= (60.0 / $CONFIG.wanted_fps)
+        @fps_mod ||= (60.0 / engine.screen.wanted_fps)
         @x += (@xi/2) * @fps_mod
         @y += (@yi/2) * @fps_mod
         @yi = @yi - (0.0005/2) * @fps_mod
@@ -43,10 +43,10 @@ class Activity
 #      @yi = @yi * 1.01
 #      @xi = @xi * 0.9995
 
-      if @y - @size/2 < -$CONFIG.top
-        @y = -$CONFIG.top + @size/2
+      if @y - @size/2 < -engine.screen.top
+        @y = -engine.screen.top + @size/2
         @yi = -@yi * 0.7
-        @x = 30.0 if(@type == 2 || ($CONFIG.bounce.nil? || $CONFIG.bounce == false ) )
+        @x = 30.0 if(@type == 2 || (engine.screen.bounce.nil? || engine.screen.bounce == false ) )
       end
     else
       dy = @wy - @y
@@ -69,11 +69,12 @@ class Activity
 
     end
 
+    glPushMatrix()
+    glColor(@color)
+
     if @type == 0 || @type == 5
-      glPushMatrix()
-      glColor(@color)
       glTranslate(@x, @y, @z)
-      if $CONFIG.mode == 1
+      if engine.screen.mode == 1
         glRotatef(@rx, 1.0, 0.0, 0.0)
         glRotatef(@ry, 0.0, 1.0, 0.0)
         @rx += 2
@@ -94,18 +95,23 @@ class Activity
         end
       else
         unless BlobStore.has(@size)
+
           list = glGenLists(1)
           glNewList(list, GL_COMPILE)
-          glutSolidSphere(@size, 10 + 10 * ((@size-$CONFIG.min_blob_size)/$CONFIG.max_blob_size), 2)
+          
+          tmp = 10 + 10 * ((@size-engine.screen.min_blob_size)/engine.screen.max_blob_size)
+          if not tmp
+            puts "THIS KEEPS CRASHING FOR ME WITH tmp == NaN -- cant figure out why"
+            tmp = 2
+          end
+          
+          glutSolidSphere(@size, tmp, 2)
           glEndList()
           BlobStore.put(@size,list)
         end
       end
       glCallList(BlobStore.get(@size))
-      glPopMatrix()
     elsif @type == 1
-      glPushMatrix()
-      glColor(@color)
       glTranslate(@x, @y, @z)
       glRotatef(@rx, 1.0, 0.0, 0.0)
       glRotatef(@ry, 0.0, 1.0, 0.0)
@@ -127,16 +133,13 @@ class Activity
       end
 
       glCallList(BlobStore.get(@size.to_s))
-      glPopMatrix()
     elsif @type == 2
-      glPushMatrix()
-      glColor(@color)
       glTranslate(@x, @y, @z)
       glRasterPos(0.0, 0.0)
 
-      FontStore.render_string @message
-
-      glPopMatrix()
+      engine.render_string(@message)
     end
+
+    glPopMatrix()
   end
 end

@@ -46,8 +46,16 @@ $:.unshift(File.dirname(__FILE__)) # this should be obsolete once its a gem
 
 # load our libraries
 require 'gl_tail/engine'
+require 'gl_tail/config/configurable'
+require 'gl_tail/config'
+require 'gl_tail/config/yaml_parser'
 
-%w( engine activity block item element server parser resolver blob_store font_store).each {|f| require "gl_tail/#{f}" }
+# sources represent event sources defaults to ssh tail
+# future options: JMS queue, spread.org, local tail, etc
+require 'gl_tail/sources/base'
+require 'gl_tail/sources/ssh'
+
+%w( engine activity block item element parser resolver blob_store font_store).each {|f| require "gl_tail/#{f}" }
 
 Dir.glob( "#{File.dirname(__FILE__)}/gl_tail/parsers/*.rb" ).each {|f| require f }
 

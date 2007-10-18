@@ -7,10 +7,15 @@
 require 'gl_tail/http_helper'
 
 class Parser
-  attr_reader :server
+  attr_reader :source
 
-  def initialize( server )
-    @server = server
+  def initialize( source )
+    @source = source
+  end
+  
+  # DEPRECATED?
+  def server
+    @source
   end
 
   def self::inherited( klass )
@@ -32,10 +37,10 @@ class Parser
   # dsl-ish helper methods so the parsers don't call server.add_* anymore.  That
   # seems magical now that server isn't be explicitly passed anymore.
   def add_activity( opts = {} )
-    @server.add_activity( opts )
+    @source.add_activity( opts )
   end
-
+  
   def add_event( opts = {} )
-    @server.add_event( opts )
+    @source.add_event( opts )
   end
 end

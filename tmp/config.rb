@@ -56,8 +56,14 @@ end
 ##
 
 server "site1" do
-  host("foo@foobar.com") # host = bla is invalid since its a local variable which is inaccessible, () still optional tho
+  host("foo@foobar.com")
   command("tail -f -n0 /var/log/apache/access_log")
+end
+
+srv = Server.new("site1")
+srv.host("foo@foobar.com")
+srv.command("tail -f -n0 /var/log/apache/access_log")
+
   parser("apache") do
     callback method(:my_event)
   end

@@ -5,23 +5,15 @@
 #
 
 class Element
-  attr_accessor :wy, :y, :active, :average_size, :right
+  attr_accessor :wy, :y, :active, :average_size, :right, :color
   attr_reader   :rate, :messages, :name, :activities, :queue, :updates, :average, :total
 
-  def initialize(name, color, type = 0, right = false, start_position = -$CONFIG.top)
-
-    char_size = 8.0 / ($CONFIG.window_width / 2.0)
-
+  def initialize(block, name, start_position = nil)
+    @block = block
     @name = name
-    @right = right
-    @x = (right ? $CONFIG.right[:alignment] : ($CONFIG.left[:alignment] - char_size * ($CONFIG.left[:size] + 8)))
-    @y = start_position
-    @z = 0
-    @wy = start_position
-    @right = right
 
-    @color = color
-    @size = 0.01
+    @start_position = start_position.nil? ? -@block.top : start_position
+
     @queue = []
     @pending = []
     @activities = []
@@ -33,8 +25,6 @@ class Element
     @last_time = 0
     @step = 0, @updates = 0
     @active = false
-    @type = type
-
   end
 
   def add_activity(message, color, size,  type)
@@ -86,13 +76,24 @@ class Element
     if @name =~ /^\d+.\d+.\d+.\d+$/
       @name = Resolver.resolv(@name)
     end
-
   end
 
-  def render(options = { })
-    @wx = (@right ? ($CONFIG.right[:alignment] - ($CONFIG.right[:size]+8)*8.0 / ($CONFIG.window_width / 2.0)) : $CONFIG.left[:alignment])
+  def render(engine, options = { })
+    
+    # this used to be in the constructor, couldnt leave it there without using globals
+    if not defined? @x
+      @x = (@block.is_right ? @block.alignment : (@block.alignment - (8.0 / (@block.config.screen.window_width / 2.0)) * (@block.width + 8)))
+      @y = @start_position
+      @z = 0
+      @wy = @start_position
+    
+      @color = @block.color.dup # FIXME: each element starts out with the color of the containing block
+      @size = 0.01    
+    end
+    
+    @wx = @block.is_right ? (@block.alignment - (@block.width+8)*8.0 / (engine.screen.window_width / 2.0)) : @block.alignment
 
-    if(@y == -$CONFIG.top)
+    if(@y == -@block.top)
       @y = @wy
     end
 
@@ -113,36 +114,39 @@ class Element
     glPushMatrix()
 
     glTranslate(@x, @y, @z)
+     
+    glColor( (@queue.size > 0 ? (engine.screen.highlight_color || [1.0, 0.0, 0.0, 1.0]) : @color ) )
 
-    glColor( (@queue.size > 0 ? ($CONFIG.highlight_color || [1.0, 0.0, 0.0, 1.0]) : @color ) )
-
-    if @type == 0
+    case @block.show
+    when 0
       if @rate < 0.0001
         txt = "    r/m "
       else
         txt = "#{sprintf("%7.2f",@rate * 60)} "
       end
-    elsif @type == 1
+    when 1
       if @total == 0
         txt = "  total "
       else
         txt = "#{sprintf("%7d",@total)} "
       end
-    elsif @type == 2
+    when 2
       if @average == 0
         txt = "    avg "
       else
         txt = "#{sprintf("%7.2f",@average)} "
       end
+    else
+      raise "unknown block type #{self.inspect}"
     end
 
    if @x < 0
-     str = sprintf("%#{$CONFIG.left[:size]}s %s", @name.length > $CONFIG.left[:size] ? @name[-$CONFIG.left[:size]..-1] : @name, txt)
+     str = sprintf("%#{@block.width}s %s", @name.length > @block.width ? @name[-@block.width..-1] : @name, txt)
     else
-     str = sprintf("%s %s", txt, @name[0..$CONFIG.right[:size]-1])
+     str = sprintf("%s %s", txt, @name[0..@block.width-1])
     end
 
-    FontStore.render_string(str)
+    engine.render_string(str)
 
     glPopMatrix()
 
@@ -157,28 +161,28 @@ class Element
       type = item.type
 
       if type == 2
-        @activities.push Activity.new(url, 0.0 - (0.013 * url.length), $CONFIG.top, 0.0, color, size, type)
+        @activities.push Activity.new(url, 0.0 - (0.013 * url.length), engine.screen.top, 0.0, color, size, type)
       elsif type == 5
-        a = Activity.new(url, 0.0, $CONFIG.top, 0.0, color, size, type)
+        a = Activity.new(url, 0.0, engine.screen.top, 0.0, color, size, type)
         a.wx = @wx
         a.wy = @wy + 0.05
         @activities.push a
       elsif type != 4
         if @x >= 0
-          @activities.push Activity.new(url, ($CONFIG.right[:alignment] - ($CONFIG.right[:size]+8)*8.0 / ($CONFIG.window_width / 2.0)), @y + $CONFIG.line_size/2, @z, color, size, type)
+          @activities.push Activity.new(url, (@block.alignment - (@block.width+8)*8.0 / (engine.screen.window_width / 2.0)), @y + engine.screen.line_size/2, @z, color, size, type)
         else
-          @activities.push Activity.new(url, ($CONFIG.left[:alignment] + ($CONFIG.left[:size]+8)*8.0 / ($CONFIG.window_width / 2.0) ), @y + $CONFIG.line_size/2, @z, color, size, type)
+          @activities.push Activity.new(url, (@block.alignment + (@block.width+8)*8.0 / (engine.screen.window_width / 2.0) ), @y + engine.screen.line_size/2, @z, color, size, type)
         end
       end
     end
 
     @activities.each do |a|
-      if a.x > 1.0 || a.x < -1.0 || a.y < -($CONFIG.aspect*1.5)
+      if a.x > 1.0 || a.x < -1.0 || a.y < -(engine.screen.aspect*1.5)
         @activities.delete a
       else
         a.wy = @wy + 0.005 if(a.type == 5 && @wy != a.wy)
-        a.render
-        $CONFIG.stats[1] += 1
+        a.render(engine)
+        engine.stats[1] += 1
       end
     end
 

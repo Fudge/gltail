@@ -5,79 +5,121 @@
 #
 
 class Block
-  attr_reader :name, :position, :order, :bottom_position
+  include GlTail::Configurable
 
-  def initialize(options)
-    @name = options[:name]
-    @position = options[:position] || :left
-    @size = options[:size] || 10
-    @clean = options[:auto_clean] || true
-    @order = options[:order] || 100
-    @color = options[:color]
+  attr_reader :name, :bottom_position
 
-    @show = case options[:show]
-            when :rate: 0
-            when :total: 1
-            when :average: 2
-            else
-              0
-            end
+  config_attribute :color, "FIXME: add description", :type => :color
+  config_attribute :order, "FIXME"
+  config_attribute :size, "FIXME"
+  config_attribute :auto_clean
+  
+  attr_accessor :column
+  attr_reader :config
 
-    @header = Element.new(@name.upcase , [1.0, 1.0, 1.0, 1.0], @show, @position == :right)
+  def initialize(config, name)
+    @config = config
+    @name = name
+
+    @size = 10
+    @auto_clean = true
+    @order = 100
+    @color = [1.0, 1.0, 1.0, 1.0]
+
+    @show = 0
+
+    @header = Element.new(self, @name.upcase)
+    @header.color = [1.0, 1.0, 1.0, 1.0]
 
     @elements = { }
-    @bottom_position = -$CONFIG.top
+    @bottom_position = -@config.screen.top
   end
 
-  def render(num)
+  def show=(value)
+    @show = case value
+    when 'rate' then 0
+    when 'total' then 1
+    when 'average' then 2
+    else
+      0
+    end    
+  end
+  
+  attr_reader :show
+  
+  def top
+    @config.screen.top
+  end
+
+  def line_size
+    @config.screen.line_size
+  end
+
+  def is_right
+    column.is_right
+  end
+
+  def alignment
+    column.alignment
+  end
+
+  def position
+    column.position
+  end
+
+  def width
+    column.size
+  end
+
+  def render(engine, num)
     return num if @elements.size == 0
 
-    @header.wy = $CONFIG.top - (num * $CONFIG.line_size)
-#    @header.y = @header.wy if @header.y == -$CONFIG.top
-    @header.render
+    @header.wy = top - (num * line_size)
+    #    @header.y = @header.wy if @header.y == -$CONFIG.top
+    @header.render(engine)
     num += 1
 
     sorted = case @show
-               when 0: @elements.values.sort { |k,v| v.rate <=> k.rate}[0..@size-1]
-               when 1: @elements.values.sort { |k,v| v.total <=> k.total}[0..@size-1]
-               when 2: @elements.values.sort { |k,v| v.average <=> k.average}[0..@size-1]
-             end
+    when 0: @elements.values.sort { |k,v| v.rate <=> k.rate}[0..@size-1]
+    when 1: @elements.values.sort { |k,v| v.total <=> k.total}[0..@size-1]
+    when 2: @elements.values.sort { |k,v| v.average <=> k.average}[0..@size-1]
+    end
 
     sorted.each do |e|
-      e.wy = $CONFIG.top - (num * $CONFIG.line_size)
-      e.render
-      $CONFIG.stats[0] += 1
-      if e.rate <= 0.0001 && e.active && e.updates > 59 && @clean
+      e.wy = top - (num * line_size)
+      e.render(engine)
+      engine.stats[0] += 1
+      if e.rate <= 0.0001 && e.active && e.updates > 59 && @auto_clean
         @elements.delete(e.name)
       end
       num += 1
     end
 
     (@elements.values - sorted).each do |e|
-      $CONFIG.stats[0] += 1
+      engine.stats[0] += 1
       e.activities.each do |a|
-        a.render
-        if a.x > 1.0 || a.x < -1.0 || a.y > $CONFIG.aspect
+        a.render(engine)
+        if a.x > 1.0 || a.x < -1.0 || a.y > @config.screen.aspect
           e.activities.delete a
         end
       end
-      if e.activities.size == 0 && @clean && e.updates > 59
+      if e.activities.size == 0 && @auto_clean && e.updates > 59
         @elements.delete(e.name)
       end
     end
-    @elements.delete_if { |k,v| (!sorted.include? v) && v.active && v.activities.size == 0 && v.updates > 29} if @clean
-    @bottom_position = $CONFIG.top - ((sorted.size > 0 ? (num-1) : num) * $CONFIG.line_size)
+    @elements.delete_if { |k,v| (!sorted.include? v) && v.active && v.activities.size == 0 && v.updates > 29} if @auto_clean
+    @bottom_position = top - ((sorted.size > 0 ? (num-1) : num) * line_size)
     num + 1
   end
 
   def add_activity(options = { })
-    @elements[options[:name]] ||= Element.new(options[:name], @color || options[:color], @show, @position == :right)
-    @elements[options[:name]].add_activity(options[:message], @color || options[:color], options[:size] || 0.01, options[:type] || 0 )
+    x = @elements[options[:name]] ||= Element.new(self, options[:name])
+    x.add_activity(options[:message], options[:color] || @color, options[:size] || 0.01, options[:type] || 0 )
   end
 
   def add_event(options = { })
-    @elements[options[:name]] ||= Element.new(options[:name], options[:color] || @color, @show, @position == :right)
-    @elements[options[:name]].add_event(options[:message], options[:color] || @color, options[:update_stats] || false)
+    x = @elements[options[:name]] ||= Element.new(self, options[:name])
+    x.add_event(options[:message], options[:color] || @color, options[:update_stats] || false)
   end
 
   def update
