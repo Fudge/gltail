@@ -5,12 +5,17 @@
 #
 
 class Element
-  attr_accessor :wy, :y, :active, :average_size, :right, :color
-  attr_reader   :rate, :messages, :name, :activities, :queue, :updates, :average, :total
+  attr_accessor :wy, :y, :active, :average_size, :right, :color, :name
+  attr_reader   :rate, :messages, :activities, :queue, :updates, :average, :total
 
   def initialize(block, name, start_position = nil)
     @block = block
-    @name = name
+
+    if name =~ /^\d+.\d+.\d+.\d+$/
+      @name = Resolver.resolv(name, self)
+    else
+      @name = name
+    end
 
     @start_position = start_position.nil? ? -@block.top : start_position
 
@@ -73,9 +78,7 @@ class Element
     @last_time += @step if @queue.size == 1
 #    @last_time -= @step if @queue.size != 1
 
-    if @name =~ /^\d+.\d+.\d+.\d+$/
-      @name = Resolver.resolv(@name)
-    end
+
   end
 
   def render(engine, options = { })
