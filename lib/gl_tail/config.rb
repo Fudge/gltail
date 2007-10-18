@@ -112,7 +112,7 @@ module GlTail
     def initialize
       @sources = []
       @blocks = []
-      @max_size = 0
+      @max_size = 1.0
     end    
 
     def screen
