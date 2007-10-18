@@ -118,15 +118,19 @@ class FontStore
     pos_offset = char_size * pos
 
     glTexCoord2f(offsetx,offsety)
+    glNormal3f(1.0, 1.0, 0.0)
     glVertex3f(pos_offset, 0, 0.0)
 
     glTexCoord2f(offsetx+width,offsety)
+    glNormal3f(1.0, 1.0, 0.0)
     glVertex3f(pos_offset + char_size, 0.0, 0.0)
 
     glTexCoord2f(offsetx+width,offsety + height)
+    glNormal3f(1.0, 1.0, 0.0)
     glVertex3f(pos_offset + char_size, engine.line_size, 0.0)
 
     glTexCoord2f(offsetx,offsety + height)
+    glNormal3f(1.0, 1.0, 0.0)
     glVertex3f(pos_offset, engine.line_size, 0.0)
   end
 
