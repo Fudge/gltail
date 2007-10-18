@@ -18,21 +18,19 @@ module GlTail
 
       parse_servers
       parse_config
+      parse_resolver
 
       @config
     end
-
-    def method_missing method, *arg
-      method = method.to_s
-      if method.delete! '='
-        instance_variable_set "@#{method}", arg.first
-      else
-        instance_variable_get "@#{method.to_s}"
+    
+    def parse_resolver
+      self.yaml['resolver'].each do |k, v|
+        apply_value(Resolver.instance, k, v )
       end
     end
 
     def parse_servers
-      self.servers = Array.new
+
       self.yaml['servers'].each do |server|
 
         src = GlTail::Source::SSH.new(@config)
