@@ -24,8 +24,10 @@ module GlTail
     end
     
     def parse_resolver
-      self.yaml['resolver'].each do |k, v|
-        apply_value(Resolver.instance, k, v )
+      if x = self.yaml['resolver']
+        x.each do |k, v|
+          apply_value(Resolver.instance, k, v )
+        end
       end
     end
 
