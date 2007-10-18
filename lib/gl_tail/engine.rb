@@ -48,22 +48,25 @@ module GlTail
 
       glPushMatrix()
 
-      glColor([0.2, 0.2, 0.2, 1.0])
+      glColor([0.15, 0.15, 0.15, 1.0])
       glBegin(GL_QUADS)
-      glNormal3f(1.0, 1.0, 0.0)
-      glVertex3f(@left_left, @config.screen.aspect, 0.0)
-      glVertex3f(@left_right, @config.screen.aspect, 0.0)
-      glVertex3f(@left_right, -@config.screen.aspect, 0.0)
-      glVertex3f(@left_left, -@config.screen.aspect, 0.0)
+        glNormal3f(1.0, 1.0, 0.0)
+      
+        glVertex3f(@left_left, @config.screen.aspect, 0.0)
+        glVertex3f(@left_right, @config.screen.aspect, 0.0)
+        glVertex3f(@left_right, -@config.screen.aspect, 0.0)
+        glVertex3f(@left_left, -@config.screen.aspect, 0.0)
                  
-      glVertex3f(@right_left, @config.screen.aspect, 0.0)
-      glVertex3f(@right_right, @config.screen.aspect, 0.0)
-      glVertex3f(@right_right, -@config.screen.aspect, 0.0)
-      glVertex3f(@right_left, -@config.screen.aspect, 0.0)
+        glVertex3f(@right_left, @config.screen.aspect, 0.0)
+        glVertex3f(@right_right, @config.screen.aspect, 0.0)
+        glVertex3f(@right_right, -@config.screen.aspect, 0.0)
+        glVertex3f(@right_left, -@config.screen.aspect, 0.0)
+
       glEnd()
       glPopMatrix()
 
       # TODO: do we really need to sort every block on every draw?!
+      # Nope. But it was a hash, so keeping order was a bit hard.
       @config.blocks.sort { |k,v| k.order <=> v.order}.each do |block|
         # glPushMatrix + glTranslate3f to render each element relativ to its containing block instead of the screen?
         positions[block.is_right] = block.render(self, positions[block.is_right] || 0 )
@@ -199,6 +202,7 @@ module GlTail
       
       @frames = 0
       @t0 = 0
+      @left_left = @left_right = @right_left = @right_right = 0.0 # TODO: Why is draw called before these are set by reshape?
     end
 
     def start
