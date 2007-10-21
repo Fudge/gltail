@@ -14,20 +14,20 @@ module GlTail
       config_attribute :password, "Password"
 
       def init
-        
+
         @channels = []
-        
-        puts "Connecting to #{host}..."
+
+        puts "Connecting to #{host}..." if($VRB > 0 || $DBG > 0)
 
         session_options = { }
         session_options[:port] = port if port
         session_options[:keys] = keys if keys
         session_options[:verbose] = :debug if $DBG > 1
-        
+
         begin
           if password
             session_options[:auth_methods] = [ "password","keyboard-interactive" ]
-            
+
             @session = Net::SSH.start(host, user, password, session_options)
           else
             @session = Net::SSH.start(host, user, session_options)
@@ -47,11 +47,11 @@ module GlTail
 
         @session.connection.process
       end
-      
+
       def process
         @session.connection.process(true)
       end
-      
+
       def update
         @channels.each { |ch| ch.connection.ping! }
       end
@@ -71,13 +71,13 @@ module GlTail
 
           parser.parse(line)
         end
-        
+
         @buffer = "" if @buffer.include? "\n"
       end
 
       def do_tail( file, command )
         @session.open_channel do |channel|
-          puts "Channel opened on #{@session.host}...\n"
+          puts "Channel opened on #{@session.host}...\n" if($VRB > 0 || $DBG > 0)
 
           @buffer = ""
           channel.request_pty :want_reply => true
@@ -103,7 +103,7 @@ module GlTail
             ch[:closed] = true
           end
 
-          puts "Pushing #{host}\n"
+          puts "Pushing #{host}\n" if($VRB > 0 || $DBG > 0)
           @channels.push(channel)
         end
       end

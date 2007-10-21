@@ -5,6 +5,7 @@
 # Licensed under the GNU General Public License v2 (see LICENSE)
 
 $DBG=0
+$VRB=1
 
 file = 'config.yaml'
 

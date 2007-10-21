@@ -96,3 +96,6 @@ config:
             warnings:
                 order: 8
                 size: 5
+resolver:
+    reverse_ip_lookups: true
+    reverse_timeout: 0.5

@@ -2,25 +2,25 @@
 include Gl
 include Glut
 
-
 module GlTail
   class Engine
+
     def render_string(string)
       FontStore.render_string(self, string)
     end
-    
+
     def screen
       @config.screen
     end
-  
+
     def char_size
       @char_size ||= (8.0 / (@config.screen.window_width / 2.0))
     end
-    
+
     def line_size
       @config.screen.line_size
     end
-    
+
     def highlight_color
       @config.screen.highlight_color
     end
@@ -32,7 +32,7 @@ module GlTail
     def stats
       @stats
     end
-        
+
     def draw
       @render_time ||= 0
       @t = Time.new
@@ -51,12 +51,12 @@ module GlTail
       glColor([0.15, 0.15, 0.15, 1.0])
       glBegin(GL_QUADS)
         glNormal3f(1.0, 1.0, 0.0)
-      
+
         glVertex3f(@left_left, @config.screen.aspect, 0.0)
         glVertex3f(@left_right, @config.screen.aspect, 0.0)
         glVertex3f(@left_right, -@config.screen.aspect, 0.0)
         glVertex3f(@left_left, -@config.screen.aspect, 0.0)
-                 
+
         glVertex3f(@right_left, @config.screen.aspect, 0.0)
         glVertex3f(@right_right, @config.screen.aspect, 0.0)
         glVertex3f(@right_right, -@config.screen.aspect, 0.0)
@@ -80,9 +80,9 @@ module GlTail
         seconds = (t - @t0) / 1000.0
         $FPS = @frames / seconds
         printf("%d frames in %6.3f seconds = %6.3f FPS\n",
-        @frames, seconds, $FPS)
+        @frames, seconds, $FPS) if $VRB > 0
         @t0, @frames = t, 0
-        puts "Elements[#{stats[0]}], Activities[#{stats[1]}], Blobs[#{BlobStore.used}/#{BlobStore.size}]"
+        puts "Elements[#{stats[0]}], Activities[#{stats[1]}], Blobs[#{BlobStore.used}/#{BlobStore.size}]" if $VRB > 0
       end
       @render_time = (Time.new - @t)
     end
@@ -121,21 +121,21 @@ module GlTail
         @config.screen.bounce = !@config.screen.bounce
       when 102 #f
         @config.screen.wanted_fps = case @config.screen.wanted_fps
-        when 0
-          60
-        when 60
-          50
-        when 50
-          45
-        when 45
-          30
-        when 30
-          25
-        when 25
-          20
-        when 20
-          0
-        end
+                                    when 0
+                                      60
+                                    when 60
+                                      50
+                                    when 50
+                                      45
+                                    when 45
+                                      30
+                                    when 30
+                                      25
+                                    when 25
+                                      20
+                                    when 20
+                                      0
+                                    end
         puts "WANTED_FPS[#{@config.screen.wanted_fps}]"
       when 98
         @config.screen.mode = 1 - @config.screen.mode.to_i
@@ -161,7 +161,7 @@ module GlTail
       @left_right = @config.screen.left.alignment + char_size * (@config.screen.left.size + 8)
 
       @right_left = @config.screen.right.alignment - char_size * (@config.screen.right.size + 1)
-      @right_right = @config.screen.right.alignment - char_size * (@config.screen.right.size + 8)      
+      @right_right = @config.screen.right.alignment - char_size * (@config.screen.right.size + 8)
 
       glViewport(0, 0, width, height)
       glMatrixMode(GL_PROJECTION)
@@ -173,7 +173,7 @@ module GlTail
       @config.screen.line_size = @config.screen.aspect * 2 / (@config.screen.window_height/13.0)
       @config.screen.top = @config.screen.aspect - @config.screen.line_size
 
-      puts "Reshape: #{width}x#{height} = #{@config.screen.aspect}/#{@config.screen.line_size}"
+      puts "Reshape: #{width}x#{height} = #{@config.screen.aspect}/#{@config.screen.line_size}" if $VRB > 0
 
       glMatrixMode(GL_MODELVIEW)
       glLoadIdentity()
@@ -199,7 +199,7 @@ module GlTail
 
     def initialize(config)
       @config = config
-      
+
       @frames = 0
       @t0 = 0
       @left_left = @left_right = @right_left = @right_right = 0.0 # TODO: Why is draw called before these are set by reshape?
@@ -222,8 +222,8 @@ module GlTail
       glutMotionFunc(method(:motion).to_proc)
 
       glutIdleFunc(method(:idle).to_proc)
-      #    glutTimerFunc(33, method(:timer).to_proc, 0)      
-      
+      #    glutTimerFunc(33, method(:timer).to_proc, 0)
+
       glLightfv(GL_LIGHT0, GL_POSITION, [5.0, 5.0, 0.0, 0.0])
       glLightfv(GL_LIGHT0, GL_AMBIENT, [0,0,0,1])
       glDisable(GL_CULL_FACE)
@@ -242,9 +242,9 @@ module GlTail
       FontStore.generate_font
 
       @since = glutGet(GLUT_ELAPSED_TIME)
-      
-      @config.init      
-      
+
+      @config.init
+
       glutMainLoop()
     end
 
@@ -259,7 +259,7 @@ module GlTail
           BlobStore.prune
         end
       end
-      
+
       self
     end
   end
