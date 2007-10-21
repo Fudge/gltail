@@ -4,6 +4,7 @@ class Resolver
   include GlTail::Configurable
 
   config_attribute :reverse_ip_lookups, "Lookup Hostnames"
+  config_attribute :reverse_timeout,    "Wait how long for DNS reply [s]"
 
   def self.instance
     @@instance ||= Resolver.new
@@ -13,6 +14,7 @@ class Resolver
     @cache = { }
     @thread = nil
     @reverse_ip_lookups = true
+    @reverse_timeout = 1.5
     @queue = Queue.new
   end
 
@@ -26,15 +28,15 @@ class Resolver
           element.name = @cache[ip]
         else
           begin
-            timeout(2.00) {
-              puts "Looking for #{ip}" if $DBG > 0
+            timeout(@reverse_timeout.to_f) {
+              puts "[Resolver] Looking for #{ip}" if $DBG > 0
               hostname = Resolv.getname(ip)
-              puts "Got #{hostname}[#{ip}]" if $DBG > 0
+              puts "[Resolver] Got #{hostname}[#{ip}]" if $DBG > 0
               @cache[ip] = hostname
               element.name = hostname
             }
           rescue Timeout::Error
-            puts "Timeout!" if $DBG > 0
+            puts "[Resolver] Timeout!" if $DBG > 0
           rescue Resolv::ResolvError
             # No result, don't bother retrying
             @cache[ip] = ip
@@ -50,7 +52,7 @@ class Resolver
     if name = cache[ip]
       return name
     else
-      puts "Pusing #{ip} for lookup" if $DBG > 0
+      puts "[Resolver] Pushing #{ip} for lookup" if $DBG > 0
       queue.push([ip, element])
     end
 
