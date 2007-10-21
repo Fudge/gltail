@@ -1,4 +1,3 @@
-CHANGELOG
 History.txt
 LICENSE
 Manifest.txt
