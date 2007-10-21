@@ -5,28 +5,35 @@
 # Licensed under the GNU General Public License v2 (see LICENSE)
 
 $DBG=0
+$VRB=1
 
 file = 'config.yaml'
 
 ARGV.each do |arg|
   case arg
   when '-help','--help','-h'
-    puts "gl_tail.rb [--help|-h] [--parsers|-p] [--debug|-d] [--debug-ssh|-ds] [configfile]",
+    puts "gl_tail.rb [--help|-h] [--parsers|-p] [--verbose|-v] [--debug|-d] [--debug-ssh|-ds] [configfile]",
          '[--help|-h]        This help screen',
+         '[--version]        Print version information',
          '[--parsers|-p]     List available parsers',
          '[--options|-o]     List available configuration options',
+         '[--quiet|-q]       Turn off runtime information',
          '[--debug|-d]       Turn on debugging',
          '[--debug-ssh|-ds]  Only debug SSH',
          '[configfile]       The YAML config file you wish to load (default = config.yaml)'
     exit
+  when '-version', '--version'
+    @print = :version
   when '-parsers','--parsers', '-p'
-    @print_parsers = 1
+    @print = :parsers
   when '-debug', '--debug', '-d'
     $DBG=1
+  when '-quiet', '--quiet', '-q'
+    $VRB=0
   when '-debug-ssh', '--debug-ssh', '-ds'
     $DBG=2
   when '--options', '-o'
-    @print_options = 1
+    @print = :options
   else
     if File.exist? arg
       file = arg
@@ -38,19 +45,32 @@ end
 
 require 'gl_tail.rb'
 
-if defined? @print_parsers
-  puts "Supported Parsers [" + Parser::registry.keys.sort { |a,b| a.to_s <=> b.to_s }.collect{ |p| ":#{p.to_s}"}.join(", ") + "]"
+if defined? @print
+  case @print
+  when :parsers
+    puts "Supported Parsers [" + Parser::registry.keys.sort { |a,b| a.to_s <=> b.to_s }.collect{ |p| ":#{p.to_s}"}.join(", ") + "]"
+  when :options
+    require 'pp'
+    puts "Supported Configuration Options"
+
+    pp(GlTail::CONFIG_OPTIONS)
+  when :version
+    puts "gl_tail v" + GlTail::VERSION + " by Erlend Simonsen <mr@fudgie.org> - http://www.fudgie.org"
+  end
   exit
 end
 
-if defined? @print_options
-  puts "Supported Configuration Options"
-  require 'pp'
-  
-  pp(GlTail::CONFIG_OPTIONS)
-  exit
-end
 
+######## TRAP Interrupts and exit cleanly ########
+
+trap("HUP") { exit }
+trap("INT") { exit }
+trap("QUIT") { exit }
+trap("ABRT") { exit }
+trap("KILL") { exit }
+trap("TERM") { exit }
+#trap("USR1") { $VRB >= 1 ? $VRB = 0 : $VRB += 1; puts "verbose toggled" }
+trap("USR2") { $DBG >= 2 ? $DBG = 0 : $DBG += 1; puts "debug level toggled" }
 
 config = GlTail::Config.parse_yaml(file)
 
