@@ -4,6 +4,10 @@
 # Licensed under the General Public License v2 (see LICENSE)
 #
 
+module GlTail
+  VERSION = '0.0.7'
+end
+
 begin
   require 'rubygems'
 rescue LoadError
@@ -42,7 +46,7 @@ rescue LoadError
   exit
 end
 
-$:.unshift(File.dirname(__FILE__)) # this should be obsolete once its a gem
+#$:.unshift(File.dirname(__FILE__)) # this should be obsolete once its a gem
 
 # load our libraries
 require 'gl_tail/engine'
