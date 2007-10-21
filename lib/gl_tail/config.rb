@@ -1,8 +1,6 @@
 
 module GlTail
-  CONFIG_OPTIONS = {
-
-  }
+  CONFIG_OPTIONS = { }
 
   COLORS = {
     'white'   => %w{ 255 255 255 255 },
@@ -16,19 +14,19 @@ module GlTail
     'purple'  => %w{ 128   0 255 255 },
     'orange'  => %w{ 255 128   0 255 },
     'pink'    => %w{ 255   0 128 255 },
-  }        
+  }
 
   class Screen
     include Configurable
 
     config_attribute :wanted_fps, "FIXME: add description"
 
-    config_attribute :min_blob_size, "FIXME: add description"
-    config_attribute :max_blob_size, "FIXME: add description"
+    config_attribute :min_blob_size, "Minimum size of activity indicators [0.0 - 1.0]"
+    config_attribute :max_blob_size, "Maximum size of activity indicators [0.0 - 1.0]"
 
     # shortcut to set these via dimensions
-    config_attribute :window_width, "FIXME: add description"
-    config_attribute :window_height, "FIXME: add description"
+    config_attribute :window_width, "Width of GlTail window"
+    config_attribute :window_height, "Height of GlTail window"
 
     config_attribute :mode, "FIXME"
     config_attribute :bounce, "FIXME"
@@ -113,7 +111,7 @@ module GlTail
       @sources = []
       @blocks = []
       @max_size = 1.0
-    end    
+    end
 
     def screen
       @screen ||= Screen.new(self)
@@ -124,7 +122,7 @@ module GlTail
     end
 
     def add_block(name)
-      @blocks << b = Block.new(self, name)      
+      @blocks << b = Block.new(self, name)
       b
     end
 
@@ -184,6 +182,6 @@ module GlTail
       if block = @blocks_by_name[options[:block]]
         block.add_event( { :name => source.name, :color => source.color, :size => screen.min_blob_size}.update(options) )
       end
-    end    
+    end
   end
 end
