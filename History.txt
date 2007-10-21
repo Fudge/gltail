@@ -12,6 +12,9 @@
 * Use 'f' to toggle attempted framerate
 * Use 'b' to toggle between balls and quads
 * Consume all waiting data when checking for SSH activity
+* Cisco Pix / FWSM parser (Leif Sawyer <leif@denali.net>)
+* Distribute as Ruby Gem
+* Configuration of background reverse IP lookups (disable/timeout)
 
 == 0.0.6 / 2007-10-13
 
