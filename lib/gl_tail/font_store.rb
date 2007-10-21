@@ -40,9 +40,9 @@ class FontStore
 
       end
 
-      File.open("lib/font_256.bin", "wb") do |f|
-        Marshal.dump(font_data, f)
-      end
+#      File.open("lib/font_256.bin", "wb") do |f|
+#        Marshal.dump(font_data, f)
+#      end
 
       font_data = font_data.pack("C*")
 
