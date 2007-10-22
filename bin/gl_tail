@@ -41,7 +41,11 @@ ARGV.each do |arg|
     if(File.exist?(arg) && File.file?(arg))
       file = arg
     else
-      file = "#{arg}.yaml"
+      if defined? @init_config
+        file = arg
+      else
+        file = "#{arg}.yaml"
+      end
     end
   end
 end
