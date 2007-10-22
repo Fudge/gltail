@@ -21,10 +21,10 @@ lib/gl_tail/http_helper.rb
 lib/gl_tail/item.rb
 lib/gl_tail/parser.rb
 lib/gl_tail/parsers/apache.rb
-lib/gl_tail/parsers/pix-fwsm.rb
 lib/gl_tail/parsers/iis.rb
 lib/gl_tail/parsers/mysql.rb
 lib/gl_tail/parsers/nginx.rb
+lib/gl_tail/parsers/pix-fwsm.rb
 lib/gl_tail/parsers/postfix.rb
 lib/gl_tail/parsers/postgresql.rb
 lib/gl_tail/parsers/pureftpd.rb
