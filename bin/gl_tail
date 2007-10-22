@@ -43,7 +43,7 @@ ARGV.each do |arg|
   end
 end
 
-require 'gl_tail.rb'
+require File.dirname(__FILE__) + '/../lib/gl_tail.rb'
 
 if defined? @print
   case @print
