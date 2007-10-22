@@ -15,6 +15,7 @@ ARGV.each do |arg|
     puts "gl_tail.rb [--help|-h] [--parsers|-p] [--verbose|-v] [--debug|-d] [--debug-ssh|-ds] [configfile]",
          '[--help|-h]        This help screen',
          '[--version]        Print version information',
+         '[--new|-n]         Initialize config specified with default options',
          '[--parsers|-p]     List available parsers',
          '[--options|-o]     List available configuration options',
          '[--quiet|-q]       Turn off runtime information',
@@ -24,6 +25,8 @@ ARGV.each do |arg|
     exit
   when '-version', '--version'
     @print = :version
+  when '-new', '--new', '-n'
+    @init_config = true
   when '-parsers','--parsers', '-p'
     @print = :parsers
   when '-debug', '--debug', '-d'
@@ -35,12 +38,30 @@ ARGV.each do |arg|
   when '--options', '-o'
     @print = :options
   else
-    if File.exist? arg
+    if(File.exist?(arg) && File.file?(arg))
       file = arg
     else
       file = "#{arg}.yaml"
     end
   end
+end
+
+if defined? @init_config
+  require 'ftools'
+
+  if File.directory? file
+    puts "'#{file}' is a directory, not overwriting."
+    exit
+  end
+
+  if File.exist? file
+    File.move(file, file + ".bak")
+    puts "Existing configuration moved to '#{file + '.bak'}'"
+  end
+  File.copy(File.dirname(__FILE__) + '/../dist/config.yaml', file)
+  puts "Example configuration installed in '#{file}'"
+  puts "Please edit and change server and login information."
+  exit
 end
 
 require File.dirname(__FILE__) + '/../lib/gl_tail.rb'

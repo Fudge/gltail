@@ -5,7 +5,7 @@ README.txt
 Rakefile
 TODO
 bin/gl_tail
-config.yaml
+dist/config.yaml
 lib/gl_tail.rb
 lib/gl_tail/activity.rb
 lib/gl_tail/blob_store.rb
