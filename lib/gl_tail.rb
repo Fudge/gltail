@@ -33,6 +33,7 @@ rescue LoadError
   puts "Ubuntu:"
   puts "  sudo apt-get install rake ruby1.8-dev libgl1-mesa-dev libglu1-mesa-dev libglut3-dev"
   puts "  sudo gem install -y ruby-opengl -r"
+  puts "\nFor more information: http://ruby-opengl.rubyforge.org/build_install.html"
   exit
 end
 
