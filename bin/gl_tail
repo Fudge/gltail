@@ -7,12 +7,12 @@
 $DBG=0
 $VRB=1
 
-file = 'config.yaml'
+file = 'gl_tail.yaml'
 
 ARGV.each do |arg|
   case arg
   when '-help','--help','-h'
-    puts "gl_tail.rb [--help|-h] [--parsers|-p] [--verbose|-v] [--debug|-d] [--debug-ssh|-ds] [configfile]",
+    puts "gl_tail [--help|-h] [--parsers|-p] [--verbose|-v] [--debug|-d] [--debug-ssh|-ds] [configfile]",
          '[--help|-h]        This help screen',
          '[--version]        Print version information',
          '[--new|-n]         Initialize config specified with default options',
@@ -62,9 +62,15 @@ if defined? @init_config
     File.move(file, file + ".bak")
     puts "Existing configuration moved to '#{file + '.bak'}'"
   end
+
   File.copy(File.dirname(__FILE__) + '/../dist/config.yaml', file)
   puts "Example configuration installed in '#{file}'"
-  puts "Please edit and change server and login information."
+  puts "Please edit it and change server and login information."
+  exit
+elsif !File.exist?(file)
+  puts "Configuration file not found. Either supply the path to a config file as an argument to gl_tail,",
+       "or create a new one with:",
+       "  gl_tail --new #{file}"
   exit
 end
 
