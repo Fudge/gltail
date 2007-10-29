@@ -36,6 +36,7 @@ class Element
   def add_activity(message, color, size,  type)
     @pending.push Item.new(message, size, color, type) if(type != 3)
     @messages += 1
+    @total += 1
     @sum += size
 #    @color = color
 
@@ -49,6 +50,7 @@ class Element
     @pending.push Item.new(message, 0.01, color, 2)
     if update_stats
       @messages += 1
+      @total += 1
       if @rate == 0
         @rate = 1.0 / 60
         @messages = 0
@@ -63,7 +65,7 @@ class Element
     @rate = (@rate.to_f * 299 + @messages) / 300
     @messages = 0
     if @pending.size + @queue.size > 0
-      @total += @pending.size
+#      @total += @pending.size 
       @average = @sum / @total
 
       @step = 1.0 / (@queue.size + @pending.size) * 1000.0
@@ -166,7 +168,7 @@ class Element
       type = item.type
 
       if type == 2
-        @activities.push Activity.new(url, 0.0 - (0.013 * url.length), engine.screen.top, 0.0, color, size, type)
+        @activities.push Activity.new(url, 0.0 - (0.008 * url.length), engine.screen.top, 0.0, color, size, type)
       elsif type == 5
         a = Activity.new(url, 0.0, engine.screen.top, 0.0, color, size, type)
         a.wx = @wx
