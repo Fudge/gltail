@@ -11,6 +11,10 @@ class Element
   def initialize(block, name, color, start_position = nil)
     @block = block
 
+    if name.nil?
+      name = ''
+    end
+    
     if name =~ /^\d+.\d+.\d+.\d+$/
       @name = Resolver.resolv(name, self)
     else
@@ -31,6 +35,7 @@ class Element
     @step = 0, @updates = 0
     @active = false
     @color = color
+    @type = (@block.activity_type == "blobs" ? :blobs : :bars)
   end
 
   def add_activity(message, color, size,  type)
@@ -157,31 +162,104 @@ class Element
 
     glPopMatrix()
 
-    t = glutGet(GLUT_ELAPSED_TIME)
-    while( (@queue.size > 0) && (@last_time < t ) )
-
-      @last_time += @step
-      item = @queue.pop
-      url = item.message
-      color = item.color
-      size = item.size
-      type = item.type
-
-      if type == 2
-        @activities.push Activity.new(url, 0.0 - (0.008 * url.length), engine.screen.top, 0.0, color, size, type)
-      elsif type == 5
-        a = Activity.new(url, 0.0, engine.screen.top, 0.0, color, size, type)
-        a.wx = @wx
-        a.wy = @wy + 0.05
-        @activities.push a
-      elsif type != 4
-        if @x >= 0
-          @activities.push Activity.new(url, (@block.alignment - (@block.width+8)*8.0 / (engine.screen.window_width / 2.0)), @y + engine.screen.line_size/2, @z, color, size, type)
-        else
-          @activities.push Activity.new(url, (@block.alignment + (@block.width+8)*8.0 / (engine.screen.window_width / 2.0) ), @y + engine.screen.line_size/2, @z, color, size, type)
+    if @type == :bars
+      t = glutGet(GLUT_ELAPSED_TIME)
+      while( (@queue.size > 0) && (@last_time < t ) )
+        @last_time += @step
+        item = @queue.pop
+        url = item.message
+        color = item.color
+        size = item.size
+        type = item.type
+        
+        if type == 2
+          @activities.push Activity.new(url, 0.0 - (0.008 * url.length), engine.screen.top, 0.0, color, size, type)
         end
       end
-    end
+
+      if( rate > 0.0 )
+        glBegin(GL_QUADS)
+
+        if @x >= 0
+          x1 = 0.0
+          y1 = @y
+          @x2 = (@block.alignment - (@block.width+8)*8.0 / (engine.screen.window_width / 2.0))
+          y2 = @y + engine.screen.line_size * 0.9
+          x1 = @x2 - (@x2) * (rate / @block.max_rate)
+          
+          @x1 ||= @x2
+          d = (@x1 - x1)
+          if d.abs < 0.001
+            @x1 = x1
+          else
+            @x1 -= d / 20
+          end
+          glColor([0.0, 0.0, 0.0, 0.0])
+          glVertex3f(@x1, y1, @z)
+          glColor(@color)
+          glVertex3f(@x2, y1, @z)
+          glColor(@color)
+          glVertex3f(@x2, y2, @z)
+          glColor(@color)
+          glVertex3f(@x1, y2, @z)
+          
+        else
+          @x1 = (@block.alignment + (@block.width+8)*8.0 / (engine.screen.window_width / 2.0) )
+          y1 = @y
+          x2 = 0.0
+          y2 = @y + engine.screen.line_size * 0.9
+          x2 = @x1 - (@x1) * (rate / @block.max_rate)
+
+          @x2 ||= @x1
+          d = (@x2 - x2)
+          if d.abs < 0.001
+            @x2 = x2
+          else
+            @x2 -= d / 20
+          end
+          
+          glColor(@color)
+          glVertex3f(@x1, y1, @z)
+          glColor([0.0, 0.0, 0.0, 0.0])
+          glVertex3f(@x2, y1, @z)
+          glColor(@color)
+          glVertex3f(@x2, y2, @z)
+          glColor(@color)
+          glVertex3f(@x1, y2, @z)
+
+        end
+        
+
+        glEnd
+      end 
+      
+    else 
+      t = glutGet(GLUT_ELAPSED_TIME)
+      while( (@queue.size > 0) && (@last_time < t ) )
+
+        @last_time += @step
+        item = @queue.pop
+        url = item.message
+        color = item.color
+        size = item.size
+        type = item.type
+
+        if type == 2
+          @activities.push Activity.new(url, 0.0 - (0.008 * url.length), engine.screen.top, 0.0, color, size, type)
+        elsif type == 5
+          a = Activity.new(url, 0.0, engine.screen.top, 0.0, color, size, type)
+          a.wx = @wx
+          a.wy = @wy + 0.05
+          @activities.push a
+        elsif type != 4
+          if @x >= 0
+            @activities.push Activity.new(url, (@block.alignment - (@block.width+8)*8.0 / (engine.screen.window_width / 2.0)), @y + engine.screen.line_size/2, @z, color, size, type)
+          else
+            @activities.push Activity.new(url, (@block.alignment + (@block.width+8)*8.0 / (engine.screen.window_width / 2.0) ), @y + engine.screen.line_size/2, @z, color, size, type)
+          end
+        end
+      end
+    end 
 
     @activities.each do |a|
       if a.x > 1.0 || a.x < -1.0 || a.y < -(engine.screen.aspect*1.5)

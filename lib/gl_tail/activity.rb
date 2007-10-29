@@ -11,14 +11,14 @@ class Activity
   def initialize(message, x, y, z, color, size, type = 0)
     @message = message
     @x, @y, @z = x, y, z
-    @xi, @yi, @zi = 0.012 + (rand(100)/100.0 ) * 0.0012 , 0.002 + (rand(1000)/1000.0 ) * 0.002, 0
-#    @xi, @yi, @zi = 0.015 , 0.0025, 0
+#    @xi, @yi, @zi = 0.012 + (rand(100)/100.0 ) * 0.0012 , 0.002 + (rand(1000)/1000.0 ) * 0.002, 0
+    @xi, @yi, @zi = 0.006 , 0.0013, 0
 
     if @x >= 0.0
       @xi = -@xi
     end
 
-    @xi = (rand(100)/100.0 * 0.02) - 0.01 if type == 2
+    @xi = (rand(100)/100.0 * 0.002) - 0.001 if type == 2
 
     @color = color
     @size  = size
@@ -30,14 +30,14 @@ class Activity
   def render(engine)
     if @type != 5
       if engine.screen.wanted_fps == 0
-        @x += @xi/2
-        @y += @yi/2
-        @yi = @yi - 0.0005/2
+        @x += @xi
+        @y += @yi
+        @yi = @yi - 0.00008
       else
         @fps_mod ||= (60.0 / engine.screen.wanted_fps)
-        @x += (@xi/2) * @fps_mod
-        @y += (@yi/2) * @fps_mod
-        @yi = @yi - (0.0005/2) * @fps_mod
+        @x += @xi * @fps_mod
+        @y += @yi * @fps_mod
+        @yi = @yi - 0.00008 * @fps_mod
       end
 
 #      @yi = @yi * 1.01

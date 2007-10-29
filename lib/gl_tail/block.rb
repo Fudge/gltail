@@ -12,19 +12,21 @@ class Block
   config_attribute :color, "FIXME: add description", :type => :color
   config_attribute :order, "FIXME"
   config_attribute :size, "FIXME"
-  config_attribute :auto_clean
+  config_attribute :auto_clean, "FIXME"
+  config_attribute :activity_type, "FIXME"
 
   attr_accessor :column
-  attr_reader :config
-
+  attr_reader   :config
+  attr_reader   :max_rate
+  
   def initialize(config, name)
     @config = config
     @name = name
 
     @size = 10
     @auto_clean = true
+    @activity_type = "blobs"
     @order = 100
-#    @color = [1.0, 1.0, 1.0, 1.0]
 
     @show = 0
 
@@ -32,6 +34,7 @@ class Block
 
     @elements = { }
     @bottom_position = -@config.screen.top
+    @max_rate = 1.0/599
   end
 
   def show=(value)
@@ -92,6 +95,7 @@ class Block
         @elements.delete(e.name)
       end
       num += 1
+      @max_rate = e.rate if e.rate > @max_rate
     end
 
     (@elements.values - sorted).each do |e|
