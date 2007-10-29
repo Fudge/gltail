@@ -8,7 +8,7 @@ class Element
   attr_accessor :wy, :y, :active, :average_size, :right, :color, :name
   attr_reader   :rate, :messages, :activities, :queue, :updates, :average, :total
 
-  def initialize(block, name, start_position = nil)
+  def initialize(block, name, color, start_position = nil)
     @block = block
 
     if name =~ /^\d+.\d+.\d+.\d+$/
@@ -30,13 +30,14 @@ class Element
     @last_time = 0
     @step = 0, @updates = 0
     @active = false
+    @color = color
   end
 
   def add_activity(message, color, size,  type)
     @pending.push Item.new(message, size, color, type) if(type != 3)
     @messages += 1
     @sum += size
-    @color = color
+#    @color = color
 
     if @rate == 0
       @rate = 1.0 / 60

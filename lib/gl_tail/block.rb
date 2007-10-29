@@ -28,8 +28,7 @@ class Block
 
     @show = 0
 
-    @header = Element.new(self, @name.upcase)
-    @header.color = [1.0, 1.0, 1.0, 1.0]
+    @header = Element.new(self, @name.upcase, [1.0, 1.0, 1.0, 1.0])
 
     @elements = { }
     @bottom_position = -@config.screen.top
@@ -113,12 +112,12 @@ class Block
   end
 
   def add_activity(options = { })
-    x = @elements[options[:name]] ||= Element.new(self, options[:name])
-    x.add_activity(options[:message], @color || options[:color] , options[:size] || 0.01, options[:type] || 0 )
+    x = @elements[options[:name]] ||= Element.new(self, options[:name], @color || options[:color] )
+    x.add_activity(options[:message], @color || options[:color], options[:size] || 0.01, options[:type] || 0 )
   end
 
   def add_event(options = { })
-    x = @elements[options[:name]] ||= Element.new(self, options[:name])
+    x = @elements[options[:name]] ||= Element.new(self, options[:name], @color || options[:color] )
     x.add_event(options[:message], options[:color] || @color, options[:update_stats] || false)
   end
 
