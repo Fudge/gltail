@@ -18,7 +18,7 @@ class Block
   attr_accessor :column
   attr_reader   :config
   attr_reader   :max_rate
-  
+
   def initialize(config, name)
     @config = config
     @name = name
@@ -126,6 +126,7 @@ class Block
   end
 
   def update
+    @max_rate = @max_rate * 0.9995
     @elements.each_value do |e|
       e.update
     end
