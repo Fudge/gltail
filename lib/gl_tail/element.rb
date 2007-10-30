@@ -14,7 +14,7 @@ class Element
     if name.nil?
       name = ''
     end
-    
+
     if name =~ /^\d+.\d+.\d+.\d+$/
       @name = Resolver.resolv(name, self)
     else
@@ -70,7 +70,7 @@ class Element
     @rate = (@rate.to_f * 299 + @messages) / 300
     @messages = 0
     if @pending.size + @queue.size > 0
-#      @total += @pending.size 
+#      @total += @pending.size
       @average = @sum / @total
 
       @step = 1.0 / (@queue.size + @pending.size) * 1000.0
@@ -124,8 +124,67 @@ class Element
     end
 
     glPushMatrix()
-
     glTranslate(@x, @y, @z)
+
+    @bar_color ||= @color.dup
+
+    if( rate > 0.0 )
+      glBegin(GL_QUADS)
+      
+      if @x >= 0
+        y2 = 0.0
+        @x1 = 7*8.0 / (engine.screen.window_width / 2.0)
+        y1 = engine.screen.line_size * 0.9
+        x2 = @x1 + ((@block.width+1) * 8.0 / (engine.screen.window_width / 2.0) ) * (rate / @block.max_rate)
+        
+        @x2 ||= @x1
+        d = (@x2 - x2)
+        if d.abs < 0.001
+          @x2 = x2
+        else
+          @x2 -= d / 40
+        end
+        glColor(@bar_color)
+        glVertex3f(@x1, y1, @z)
+        glColor(@bar_color)
+        glVertex3f(@x2, y1, @z)
+        glColor([0.0, 0.0, 0.0, 0.0])
+        glVertex3f(@x2, y2, @z)
+        glColor(@bar_color)
+        glVertex3f(@x1, y2, @z)
+
+      else
+        @x2 = (@block.width+1)*8.0 / (engine.screen.window_width / 2.0) 
+        y2  = 0.0
+        y1  = engine.screen.line_size * 0.9
+        x1 = ((@block.width * 8.0) / (engine.screen.window_width / 2.0) ) * (1.0 - rate / @block.max_rate)
+        
+        @x1 ||= @x2
+        d = (@x1 - x1)
+        if d.abs < 0.001
+          @x1 = x1
+        else
+          @x1 -= d / 20
+        end
+        
+        glColor(@bar_color)
+        glVertex3f(@x1, y1, @z)
+        glColor(@bar_color)
+        glVertex3f(@x2, y1, @z)
+        glColor(@bar_color)
+        glVertex3f(@x2, y2, @z)
+        glColor([0.0, 0.0, 0.0, 0.0])
+        glVertex3f(@x1, y2, @z)
+        
+      end
+
+      
+      glEnd
+      
+    end
+
+
+#    glTranslate(@x, @y, @z)
 
     glColor( (@queue.size > 0 ? (engine.screen.highlight_color || [1.0, 0.0, 0.0, 1.0]) : @color ) )
 
@@ -155,111 +214,43 @@ class Element
    if @x < 0
      str = sprintf("%#{@block.width}s %s", @name.length > @block.width ? @name[-@block.width..-1] : @name, txt)
     else
-     str = sprintf("%s %s", txt, @name[0..@block.width-1])
+     str = sprintf("%s%s", txt, @name[0..@block.width-1])
     end
 
     engine.render_string(str)
 
     glPopMatrix()
 
-    if @type == :bars
-      t = glutGet(GLUT_ELAPSED_TIME)
-      while( (@queue.size > 0) && (@last_time < t ) )
-        @last_time += @step
-        item = @queue.pop
-        url = item.message
-        color = item.color
-        size = item.size
-        type = item.type
-        
-        if type == 2
-          @activities.push Activity.new(url, 0.0 - (0.008 * url.length), engine.screen.top, 0.0, color, size, type)
-        end
-      end
-
-      if( rate > 0.0 )
-        glBegin(GL_QUADS)
-
-        if @x >= 0
-          x1 = 0.0
-          y1 = @y
-          @x2 = (@block.alignment - (@block.width+8)*8.0 / (engine.screen.window_width / 2.0))
-          y2 = @y + engine.screen.line_size * 0.9
-          x1 = @x2 - (@x2) * (rate / @block.max_rate)
-          
-          @x1 ||= @x2
-          d = (@x1 - x1)
-          if d.abs < 0.001
-            @x1 = x1
-          else
-            @x1 -= d / 20
-          end
-          glColor([0.0, 0.0, 0.0, 0.0])
-          glVertex3f(@x1, y1, @z)
-          glColor(@color)
-          glVertex3f(@x2, y1, @z)
-          glColor(@color)
-          glVertex3f(@x2, y2, @z)
-          glColor(@color)
-          glVertex3f(@x1, y2, @z)
-          
-        else
-          @x1 = (@block.alignment + (@block.width+8)*8.0 / (engine.screen.window_width / 2.0) )
-          y1 = @y
-          x2 = 0.0
-          y2 = @y + engine.screen.line_size * 0.9
-          x2 = @x1 - (@x1) * (rate / @block.max_rate)
-
-          @x2 ||= @x1
-          d = (@x2 - x2)
-          if d.abs < 0.001
-            @x2 = x2
-          else
-            @x2 -= d / 20
-          end
-          
-          glColor(@color)
-          glVertex3f(@x1, y1, @z)
-          glColor([0.0, 0.0, 0.0, 0.0])
-          glVertex3f(@x2, y1, @z)
-          glColor(@color)
-          glVertex3f(@x2, y2, @z)
-          glColor(@color)
-          glVertex3f(@x1, y2, @z)
-
-        end
-        
-
-        glEnd
-      end 
+    t = glutGet(GLUT_ELAPSED_TIME)
+    while( (@queue.size > 0) && (@last_time < t ) )
       
-    else 
-      t = glutGet(GLUT_ELAPSED_TIME)
-      while( (@queue.size > 0) && (@last_time < t ) )
-
-        @last_time += @step
-        item = @queue.pop
-        url = item.message
-        color = item.color
-        size = item.size
-        type = item.type
-
-        if type == 2
-          @activities.push Activity.new(url, 0.0 - (0.008 * url.length), engine.screen.top, 0.0, color, size, type)
-        elsif type == 5
-          a = Activity.new(url, 0.0, engine.screen.top, 0.0, color, size, type)
-          a.wx = @wx
-          a.wy = @wy + 0.05
-          @activities.push a
-        elsif type != 4
-          if @x >= 0
-            @activities.push Activity.new(url, (@block.alignment - (@block.width+8)*8.0 / (engine.screen.window_width / 2.0)), @y + engine.screen.line_size/2, @z, color, size, type)
-          else
-            @activities.push Activity.new(url, (@block.alignment + (@block.width+8)*8.0 / (engine.screen.window_width / 2.0) ), @y + engine.screen.line_size/2, @z, color, size, type)
-          end
+      @bar_color[0] = @bar_color[0] + (@color[0] - @bar_color[0]) / 5
+      @bar_color[1] = @bar_color[1] + (@color[1] - @bar_color[1]) / 5
+      @bar_color[2] = @bar_color[2] + (@color[2] - @bar_color[2]) / 5
+      
+      @last_time += @step
+      item = @queue.pop
+      url = item.message
+      color = item.color
+      size = item.size
+      type = item.type
+      
+      if type == 2
+        @activities.push Activity.new(url, 0.0 - (0.008 * url.length), engine.screen.top, 0.0, color, size, type)
+        puts "[#{url}]"
+      elsif type == 5
+        a = Activity.new(url, 0.0, engine.screen.top, 0.0, color, size, type)
+        a.wx = @wx
+        a.wy = @wy + 0.05
+        @activities.push a
+      elsif type != 4
+        if @x >= 0
+          @activities.push Activity.new(url, (@block.alignment - (@block.width+8)*8.0 / (engine.screen.window_width / 2.0)), @y + engine.screen.line_size/2, @z, color, size, type)
+        else
+          @activities.push Activity.new(url, (@block.alignment + (@block.width+8)*8.0 / (engine.screen.window_width / 2.0) ), @y + engine.screen.line_size/2, @z, color, size, type)
         end
       end
-    end 
+    end
 
     @activities.each do |a|
       if a.x > 1.0 || a.x < -1.0 || a.y < -(engine.screen.aspect*1.5)
@@ -271,5 +262,9 @@ class Element
       end
     end
 
+    @bar_color[0] = @bar_color[0] + (0.15 - @bar_color[0]) / 100
+    @bar_color[1] = @bar_color[1] + (0.15 - @bar_color[1]) / 100
+    @bar_color[2] = @bar_color[2] + (0.15 - @bar_color[2]) / 100
+    
   end
 end
