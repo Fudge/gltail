@@ -237,7 +237,6 @@ class Element
       
       if type == 2
         @activities.push Activity.new(url, 0.0 - (0.008 * url.length), engine.screen.top, 0.0, color, size, type)
-        puts "[#{url}]"
       elsif type == 5
         a = Activity.new(url, 0.0, engine.screen.top, 0.0, color, size, type)
         a.wx = @wx
