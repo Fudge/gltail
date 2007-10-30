@@ -35,6 +35,7 @@ class Element
     @step = 0, @updates = 0
     @active = false
     @color = color
+    @color ||= [1.0, 1.0, 1.0, 1.0]
     @type = (@block.activity_type == "blobs" ? :blobs : :bars)
   end
 
@@ -130,13 +131,13 @@ class Element
 
     if( rate > 0.0 )
       glBegin(GL_QUADS)
-      
+
       if @x >= 0
         y2 = 0.0
         @x1 = 7*8.0 / (engine.screen.window_width / 2.0)
         y1 = engine.screen.line_size * 0.9
         x2 = @x1 + ((@block.width+1) * 8.0 / (engine.screen.window_width / 2.0) ) * (rate / @block.max_rate)
-        
+
         @x2 ||= @x1
         d = (@x2 - x2)
         if d.abs < 0.001
@@ -154,11 +155,11 @@ class Element
         glVertex3f(@x1, y2, @z)
 
       else
-        @x2 = (@block.width+1)*8.0 / (engine.screen.window_width / 2.0) 
+        @x2 = (@block.width+1)*8.0 / (engine.screen.window_width / 2.0)
         y2  = 0.0
         y1  = engine.screen.line_size * 0.9
         x1 = ((@block.width * 8.0) / (engine.screen.window_width / 2.0) ) * (1.0 - rate / @block.max_rate)
-        
+
         @x1 ||= @x2
         d = (@x1 - x1)
         if d.abs < 0.001
@@ -166,7 +167,7 @@ class Element
         else
           @x1 -= d / 20
         end
-        
+
         glColor(@bar_color)
         glVertex3f(@x1, y1, @z)
         glColor(@bar_color)
@@ -175,18 +176,18 @@ class Element
         glVertex3f(@x2, y2, @z)
         glColor([0.0, 0.0, 0.0, 0.0])
         glVertex3f(@x1, y2, @z)
-        
+
       end
 
-      
+
       glEnd
-      
+
     end
 
 
 #    glTranslate(@x, @y, @z)
 
-    glColor( (@queue.size > 0 ? (engine.screen.highlight_color || [1.0, 0.0, 0.0, 1.0]) : @color ) )
+    glColor( (@queue.size > 0 ? (engine.screen.highlight_color || [1.0, 0.0, 0.0, 1.0]) : @color) )
 
     case @block.show
     when 0
@@ -223,18 +224,18 @@ class Element
 
     t = glutGet(GLUT_ELAPSED_TIME)
     while( (@queue.size > 0) && (@last_time < t ) )
-      
+
       @bar_color[0] = @bar_color[0] + (@color[0] - @bar_color[0]) / 5
       @bar_color[1] = @bar_color[1] + (@color[1] - @bar_color[1]) / 5
       @bar_color[2] = @bar_color[2] + (@color[2] - @bar_color[2]) / 5
-      
+
       @last_time += @step
       item = @queue.pop
       url = item.message
       color = item.color
       size = item.size
       type = item.type
-      
+
       if type == 2
         @activities.push Activity.new(url, 0.0 - (0.008 * url.length), engine.screen.top, 0.0, color, size, type)
       elsif type == 5
@@ -264,6 +265,6 @@ class Element
     @bar_color[0] = @bar_color[0] + (0.15 - @bar_color[0]) / 100
     @bar_color[1] = @bar_color[1] + (0.15 - @bar_color[1]) / 100
     @bar_color[2] = @bar_color[2] + (0.15 - @bar_color[2]) / 100
-    
+
   end
 end
