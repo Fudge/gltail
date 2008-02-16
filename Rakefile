@@ -4,8 +4,8 @@ require 'rubygems'
 require 'hoe'
 require './lib/gl_tail.rb'
 
-Hoe.new('gl_tail', GlTail::VERSION) do |p|
-  p.rubyforge_name = 'gl_tail'
+Hoe.new('gltail', GlTail::VERSION) do |p|
+  p.rubyforge_name = 'gltail'
   p.author = 'Erlend Simonsen'
   p.email = 'mr@fudgie.org'
   p.summary = 'View real-time data and statistics from any logfile on any server with SSH, in an intuitive and entertaining way.'

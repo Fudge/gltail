@@ -3,11 +3,9 @@ GlTail
     http://www.fudgie.org
 
 == DESCRIPTION:
-
 Real-time view of server traffic and events using OpenGL and SSH.
 
 == FEATURES:
-
 * Real-Time OpenGL view
 * Multiple logfiles on multiple servers
 * Configurable layout
@@ -20,27 +18,23 @@ Real-time view of server traffic and events using OpenGL and SSH.
 * Free!
 
 == RUNNING:
+  gl_tail --help
+  gl_tail --new gl_tail.yaml
+  gl_tail
 
-  gl_tail.rb --help
-  gl_tail.rb <config.yaml|config.rb>
-
-  You can also press 'f' while running to toggle the attempted frames per second. Or 'b'
+  You can press 'f' while running to toggle the attempted frames per second. Or 'b'
   to change default blob type, and space to toggle bouncing.
 
-
 == REQUIREMENTS:
-
 * rubygems    0.9.4
 * ruby-opengl 0.40.1
 * net-ssh     1.1.2
 * opengl/ruby development packages (ruby1.8-dev libgl1-mesa-dev libglu1-mesa-dev libglut3-dev)
 
 == INSTALL:
-
   * sudo gem install gl_tail
 
 == LICENSE:
-
                     GNU GENERAL PUBLIC LICENSE
                        Version 2, June 1991
 

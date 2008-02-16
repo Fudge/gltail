@@ -1,4 +1,11 @@
-== 0.0.7 / 2007-10-..
+== 0.1.0 / 2008-02-??
+
+* Only sort needed Elements when needed
+* Keep Element List mostly sorted
+* Show Events from Elements not shown on screen
+* Show bars representing rate behind the element texts
+
+== 0.0.7 / 2007-10-27
 
 * Make textures from BitmapCharacter font
 * Use textured quads instead of BitmapCharacter

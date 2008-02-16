@@ -76,7 +76,7 @@ module GlTail
 
       @frames += 1
       t = glutGet(GLUT_ELAPSED_TIME)
-      if t - @t0 >= 5000
+      if t - @t0 >= 10000
         seconds = (t - @t0) / 1000.0
         $FPS = @frames / seconds
         printf("%d frames in %6.3f seconds = %6.3f FPS\n",
@@ -226,14 +226,19 @@ module GlTail
 
       glLightfv(GL_LIGHT0, GL_POSITION, [5.0, 5.0, 0.0, 0.0])
       glLightfv(GL_LIGHT0, GL_AMBIENT, [0,0,0,1])
+
+      glLightModel(GL_LIGHT_MODEL_AMBIENT, [0.1,0.1,0.1,1]);
+#      glLightModel(GL_LIGHT_MODEL_LOCAL_VIEWER, 1);
+#      glLightModel(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SEPARATE_SPECULAR_COLOR);
+
       glDisable(GL_CULL_FACE)
       glEnable(GL_LIGHTING)
       glEnable(GL_LIGHT0)
       glEnable(GL_TEXTURE_2D)
-      #    glShadeModel(GL_FLAT)
+#      glShadeModel(GL_FLAT)
       glDisable(GL_DEPTH_TEST)
-      glDisable(GL_NORMALIZE)
-      #    glHint(GL_PERSPECTIVE_CORRECTION_HINT,GL_NICEST)
+#      glDisable(GL_NORMALIZE)
+#      glHint(GL_PERSPECTIVE_CORRECTION_HINT,GL_NICEST)
       glHint( GL_PERSPECTIVE_CORRECTION_HINT, GL_FASTEST )
 
       glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)

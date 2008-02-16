@@ -19,6 +19,7 @@ class Activity
     end
 
     @xi = (rand(100)/100.0 * 0.002) - 0.001 if type == 2
+    @yi = (rand(100)/100.0 * 0.002) - 0.001 if type == 2
 
     @color = color
     @size  = size
@@ -98,14 +99,10 @@ class Activity
 
           list = glGenLists(1)
           glNewList(list, GL_COMPILE)
-          
+
           tmp = 10 + 10 * ((@size-engine.screen.min_blob_size)/engine.screen.max_blob_size)
-          if not tmp
-            puts "THIS KEEPS CRASHING FOR ME WITH tmp == NaN -- cant figure out why"
-            tmp = 2
-          end
-          
           glutSolidSphere(@size, tmp, 2)
+
           glEndList()
           BlobStore.put(@size,list)
         end

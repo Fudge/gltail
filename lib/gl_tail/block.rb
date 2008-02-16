@@ -35,6 +35,9 @@ class Block
     @elements = { }
     @bottom_position = -@config.screen.top
     @max_rate = 1.0/599
+
+    @sorted = []
+    @updated = false
   end
 
   def show=(value)
@@ -74,61 +77,122 @@ class Block
   end
 
   def render(engine, num)
-    return num if @elements.size == 0
+    return num if @elements.size == 0 || @sorted.size == 0
 
     @header.wy = top - (num * line_size)
     #    @header.y = @header.wy if @header.y == -$CONFIG.top
     @header.render(engine)
     num += 1
 
-    sorted = case @show
-    when 0: @elements.values.sort { |k,v| v.rate <=> k.rate}[0..@size-1]
-    when 1: @elements.values.sort { |k,v| v.total <=> k.total}[0..@size-1]
-    when 2: @elements.values.sort { |k,v| v.average <=> k.average}[0..@size-1]
+    count = 0
+
+    @sorted.each do |e|
+      engine.stats[0] += 1
+      if count < @size
+        e.wy = top - (num * line_size)
+        e.render(engine)
+        num += 1
+        @max_rate = e.rate if e.rate > @max_rate
+      else
+        e.render_events(engine)
+      end
+
+      if e.activities.size == 0 && (e.rate <= 0.001 || count > 100) && @auto_clean
+        @elements.delete(e.name)
+        @sorted.delete(e)
+      end
+      count += 1
     end
 
-    sorted.each do |e|
-      e.wy = top - (num * line_size)
-      e.render(engine)
-      engine.stats[0] += 1
-      if e.rate <= 0.0001 && e.active && e.updates > 59 && @auto_clean
-        @elements.delete(e.name)
-      end
-      num += 1
-      @max_rate = e.rate if e.rate > @max_rate
-    end
-
-    (@elements.values - sorted).each do |e|
-      engine.stats[0] += 1
-      e.activities.each do |a|
-        a.render(engine)
-        if a.x > 1.0 || a.x < -1.0 || a.y > @config.screen.aspect
-          e.activities.delete a
-        end
-      end
-      if e.activities.size == 0 && @auto_clean && e.updates > 59
-        @elements.delete(e.name)
-      end
-    end
-    @elements.delete_if { |k,v| (!sorted.include? v) && v.active && v.activities.size == 0 && v.updates > 29} if @auto_clean
-    @bottom_position = top - ((sorted.size > 0 ? (num-1) : num) * line_size)
+    @bottom_position = top - ((@sorted.size > 0 ? (num-1) : num) * line_size)
     num + 1
   end
 
   def add_activity(options = { })
-    x = @elements[options[:name]] ||= Element.new(self, options[:name], @color || options[:color] )
+    return unless options[:name]
+    x = nil
+    unless @elements[options[:name]]
+      x = Element.new(self, options[:name], @color || options[:color] )
+      @elements[options[:name]] = x
+      if @sorted.size > @size
+        @sorted.insert(@size,x)
+      else
+        @sorted << x
+      end
+    else
+      x = @elements[options[:name]]
+    end
     x.add_activity(options[:message], @color || options[:color], options[:size] || 0.01, options[:type] || 0 )
+    @updated = true
   end
 
   def add_event(options = { })
-    x = @elements[options[:name]] ||= Element.new(self, options[:name], @color || options[:color] )
+    return unless options[:name]
+    x = nil
+    unless @elements[options[:name]]
+      x = Element.new(self, options[:name], @color || options[:color] )
+      @elements[options[:name]] = x
+      if @sorted.size > @size
+        @sorted.insert(@size,x)
+      else
+        @sorted << x
+      end
+    else
+      x = @elements[options[:name]]
+    end
+
     x.add_event(options[:message], options[:color] || @color, options[:update_stats] || false)
+    @updated = true
   end
 
   def update
-    @max_rate = @max_rate * 0.9995
-    @elements.each_value do |e|
-      e.update
+    return if @sorted.size == 0
+
+    @max_rate = @max_rate * 0.9999
+
+    startTime = Time.now
+
+    i = 1
+    @ordered = [@sorted[0]]
+    min = @sorted[0].update
+    size = @sorted.size
+
+    while i < size
+      rate = @sorted[i].update
+      if rate > min
+        j = i - 1
+        while @ordered[j-1].rate < rate && j > 0
+          j -= 1
+        end
+        @ordered.insert(j, @sorted[i])
+      else
+        @ordered << @sorted[i]
+        min = rate if i < @size
+      end
+      i += 1
     end
+
+    @sorted = @ordered
+
+#    puts "#{@name} [#{@sorted.size}]: [#{Time.now - startTime}]" if @name == "urls"
+
+    return
+
+    return unless @updated
+
+    sortTime = Time.now
+#    iSort( @sorted )
+
+#    @sorted = case @show
+#              when 0: @sorted.insertionSort
+#              when 1: @sorted.sort! { |k,v| "#{sprintf('%05d',v.total)} #{v.rate}" <=> "#{sprintf('%05d',k.total)} #{k.rate}" }
+#              when 2: @sorted.sort! { |k,v| "#{v.average} #{v.name}" <=> "#{k.average} #{k.name}" }
+#              end
+
+    puts "#{@name} [#{@sorted.size}]: [#{sortTime - startTime}] [#{Time.now - sortTime}]"
+
+    @updated = false
+
   end
+
 end

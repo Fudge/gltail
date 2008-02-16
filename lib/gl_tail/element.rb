@@ -35,16 +35,21 @@ class Element
     @step = 0, @updates = 0
     @active = false
     @color = color
-    @color ||= [1.0, 1.0, 1.0, 1.0]
     @type = (@block.activity_type == "blobs" ? :blobs : :bars)
+    @bar_color ||= @color.dup
+
   end
 
   def add_activity(message, color, size,  type)
+    @bar_color[0] = @bar_color[0] + (@color[0] - @bar_color[0]) / 5
+    @bar_color[1] = @bar_color[1] + (@color[1] - @bar_color[1]) / 5
+    @bar_color[2] = @bar_color[2] + (@color[2] - @bar_color[2]) / 5
+
     @pending.push Item.new(message, size, color, type) if(type != 3)
     @messages += 1
     @total += 1
     @sum += size
-#    @color = color
+    @color = color
 
     if @rate == 0
       @rate = 1.0 / 60
@@ -66,17 +71,16 @@ class Element
 
 
   def update
-    @active = true if @total > 0
+    @rate = (@rate * 299.0 + @messages) / 300.0
     @updates += 1
-    @rate = (@rate.to_f * 299 + @messages) / 300
     @messages = 0
-    if @pending.size + @queue.size > 0
-#      @total += @pending.size
+    size = @pending.size
+    if size > 0
       @average = @sum / @total
 
-      @step = 1.0 / (@queue.size + @pending.size) * 1000.0
-      @queue = @queue + @pending
-      if @queue.size == 1
+      @step = 1.0 / size * 1000.0
+      @queue = @pending
+      if size == 1
         @step = rand(1000) * 1.0
       end
       @pending = []
@@ -85,8 +89,36 @@ class Element
     end
     @last_time = glutGet(GLUT_ELAPSED_TIME)
     @last_time += @step if @queue.size == 1
-#    @last_time -= @step if @queue.size != 1
+    @rate
+  end
 
+  def render_events(engine)
+    @color ||= [1.0, 1.0, 1.0, 1.0]
+
+    t = glutGet(GLUT_ELAPSED_TIME)
+    while( (@queue.size > 0) && (@last_time < t ) )
+
+      @last_time += @step
+      item = @queue.pop
+      url = item.message
+      color = item.color
+      size = item.size
+      type = item.type
+
+      if type == 2
+        @activities.push Activity.new(url, 0.0 - (0.008 * url.length), engine.screen.top, 0.0, color, size, type)
+      end
+    end
+
+    @activities.each do |a|
+      if a.x > 1.0 || a.x < -1.0 || a.y < -(engine.screen.aspect*1.5)
+        @activities.delete a
+      else
+        a.wy = @wy + 0.005 if(a.type == 5 && @wy != a.wy)
+        a.render(engine)
+        engine.stats[1] += 1
+      end
+    end
 
   end
 
@@ -127,7 +159,6 @@ class Element
     glPushMatrix()
     glTranslate(@x, @y, @z)
 
-    @bar_color ||= @color.dup
 
     if( rate > 0.0 )
       glBegin(GL_QUADS)
@@ -187,7 +218,7 @@ class Element
 
 #    glTranslate(@x, @y, @z)
 
-    glColor( (@queue.size > 0 ? (engine.screen.highlight_color || [1.0, 0.0, 0.0, 1.0]) : @color) )
+    glColor( (@queue.size > 0 ? (engine.screen.highlight_color || [1.0, 0.0, 0.0, 1.0]) : @color ) )
 
     case @block.show
     when 0
@@ -212,7 +243,7 @@ class Element
       raise "unknown block type #{self.inspect}"
     end
 
-   if @x < 0
+    if @x < 0
      str = sprintf("%#{@block.width}s %s", @name.length > @block.width ? @name[-@block.width..-1] : @name, txt)
     else
      str = sprintf("%s%s", txt, @name[0..@block.width-1])
@@ -224,10 +255,6 @@ class Element
 
     t = glutGet(GLUT_ELAPSED_TIME)
     while( (@queue.size > 0) && (@last_time < t ) )
-
-      @bar_color[0] = @bar_color[0] + (@color[0] - @bar_color[0]) / 5
-      @bar_color[1] = @bar_color[1] + (@color[1] - @bar_color[1]) / 5
-      @bar_color[2] = @bar_color[2] + (@color[2] - @bar_color[2]) / 5
 
       @last_time += @step
       item = @queue.pop
@@ -267,4 +294,25 @@ class Element
     @bar_color[2] = @bar_color[2] + (0.15 - @bar_color[2]) / 100
 
   end
+
+  def <=>(b)
+    b.rate <=> self.rate
+  end
+
+  def > (b)
+    b.rate > self.rate
+  end
+
+  def < (b)
+    b.rate < self.rate
+  end
+
+  def <= (b)
+    b.rate <= self.rate
+  end
+
+  def >= (b)
+    b.rate >= self.rate
+  end
+
 end
