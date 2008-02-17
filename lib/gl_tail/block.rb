@@ -122,7 +122,7 @@ class Block
     else
       x = @elements[options[:name]]
     end
-    x.add_activity(options[:message], @color || options[:color], options[:size] || 0.01, options[:type] || 0 )
+    x.add_activity(options[:message], @color || options[:color], options[:size] || 0.01, options[:type] || 0, options[:real_size] || options[:size] )
     @updated = true
   end
 

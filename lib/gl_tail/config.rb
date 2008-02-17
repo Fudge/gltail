@@ -160,20 +160,23 @@ module GlTail
 
     #block, message, size
     def add_activity(source, options = { })
-      size = screen.min_blob_size
-      if options[:size]
-        size = options[:size].to_f
-        @max_size = size if size > @max_size
-        size = screen.min_blob_size + ((size / @max_size) * (screen.max_blob_size - screen.min_blob_size))
-        options[:size] = size
-      end
 
       if block = @blocks_by_name[options[:block]]
+
+        size = screen.min_blob_size
+        if options[:size]
+          size = options[:size].to_f
+
+          options[:real_size] = size
+          @max_size = size if size > @max_size
+          options[:size] = screen.min_blob_size + ((size / @max_size) * (screen.max_blob_size - screen.min_blob_size))
+        end
+
         block.add_activity({
-          :name => source.name,
-          :color => source.color,
-          :size => screen.min_blob_size
-          }.update(options) )
+                             :name => source.name,
+                             :color => source.color,
+                             :size => screen.min_blob_size
+                           }.update(options) )
       end
     end
 

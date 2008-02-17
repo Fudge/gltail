@@ -40,7 +40,7 @@ class Element
 
   end
 
-  def add_activity(message, color, size,  type)
+  def add_activity(message, color, size,  type, real_size)
     @bar_color[0] = @bar_color[0] + (@color[0] - @bar_color[0]) / 5
     @bar_color[1] = @bar_color[1] + (@color[1] - @bar_color[1]) / 5
     @bar_color[2] = @bar_color[2] + (@color[2] - @bar_color[2]) / 5
@@ -48,7 +48,7 @@ class Element
     @pending.push Item.new(message, size, color, type) if(type != 3)
     @messages += 1
     @total += 1
-    @sum += size
+    @sum += real_size
     @color = color
 
     if @rate == 0
@@ -76,7 +76,7 @@ class Element
     @messages = 0
     size = @pending.size
     if size > 0
-      @average = @sum / @total
+      @average = @sum / @total.to_f
 
       @step = 1.0 / size * 1000.0
       @queue = @pending
