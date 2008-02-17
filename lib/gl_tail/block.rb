@@ -153,43 +153,83 @@ class Block
     startTime = Time.now
 
     i = 1
+    @sorted[0].update
     @ordered = [@sorted[0]]
-    min = @sorted[0].update
+    min_pos = 0
     size = @sorted.size
 
-    while i < size
-      rate = @sorted[i].update
-      if rate > min
-        j = i - 1
-        while @ordered[j-1].rate < rate && j > 0
-          j -= 1
+    if @show == 0
+      min = @sorted[0].rate
+      while i < size
+        @sorted[i].update
+        rate = @sorted[i].rate
+        if rate > min
+          j = min_pos
+          while @ordered[j-1].rate < rate && j > 0
+            j -= 1
+          end
+          @ordered.insert(j, @sorted[i])
+        else
+          @ordered << @sorted[i]
+          if i < @size
+            min = rate
+            min_pos = i
+          end
         end
-        @ordered.insert(j, @sorted[i])
-      else
-        @ordered << @sorted[i]
-        min = rate if i < @size
+        i += 1
       end
-      i += 1
+    elsif @show == 1
+      min = @sorted[0].total
+      while i < size
+        @sorted[i].update
+        total = @sorted[i].total
+        if total > min
+          j = min_pos
+          while @ordered[j-1].total < total && j > 0
+            j -= 1
+          end
+          @ordered.insert(j, @sorted[i])
+        else
+          @ordered << @sorted[i]
+          if i < @size
+            min = total
+            min_pos = i
+          end
+        end
+        i += 1
+      end
+    elsif @show == 2
+      min = @sorted[0].average
+      while i < size
+        @sorted[i].update
+        average = @sorted[i].average
+        if average > min
+          j = min_pos
+          while @ordered[j-1].average < average && j > 0
+            j -= 1
+          end
+          @ordered.insert(j, @sorted[i])
+        else
+          @ordered << @sorted[i]
+          if i < @size
+            min = average
+            min_pos = i
+          end
+        end
+        i += 1
+      end
+
     end
 
     @sorted = @ordered
 
-#    puts "#{@name} [#{@sorted.size}]: [#{Time.now - startTime}]" if @name == "urls"
-
     return
 
-    return unless @updated
-
-    sortTime = Time.now
-#    iSort( @sorted )
-
-#    @sorted = case @show
+    #    @sorted = case @show
 #              when 0: @sorted.insertionSort
 #              when 1: @sorted.sort! { |k,v| "#{sprintf('%05d',v.total)} #{v.rate}" <=> "#{sprintf('%05d',k.total)} #{k.rate}" }
 #              when 2: @sorted.sort! { |k,v| "#{v.average} #{v.name}" <=> "#{k.average} #{k.name}" }
 #              end
-
-    puts "#{@name} [#{@sorted.size}]: [#{sortTime - startTime}] [#{Time.now - sortTime}]"
 
     @updated = false
 
