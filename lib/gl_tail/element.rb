@@ -34,7 +34,7 @@ class Element
     @last_time = 0
     @step = 0, @updates = 0
     @active = false
-    @color = color
+    @color = color || [1.0, 1.0, 1.0, 1.0]
     @type = (@block.activity_type == "blobs" ? :blobs : :bars)
     @bar_color ||= @color.dup
 
