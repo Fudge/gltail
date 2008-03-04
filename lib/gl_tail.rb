@@ -17,7 +17,7 @@ end
 
 gem_version = Gem::RubyGemsVersion.split('.')
 
-if gem_version[1].to_i < 9 || (gem_version[1].to_i >= 9 && gem_version[2].to_i < 2)
+if gem_version[0].to_i == 0 && gem_version[1].to_i < 9 || (gem_version[0].to_i == 0 && gem_version[1].to_i >= 9 && gem_version[2].to_i < 2)
   puts "rubygems too old to build ruby-opengl. Please update."
   puts "Ubuntu:"
   puts "  sudo gem update --system"
