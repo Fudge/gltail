@@ -37,7 +37,6 @@ class Block
     @max_rate = 1.0/599
 
     @sorted = []
-    @updated = false
   end
 
   def show=(value)
@@ -123,7 +122,6 @@ class Block
       x = @elements[options[:name]]
     end
     x.add_activity(options[:message], @color || options[:color], options[:size] || 0.01, options[:type] || 0, options[:real_size] || options[:size] )
-    @updated = true
   end
 
   def add_event(options = { })
@@ -142,7 +140,6 @@ class Block
     end
 
     x.add_event(options[:message], options[:color] || @color, options[:update_stats] || false)
-    @updated = true
   end
 
   def update
@@ -151,7 +148,6 @@ class Block
     @max_rate = @max_rate * 0.9999
 
     startTime = Time.now
-
     i = 1
     @sorted[0].update
     @ordered = [@sorted[0]]
@@ -222,17 +218,6 @@ class Block
     end
 
     @sorted = @ordered
-
-    return
-
-    #    @sorted = case @show
-#              when 0: @sorted.insertionSort
-#              when 1: @sorted.sort! { |k,v| "#{sprintf('%05d',v.total)} #{v.rate}" <=> "#{sprintf('%05d',k.total)} #{k.rate}" }
-#              when 2: @sorted.sort! { |k,v| "#{v.average} #{v.name}" <=> "#{k.average} #{k.name}" }
-#              end
-
-    @updated = false
-
   end
 
 end

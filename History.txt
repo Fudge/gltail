@@ -1,4 +1,9 @@
-== 0.1.0 / 2008-02-??
+== 0.1.1 / 2008-02-17
+
+* Correctly sort Total and Average Blocks
+* Repair Average blocks after breaking it with adaptive sizes
+
+== 0.1.0 / 2008-02-16
 
 * Only sort needed Elements when needed
 * Keep Element List mostly sorted

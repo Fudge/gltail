@@ -15,7 +15,7 @@ class RailsParser < Parser
 
       add_activity(:block => 'sites', :name => host, :size => ms.to_f) # Size of activity based on request time.
       add_activity(:block => 'urls', :name => HttpHelper.generalize_url(url), :size => ms.to_f)
-      add_activity(:block => 'slow requests', :name => url, :size => ms.to_f)
+      add_activity(:block => 'slow requests', :name => HttpHelper.generalize_url(url), :size => ms.to_f)
       add_activity(:block => 'content', :name => 'page')
 
       # Events to pop up
