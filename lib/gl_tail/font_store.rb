@@ -5,6 +5,10 @@ class FontStore
 
   @font_texture = nil
 
+  WIDTH   =  8 / 256.0
+  HEIGHT  = 13 / 256.0
+
+  
   def self.generate_textures
     if @font_texture.nil?
       @font_texture = glGenTextures(1)[0]
@@ -112,8 +116,6 @@ class FontStore
     offsetx = ((base%16) ) / (32.0)
     offsety = ((base/16) * 16) / (256.0)
 
-    width   =  8 / 256.0
-    height  = 13 / 256.0
 
     pos_offset = char_size * pos
 
@@ -121,41 +123,58 @@ class FontStore
     glNormal3f(1.0, 1.0, 0.0)
     glVertex3f(pos_offset, 0, 0.0)
 
-    glTexCoord2f(offsetx+width,offsety)
+    glTexCoord2f(offsetx+WIDTH,offsety)
     glNormal3f(1.0, 1.0, 0.0)
     glVertex3f(pos_offset + char_size, 0.0, 0.0)
 
-    glTexCoord2f(offsetx+width,offsety + height)
+    glTexCoord2f(offsetx+WIDTH,offsety + HEIGHT)
     glNormal3f(1.0, 1.0, 0.0)
     glVertex3f(pos_offset + char_size, engine.line_size, 0.0)
 
-    glTexCoord2f(offsetx,offsety + height)
+    glTexCoord2f(offsetx,offsety + HEIGHT)
     glNormal3f(1.0, 1.0, 0.0)
     glVertex3f(pos_offset, engine.line_size, 0.0)
   end
 
 
-  def self.render_string(engine, txt)
+  def self.render_string(engine, left, right = nil)
     glPushMatrix
     glEnable(GL_BLEND)
     glBlendFunc(GL_ONE, GL_ONE)
     glBindTexture(GL_TEXTURE_2D, @font_texture)
 
-    unless BlobStore.has(txt)
+    pos = 0
+
+    unless BlobStore.has(left)
       list = glGenLists(1)
       glNewList(list, GL_COMPILE)
       glBegin(GL_QUADS)
-      pos = 0
-      txt.each_byte do |c|
+      left.each_byte do |c|
+        self.render_char(engine, c, pos) unless c == 32
+        pos += 1
+      end
+      glEnd
+      glEndList
+      BlobStore.put(left,list)
+    else
+      pos += left.length
+    end 
+    glCallList(BlobStore.get(left))
+
+    unless BlobStore.has(right) || right.nil?
+      list = glGenLists(1)
+      glNewList(list, GL_COMPILE)
+      glBegin(GL_QUADS)
+      right.each_byte do |c|
         self.render_char(engine, c, pos)
         pos += 1
       end
       glEnd
       glEndList
-      BlobStore.put(txt,list)
+      BlobStore.put(right,list)
     end
-    glCallList(BlobStore.get(txt))
-
+    glCallList(BlobStore.get(right)) unless right.nil?
+    
     glBindTexture(GL_TEXTURE_2D, 0)
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
     glDisable(GL_BLEND)

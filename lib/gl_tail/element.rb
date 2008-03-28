@@ -225,31 +225,30 @@ class Element
       if @rate < 0.0001
         txt = "    r/m "
       else
-        txt = "#{sprintf("%7.2f",@rate * 60)} "
+        txt = "#{sprintf("%8.2f",@rate * 60)} "
       end
     when 1
       if @total == 0
         txt = "  total "
       else
-        txt = "#{sprintf("%7d",@total)} "
+        txt = "#{sprintf("%8d",@total)} "
       end
     when 2
       if @average == 0
         txt = "    avg "
       else
-        txt = "#{sprintf("%7.2f",@average)} "
+        txt = "#{sprintf("%8.2f",@average)} "
       end
     else
       raise "unknown block type #{self.inspect}"
     end
 
     if @x < 0
-     str = sprintf("%#{@block.width}s %s", @name.length > @block.width ? @name[-@block.width..-1] : @name, txt)
+      engine.render_string(sprintf("%#{@block.width}s", @name.length > @block.width ? @name[-@block.width..-1] : @name), txt)
     else
-     str = sprintf("%s%s", txt, @name[0..@block.width-1])
+      engine.render_string(txt[1..-1], @name[0..@block.width-1])
     end
 
-    engine.render_string(str)
 
     glPopMatrix()
 

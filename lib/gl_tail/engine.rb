@@ -5,8 +5,8 @@ include Glut
 module GlTail
   class Engine
 
-    def render_string(string)
-      FontStore.render_string(self, string)
+    def render_string(left,right = nil)
+      FontStore.render_string(self, left,right)
     end
 
     def screen
