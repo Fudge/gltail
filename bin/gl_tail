@@ -94,14 +94,16 @@ end
 
 ######## TRAP Interrupts and exit cleanly ########
 
-trap("HUP") { exit }
-trap("INT") { exit }
-trap("QUIT") { exit }
-trap("ABRT") { exit }
-trap("KILL") { exit }
-trap("TERM") { exit }
-#trap("USR1") { $VRB >= 1 ? $VRB = 0 : $VRB += 1; puts "verbose toggled" }
-trap("USR2") { $DBG >= 2 ? $DBG = 0 : $DBG += 1; puts "debug level toggled" }
+if RUBY_PLATFORM.split('-',2).last != "mswin32"
+	trap("HUP") { exit }
+	trap("INT") { exit }
+	trap("QUIT") { exit }
+	trap("ABRT") { exit }
+	trap("KILL") { exit }
+	trap("TERM") { exit }
+	#trap("USR1") { $VRB >= 1 ? $VRB = 0 : $VRB += 1; puts "verbose toggled" }
+	trap("USR2") { $DBG >= 2 ? $DBG = 0 : $DBG += 1; puts "debug level toggled" }
+end
 
 config = GlTail::Config.parse_yaml(file)
 
