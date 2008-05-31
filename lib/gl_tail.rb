@@ -5,7 +5,7 @@
 #
 
 module GlTail
-  VERSION = '0.1.1'
+  VERSION = '0.1.6'
 end
 
 begin
@@ -38,7 +38,7 @@ rescue LoadError
 end
 
 begin
-  gem 'net-ssh'
+  gem 'net-ssh', '< 1.2'
   require 'net/ssh'
 rescue LoadError
   puts "Missing gem net-ssh."
