@@ -43,7 +43,7 @@ begin
 rescue LoadError
   puts "Missing gem net-ssh."
   puts "Ubuntu:"
-  puts "  sudo gem install -y net-ssh -r"
+  puts "  sudo gem install -y net-ssh -v 1.1.4 -r"
   exit
 end
 
