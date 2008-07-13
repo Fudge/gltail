@@ -15,6 +15,12 @@ servers:
         files: /var/www/apps/funapp/current/log/production.log
         parser: rails
         color: 0.2, 0.2, 1.0, 1.0
+    dev:
+        host: clockingit.com
+        source: local
+        files: /var/www/clockingit/logs/production.log
+        parser: rails
+        color: 0.2, 0.2, 1.0, 1.0
 config:
     dimensions: 1200x600
     min_blob_size: 0.004
@@ -61,6 +67,23 @@ config:
             database:
                 order: 9
                 size: 10
+            firewall:
+                order: 10
+                size: 15
+            action:
+                order: 11
+                size: 15
+                auto_clean: false
+                show: total
+            sourceinterface:
+                order: 12
+                size: 15	
+            sourcehost:
+                order: 13
+                size: 15	
+            sourceport:
+                order: 14
+                size: 15
 
     right_column:
         size: 25
@@ -96,6 +119,23 @@ config:
             warnings:
                 order: 8
                 size: 5
+            destinationinterface:
+                order: 9
+                size: 15
+            ipprotocol:
+                order: 10
+                size: 15
+            destinationhost:
+                order: 11
+                size: 15
+            destinationport:
+                order: 12
+                size: 15
+            info:
+                order: 13
+                size: 15
+                auto_clean: false
+                show: total
 resolver:
     reverse_ip_lookups: true
     reverse_timeout: 0.5

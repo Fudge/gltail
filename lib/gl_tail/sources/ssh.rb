@@ -4,6 +4,7 @@ module GlTail
   module Source
 
     class SSH < Base
+      config_attribute :source, "The type of Source"
       config_attribute :command, "The Command to run"
       config_attribute :files, "The files to tail", :deprecated => "Should be embedded in the :command"
       config_attribute :host, "The Host to connect to"

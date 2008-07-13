@@ -18,10 +18,15 @@ class PostgreSQLParser < Parser
 
     _, database, datetime, activity, description = /^\[(.*), (.* .* .*)\] LOG:  ([a-zA-Z0-9\s]*): (.*)/.match(line).to_a
 
+    unless _
+      _, database, datetime, activity, description = /postgres\[\d+\]: \[\d+-\d+\] \[(.*), (.* .* .*)\] LOG:  ([a-zA-Z0-9\s]*): (.*)/.match(line).to_a
+      syslog = true if _
+    end
+
     if database
       add_activity(:block => 'database', :name => database, :size => 0.2)
     else
-      _, datetime, activity, description = /^(.* .* .*) LOG:  ([a-zA-Z0-9\s]*): (.*)/.match(line).to_a
+      _, datetime, activity, description = /(.* .* .*) LOG:  ([a-zA-Z0-9\s]*): (.*)/.match(line).to_a
     end
 
     if activity

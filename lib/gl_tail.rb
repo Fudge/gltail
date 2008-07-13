@@ -5,7 +5,7 @@
 #
 
 module GlTail
-  VERSION = '0.1.6'
+  VERSION = '0.1.7'
 end
 
 begin
@@ -47,6 +47,15 @@ rescue LoadError
   exit
 end
 
+begin
+  require 'file/tail'
+rescue LoadError
+  puts "Missing gem file-tail."
+  puts "Ubuntu:"
+  puts "  sudo gem install -y file-tail -r"
+  exit
+end
+
 $:.unshift(File.dirname(__FILE__)) # this should be obsolete once its a gem
 
 # load our libraries
@@ -59,6 +68,7 @@ require 'gl_tail/config/yaml_parser'
 # future options: JMS queue, spread.org, local tail, etc
 require 'gl_tail/sources/base'
 require 'gl_tail/sources/ssh'
+require 'gl_tail/sources/local'
 
 %w( engine activity block item element parser resolver blob_store font_store).each {|f| require "gl_tail/#{f}" }
 

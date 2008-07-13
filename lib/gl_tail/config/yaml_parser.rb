@@ -35,11 +35,18 @@ module GlTail
 
       self.yaml['servers'].each do |server|
 
-        src = GlTail::Source::SSH.new(@config)
+        name = server.shift
+        data = server.shift
 
-        src.name = server.shift
+        if data['source'] && data['source'].downcase == 'local'
+          src = GlTail::Source::Local.new(@config)
+        else 
+          src = GlTail::Source::SSH.new(@config)
+        end
+        
+        src.name = name
 
-        apply_values(src, server.shift)
+        apply_values(src, data)
 
         @config.sources << src
       end

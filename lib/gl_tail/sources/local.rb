@@ -3,10 +3,26 @@ module GlTail
   module Source
 
     class Local < Base
-      config_attribute :command, "The Command to run"
+      config_attribute :source, "The type of Source"
+      config_attribute :host
       config_attribute :files, "The files to tail", :deprecated => "Should be embedded in the :command"
 
-      # TODO: code to run comand locally and parse streams
+        def init
+            @log = File.open(files)
+            @log.extend(File::Tail)
+            @log.max_interval = 5
+            @log.return_if_eof = true
+        end
+      
+        def process
+          @log.tail(1) { |line|
+            parser.parse(line) 
+          }
+        end
+        
+        def update
+        end
+        
     end
   end
 end

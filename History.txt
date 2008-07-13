@@ -1,3 +1,32 @@
+== 0.1.7 / 2008-07-13
+
+* Handle empty host in URLs logged by Rails (Steve Purcell <steve@sanityinc.com>)
+* Local File source (George Swinnerton)
+* PostgreSQL Syslog support (Lionel Bouton)
+* Cisco ASA parser (Jeff Bryner <jeff@jeffbryner.com>)
+
+== 0.1.6 / 2008-05-31
+
+* Use net-ssh version < 1.2 when loading gem
+
+== 0.1.5 / 2008-05-19
+
+* Freeze net-ssh version at 1.1.4
+
+== 0.1.4 / 2008-04-29
+
+* Only trap signals on non Windows platforms (Chris Gahan)
+
+== 0.1.3 / 2008-03-28
+
+* Render strings as number + text to reuse OpenGL call-lists in more cases.
+  Fixes the annoying stuttering every second with more than a trivial amount
+  of text.
+
+== 0.1.2 / 2008-03-04
+
+* Handle rubygems versions > 0.x
+
 == 0.1.1 / 2008-02-17
 
 * Correctly sort Total and Average Blocks
