@@ -11,7 +11,7 @@ class RailsParser < Parser
     _, ms, url = /^Completed in ([\d.]+) .* \[([^\]]+)\]/.match(line).to_a
 
     if url
-      _, host, url = /^http[s]?:\/\/([^\/]+)(.*)/.match(url).to_a
+      _, host, url = /^http[s]?:\/\/([^\/]*)(.*)/.match(url).to_a
 
       add_activity(:block => 'sites', :name => host, :size => ms.to_f) # Size of activity based on request time.
       add_activity(:block => 'urls', :name => HttpHelper.generalize_url(url), :size => ms.to_f)
