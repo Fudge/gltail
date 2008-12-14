@@ -65,9 +65,7 @@ module GlTail
       glEnd()
       glPopMatrix()
 
-      # TODO: do we really need to sort every block on every draw?!
-      # Nope. But it was a hash, so keeping order was a bit hard.
-      @config.blocks.sort { |k,v| k.order <=> v.order}.each do |block|
+      @config.blocks.each do |block|
         # glPushMatrix + glTranslate3f to render each element relativ to its containing block instead of the screen?
         positions[block.is_right] = block.render(self, positions[block.is_right] || 0 )
       end

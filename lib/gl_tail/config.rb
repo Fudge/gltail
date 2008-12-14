@@ -123,6 +123,7 @@ module GlTail
 
     def add_block(name)
       @blocks << b = Block.new(self, name)
+      @blocks.sort! {|k,v| k.order <=> v.order}
       b
     end
 
