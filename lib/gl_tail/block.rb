@@ -35,6 +35,7 @@ class Block
     @elements = { }
     @bottom_position = -@config.screen.top
     @max_rate = 1.0/599
+	 @last_clean = 0
 
     @sorted = []
   end
@@ -85,22 +86,12 @@ class Block
 
     count = 0
 
-    @sorted.each do |e|
+    for e in @sorted[0..@size] do
       engine.stats[0] += 1
-      if count < @size
-        e.wy = top - (num * line_size)
-        e.render(engine)
-        num += 1
-        @max_rate = e.rate if e.rate > @max_rate
-      else
-        e.render_events(engine)
-      end
-
-      if e.activities.size == 0 && (e.rate <= 0.001 || count > 100) && @auto_clean
-        @elements.delete(e.name)
-        @sorted.delete(e)
-      end
-      count += 1
+      e.wy = top - (num * line_size)
+      e.render(engine)
+      num += 1
+      @max_rate = e.rate if e.rate > @max_rate
     end
 
     @bottom_position = top - ((@sorted.size > 0 ? (num-1) : num) * line_size)
@@ -114,7 +105,7 @@ class Block
       x = Element.new(self, options[:name], @color || options[:color] )
       @elements[options[:name]] = x
       if @sorted.size > @size
-        @sorted.insert(@size,x)
+        @sorted.insert(@size+1,x)
       else
         @sorted << x
       end
@@ -131,7 +122,7 @@ class Block
       x = Element.new(self, options[:name], @color || options[:color] )
       @elements[options[:name]] = x
       if @sorted.size > @size
-        @sorted.insert(@size,x)
+        @sorted.insert(@size+1,x)
       else
         @sorted << x
       end
@@ -143,11 +134,31 @@ class Block
   end
 
   def update
+    deleted = []
+    @last_clean = 0 if @last_clean > @sorted.size
+    
+    if @last_clean < @sorted.size
+      #		puts "Cleaning #{@last_clean} => #{@last_clean + 10} (#{@sorted.size})" if @name == "urls"
+      @sorted[@last_clean..(@last_clean + 10)].each do |e|
+        #        e.render_events(engine)
+        if e.activities.size == 0 && e.rate <= 0.001 && @auto_clean
+          deleted << e
+        end
+      end
+    else
+      @last_clean = 0
+    end 
+    
+    @last_clean += 10
+
+    for e in deleted do 
+      @elements.delete(e.name)
+      @sorted.delete(e)
+    end
+
     return if @sorted.size == 0
 
     @max_rate = @max_rate * 0.9999
-
-    startTime = Time.now
     i = 1
     @sorted[0].update
     @ordered = [@sorted[0]]
@@ -169,9 +180,9 @@ class Block
           @ordered << @sorted[i]
           if i < @size
             min = rate
-            min_pos = i
           end
         end
+        min_pos = i
         i += 1
       end
     elsif @show == 1
@@ -189,9 +200,9 @@ class Block
           @ordered << @sorted[i]
           if i < @size
             min = total
-            min_pos = i
           end
         end
+        min_pos = i
         i += 1
       end
     elsif @show == 2
@@ -209,9 +220,9 @@ class Block
           @ordered << @sorted[i]
           if i < @size
             min = average
-            min_pos = i
           end
         end
+        min_pos = i
         i += 1
       end
 
