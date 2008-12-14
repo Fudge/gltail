@@ -7,7 +7,6 @@ class FontStore
 
   WIDTH   =  8 / 256.0
   HEIGHT  = 13 / 256.0
-
   
   def self.generate_textures
     if @font_texture.nil?
@@ -138,8 +137,6 @@ class FontStore
 
   def self.render_string(engine, left, right = nil)
     glPushMatrix
-    glEnable(GL_BLEND)
-    glBindTexture(GL_TEXTURE_2D, @font_texture)
 
     pos = 0
 
@@ -147,12 +144,16 @@ class FontStore
     if list.nil?
       list = glGenLists(1)
       glNewList(list, GL_COMPILE)
+      glEnable(GL_BLEND)
+      glBindTexture(GL_TEXTURE_2D, @font_texture)
       glBegin(GL_QUADS)
       left.each_byte do |c|
         self.render_char(engine, c, pos) unless c == 32
         pos += 1
       end
       glEnd
+      glBindTexture(GL_TEXTURE_2D, 0)
+      glDisable(GL_BLEND)
       glEndList
       BlobStore.put(left,list)
     else
@@ -165,21 +166,23 @@ class FontStore
       if list.nil?
         list = glGenLists(1)
         glNewList(list, GL_COMPILE)
+        glEnable(GL_BLEND)
+        glBindTexture(GL_TEXTURE_2D, @font_texture)
         glBegin(GL_QUADS)
         right.each_byte do |c|
           self.render_char(engine, c, pos)
           pos += 1
         end
         glEnd
+        glBindTexture(GL_TEXTURE_2D, 0)
+        glDisable(GL_BLEND)
         glEndList
         BlobStore.put(right,list)
       end 
       glCallList(list)
     end
     
-    glBindTexture(GL_TEXTURE_2D, 0)
 #    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-    glDisable(GL_BLEND)
     glPopMatrix
   end
 
