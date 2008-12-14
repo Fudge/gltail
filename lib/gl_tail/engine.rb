@@ -244,7 +244,11 @@ module GlTail
       glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE)
       glEnable(GL_COLOR_MATERIAL)
       glEnable(GL_NORMALIZE)
+ 
+
       FontStore.generate_font
+
+      glBlendFunc(GL_ONE, GL_ONE) # Make text transparent
 
       @since = glutGet(GLUT_ELAPSED_TIME)
 

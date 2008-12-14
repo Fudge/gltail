@@ -116,7 +116,6 @@ class FontStore
     offsetx = ((base%16) ) / (32.0)
     offsety = ((base/16) * 16) / (256.0)
 
-
     pos_offset = char_size * pos
 
     glTexCoord2f(offsetx,offsety)
@@ -140,12 +139,12 @@ class FontStore
   def self.render_string(engine, left, right = nil)
     glPushMatrix
     glEnable(GL_BLEND)
-    glBlendFunc(GL_ONE, GL_ONE)
     glBindTexture(GL_TEXTURE_2D, @font_texture)
 
     pos = 0
 
-    unless BlobStore.has(left)
+    list = BlobStore.get(left)
+    if list.nil?
       list = glGenLists(1)
       glNewList(list, GL_COMPILE)
       glBegin(GL_QUADS)
@@ -159,24 +158,27 @@ class FontStore
     else
       pos += left.length
     end 
-    glCallList(BlobStore.get(left))
+    glCallList(list)
 
-    unless BlobStore.has(right) || right.nil?
-      list = glGenLists(1)
-      glNewList(list, GL_COMPILE)
-      glBegin(GL_QUADS)
-      right.each_byte do |c|
-        self.render_char(engine, c, pos)
-        pos += 1
-      end
-      glEnd
-      glEndList
-      BlobStore.put(right,list)
+    unless right.nil?
+      list = BlobStore.get(right)
+      if list.nil?
+        list = glGenLists(1)
+        glNewList(list, GL_COMPILE)
+        glBegin(GL_QUADS)
+        right.each_byte do |c|
+          self.render_char(engine, c, pos)
+          pos += 1
+        end
+        glEnd
+        glEndList
+        BlobStore.put(right,list)
+      end 
+      glCallList(list)
     end
-    glCallList(BlobStore.get(right)) unless right.nil?
     
     glBindTexture(GL_TEXTURE_2D, 0)
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+#    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
     glDisable(GL_BLEND)
     glPopMatrix
   end
