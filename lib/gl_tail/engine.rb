@@ -5,12 +5,16 @@ include Glut
 module GlTail
   class Engine
 
-    def render_string(left,right = nil)
-      FontStore.render_string(self, left,right)
+    INF = 1.0/0
+
+    attr_accessor :space
+
+    def render_string(text, cache=true, pos=0)
+      FontStore.render_string(self, text, cache, pos)
     end
 
     def screen
-      @config.screen
+      @screen ||= @config.screen
     end
 
     def char_size
@@ -18,11 +22,11 @@ module GlTail
     end
 
     def line_size
-      @config.screen.line_size
+      self.screen.line_size
     end
 
     def highlight_color
-      @config.screen.highlight_color
+      self.screen.highlight_color
     end
 
     def reset_stats
@@ -37,6 +41,8 @@ module GlTail
       @render_time ||= 0
       @t = Time.new
 
+      @space.step(1.0/60.0)
+
       glClear(GL_COLOR_BUFFER_BIT);
       #    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -50,19 +56,42 @@ module GlTail
 
       glColor([0.15, 0.15, 0.15, 1.0])
       glBegin(GL_QUADS)
-        glNormal3f(1.0, 1.0, 0.0)
+      glNormal3f(1.0, 1.0, 0.0)
 
-        glVertex3f(@left_left, @config.screen.aspect, 0.0)
-        glVertex3f(@left_right, @config.screen.aspect, 0.0)
-        glVertex3f(@left_right, -@config.screen.aspect, 0.0)
-        glVertex3f(@left_left, -@config.screen.aspect, 0.0)
-
-        glVertex3f(@right_left, @config.screen.aspect, 0.0)
-        glVertex3f(@right_right, @config.screen.aspect, 0.0)
-        glVertex3f(@right_right, -@config.screen.aspect, 0.0)
-        glVertex3f(@right_left, -@config.screen.aspect, 0.0)
+      glVertex3f(@left_left, @config.screen.aspect, 0.0)
+      glVertex3f(@left_right, @config.screen.aspect, 0.0)
+      glVertex3f(@left_right, -@config.screen.aspect, 0.0)
+      glVertex3f(@left_left, -@config.screen.aspect, 0.0)
+      
+      glVertex3f(@right_left, @config.screen.aspect, 0.0)
+      glVertex3f(@right_right, @config.screen.aspect, 0.0)
+      glVertex3f(@right_right, -@config.screen.aspect, 0.0)
+      glVertex3f(@right_left, -@config.screen.aspect, 0.0)
 
       glEnd()
+
+      if @config.screen.bounce
+        left  = @left_right
+        right = @right_right
+        bottom = (-@config.screen.top)
+        middle = (-@config.screen.top) / 2.0
+        center = 0.1 
+
+        glColor([0.15, 0.15, 0.15, 1.0])
+        glEnable(GL_LINE_SMOOTH)
+        glBegin(GL_LINES)
+        glVertex3f(left, middle, 0.0)
+        glVertex3f(-center, bottom, 0.0)
+
+        glVertex3f(left, middle, 0.0)
+        glVertex3f(-center, bottom, 0.0)
+
+        glVertex3f(right, middle, 0.0)
+        glVertex3f(center, bottom, 0.0)
+        glEnd()
+        glDisable(GL_LINE_SMOOTH)
+      end 
+
       glPopMatrix()
 
       @config.blocks.each do |block|
@@ -82,6 +111,7 @@ module GlTail
         @t0, @frames = t, 0
         puts "Elements[#{stats[0]}], Activities[#{stats[1]}], Blobs[#{BlobStore.used}/#{BlobStore.size}]" if $VRB > 0
       end
+
       @render_time = (Time.new - @t)
     end
 
@@ -100,7 +130,7 @@ module GlTail
     end
 
     def timer(value)
-      glutTimerFunc(15, method(:timer).to_proc, 0)
+      glutTimerFunc(14, method(:timer).to_proc, 0)
       #    t = glutGet(GLUT_ELAPSED_TIME)
       glutPostRedisplay()
       glutSwapBuffers()
@@ -117,6 +147,8 @@ module GlTail
       when 32 # Space
         @config.screen.bounce ||= false
         @config.screen.bounce = !@config.screen.bounce
+        puts "Bounce: #{@config.screen.bounce}"
+        reshape(@config.screen.window_width, @config.screen.window_height)
       when 102 #f
         @config.screen.wanted_fps = case @config.screen.wanted_fps
                                     when 0
@@ -135,7 +167,7 @@ module GlTail
                                       0
                                     end
         puts "WANTED_FPS[#{@config.screen.wanted_fps}]"
-      when 98
+      when 98 #v
         @config.screen.mode = 1 - @config.screen.mode.to_i
         BlobStore.empty
       end
@@ -178,6 +210,62 @@ module GlTail
       glTranslate(0.0, 0.0, 0.0)
 
       BlobStore.empty # Flush cached objects to recreate with correct size
+
+      unless defined?(@static_body)
+        puts "Adding static shapes.."
+        @static_body = CP::Body.new(Float::MAX, Float::MAX)
+      end 
+
+      if @config.screen.bounce
+        if @static_shapes && @static_shapes.size > 0 
+          0.upto(3) do |i|
+            @space.remove_static_shape(@static_shapes[i])
+          end 
+          @static_shapes.clear
+        else 
+          @static_shapes = []
+        end 
+
+        left  = @left_right * @config.screen.window_width * @config.screen.aspect
+        right = @right_right * @config.screen.window_width * @config.screen.aspect
+        bottom = (-@config.screen.top) * @config.screen.window_height
+        middle = (-@config.screen.top) * @config.screen.window_height / 2.0
+        center = 0.1 * @config.screen.window_width * @config.screen.aspect
+
+        shape = CP::Shape::Segment.new(@static_body, CP::Vec2.new(left,middle), CP::Vec2.new(-center,bottom), 3)
+        shape.e = 0.9
+        shape.u = 1
+        @space.add_static_shape(shape)
+        @static_shapes[0] = shape
+      
+        shape = CP::Shape::Segment.new(@static_body, CP::Vec2.new(right,middle), CP::Vec2.new(center,bottom), 3)
+        shape.e = 0.9
+        shape.u = 1
+        @space.add_static_shape(shape)
+        @static_shapes[1] = shape
+        
+        shape = CP::Shape::Segment.new(@static_body, CP::Vec2.new(right,middle), CP::Vec2.new(right,-bottom), 3)
+        shape.e = 0.9
+        shape.u = 1
+        @space.add_static_shape(shape)
+        @static_shapes[2] = shape
+        
+        shape = CP::Shape::Segment.new(@static_body, CP::Vec2.new(left,middle), CP::Vec2.new(left,-bottom), 3)
+        shape.e = 0.9
+        shape.u = 1
+        @space.add_static_shape(shape)
+        @static_shapes[3] = shape
+      elsif @static_shapes && @static_shapes.size > 0
+        0.upto(3) do |i|
+          @space.remove_static_shape(@static_shapes[i])
+        end 
+        @static_shapes.clear
+      end 
+
+      @config.blocks.each do |block|
+        block.reshape
+      end
+
     end
 
     def visible(vis)
@@ -201,6 +289,11 @@ module GlTail
       @frames = 0
       @t0 = 0
       @left_left = @left_right = @right_left = @right_right = 0.0 # TODO: Why is draw called before these are set by reshape?
+      @space = CP::Space.new
+      @space.damping = 0.89
+      @space.gravity = CP::Vec2.new(0, -85)
+		@space.iterations = 2
+		@space.elastic_iterations = 0
     end
 
     def start
@@ -219,10 +312,10 @@ module GlTail
       glutMouseFunc(method(:mouse).to_proc)
       glutMotionFunc(method(:motion).to_proc)
 
-      glutIdleFunc(method(:idle).to_proc)
-      #    glutTimerFunc(33, method(:timer).to_proc, 0)
+#      glutIdleFunc(method(:idle).to_proc)
+      glutTimerFunc(14, method(:timer).to_proc, 0)
 
-      glLightfv(GL_LIGHT0, GL_POSITION, [5.0, 5.0, 0.0, 0.0])
+#      glLightfv(GL_LIGHT0, GL_POSITION, [5.0, 5.0, 0.0, 0.0])
       glLightfv(GL_LIGHT0, GL_AMBIENT, [0,0,0,1])
 
       glLightModel(GL_LIGHT_MODEL_AMBIENT, [0.1,0.1,0.1,1]);
@@ -230,8 +323,8 @@ module GlTail
 #      glLightModel(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SEPARATE_SPECULAR_COLOR);
 
       glDisable(GL_CULL_FACE)
-      glEnable(GL_LIGHTING)
-      glEnable(GL_LIGHT0)
+#      glEnable(GL_LIGHTING)
+#      glEnable(GL_LIGHT0)
       glEnable(GL_TEXTURE_2D)
 #      glShadeModel(GL_FLAT)
       glDisable(GL_DEPTH_TEST)
@@ -263,7 +356,7 @@ module GlTail
         if glutGet(GLUT_ELAPSED_TIME) - @since >= 1000
           @since = glutGet(GLUT_ELAPSED_TIME)
           @config.update
-          BlobStore.prune
+          BlobStore.prune(@since)
         end
       end
 

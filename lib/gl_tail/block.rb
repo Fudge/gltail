@@ -35,7 +35,7 @@ class Block
     @elements = { }
     @bottom_position = -@config.screen.top
     @max_rate = 1.0/599
-	 @last_clean = 0
+    @last_clean = 0
 
     @sorted = []
   end
@@ -80,7 +80,6 @@ class Block
     return num if @elements.size == 0 || @sorted.size == 0
 
     @header.wy = top - (num * line_size)
-    #    @header.y = @header.wy if @header.y == -$CONFIG.top
     @header.render(engine)
     num += 1
 
@@ -154,6 +153,7 @@ class Block
     for e in deleted do 
       @elements.delete(e.name)
       @sorted.delete(e)
+      e.free_vertex_lists
     end
 
     return if @sorted.size == 0
@@ -230,5 +230,12 @@ class Block
 
     @sorted = @ordered
   end
+
+  def reshape
+    @header.reshape
+    @sorted.each do |e|
+      e.reshape
+    end 
+  end 
 
 end

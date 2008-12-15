@@ -135,19 +135,16 @@ class FontStore
   end
 
 
-  def self.render_string(engine, left, right = nil)
-    glPushMatrix
-
-    pos = 0
-
-    list = BlobStore.get(left)
+  def self.render_string(engine, text, cache, pos)
+    list = nil
+    list = BlobStore.get(text) if cache
     if list.nil?
       list = glGenLists(1)
       glNewList(list, GL_COMPILE)
       glEnable(GL_BLEND)
       glBindTexture(GL_TEXTURE_2D, @font_texture)
       glBegin(GL_QUADS)
-      left.each_byte do |c|
+      text.each_byte do |c|
         self.render_char(engine, c, pos) unless c == 32
         pos += 1
       end
@@ -155,35 +152,9 @@ class FontStore
       glBindTexture(GL_TEXTURE_2D, 0)
       glDisable(GL_BLEND)
       glEndList
-      BlobStore.put(left,list)
-    else
-      pos += left.length
+      BlobStore.put(text,list) if cache
     end 
-    glCallList(list)
-
-    unless right.nil?
-      list = BlobStore.get(right)
-      if list.nil?
-        list = glGenLists(1)
-        glNewList(list, GL_COMPILE)
-        glEnable(GL_BLEND)
-        glBindTexture(GL_TEXTURE_2D, @font_texture)
-        glBegin(GL_QUADS)
-        right.each_byte do |c|
-          self.render_char(engine, c, pos)
-          pos += 1
-        end
-        glEnd
-        glBindTexture(GL_TEXTURE_2D, 0)
-        glDisable(GL_BLEND)
-        glEndList
-        BlobStore.put(right,list)
-      end 
-      glCallList(list)
-    end
-    
-#    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-    glPopMatrix
-  end
+    list
+  end 
 
 end

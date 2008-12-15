@@ -56,6 +56,18 @@ rescue LoadError
   exit
 end
 
+begin
+  require 'chipmunk'
+rescue LoadError
+  puts "Missing Chipmunk C extension."
+  puts "Ubuntu:"
+  puts "  cd vendor/Chipmunk-4.1.0/ruby"
+  puts "  ruby extconf.rb"
+  puts "  sudo make install"
+  puts "  cd ../../../"
+  exit
+end
+
 $:.unshift(File.dirname(__FILE__)) # this should be obsolete once its a gem
 
 # load our libraries

@@ -1,6 +1,9 @@
 class BlobStore
   @store = { }
   @used_keys = { }
+
+  @last_prune = nil
+
   def self.get(key)
     @used_keys[key] = true
     return @store[key]
@@ -23,14 +26,22 @@ class BlobStore
     @used_keys.size
   end
 
-  def self.prune
-    @store.keys.each do |k|
-      unless @used_keys.include? k
-        glDeleteLists(@store[k], 1)
-        @store.delete k
+  def self.mark(key)
+    @used_keys[key] = true
+  end 
+
+  def self.prune(since)
+    @last_prune ||= since
+    if since - @last_prune >= 60000
+      @store.keys.each do |k|
+        unless @used_keys.include? k
+          glDeleteLists(@store[k], 1)
+          @store.delete k
+        end
       end
+      @used_keys = { }
+      @last_prune = since
     end
-    @used_keys = { }
   end
 
   def self.empty
