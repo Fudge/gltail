@@ -1,3 +1,5 @@
+# Only use spaces to indent, not tabs
+
 servers:
     site1:
         host: foobar.com
@@ -75,6 +77,12 @@ config:
                 size: 15
                 auto_clean: false
                 show: total
+            int:
+                order: 11
+                size: 5
+            rule:
+                order: 11
+                size: 5
             sourceinterface:
                 order: 12
                 size: 15	
@@ -124,6 +132,9 @@ config:
                 size: 15
             ipprotocol:
                 order: 10
+                size: 15
+            sourcedestination:
+                order: 11
                 size: 15
             destinationhost:
                 order: 11
