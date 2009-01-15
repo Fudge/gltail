@@ -8,7 +8,15 @@
 class RailsParser < Parser
   def parse( line )
     #Completed in 0.02100 (47 reqs/sec) | Rendering: 0.01374 (65%) | DB: 0.00570 (27%) | 200 OK [http://example.com/whatever/whatever]
-    _, ms, url = /^Completed in ([\d.]+) .* \[([^\]]+)\]/.match(line).to_a
+    if matchdata = /^Completed in ([\d.]+) .* \[([^\]]+)\]/.match(line)
+    	_, ms, url = matchdata.to_a
+	url = nil if url == "http:// /" # mod_proxy health checks?
+    #Rails 2.2.2+: Completed in 17ms (View: 0, DB: 11) | 200 OK [http://example.com/etc/etc]
+    elsif matchdata = /^Completed in ([\d]+)ms .* \[([^\]]+)\]/.match(line)
+    	_, new_ms, url = matchdata.to_a
+	ms = new_ms.to_f / 1000
+	url = nil if url == "http:// /" # mod_proxy health checks?
+    end
 
     if url
       _, host, url = /^http[s]?:\/\/([^\/]*)(.*)/.match(url).to_a
