@@ -33,7 +33,7 @@ module GlTail
           else
             @session = Net::SSH.start(host, user, session_options)
           end
-        rescue SocketError => e
+        rescue SocketError, Errno::ECONNREFUSED => e
           puts "!!! Could not connect to #{host}. Check to make sure that this is the correct url."
           puts $! if $DBG > 0
           exit
