@@ -61,6 +61,9 @@ config:
             database:
                 order: 9
                 size: 10
+            memcached:
+                order: 10
+                size: 3
 
     right_column:
         size: 25
