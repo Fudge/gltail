@@ -85,13 +85,17 @@ config:
                 size: 5
             sourceinterface:
                 order: 12
-                size: 15	
+                size: 15
             sourcehost:
                 order: 13
-                size: 15	
+                size: 15
             sourceport:
                 order: 14
                 size: 15
+            mappers:
+                order: 11
+                size: 8
+
 
     right_column:
         size: 25
@@ -147,6 +151,13 @@ config:
                 size: 15
                 auto_clean: false
                 show: total
+            agents:
+                order: 14
+                size: 8
+                show: total
+                auto_clean: false
+                color: 0.5, 0.5, 0.5, 0.5
+
 resolver:
     reverse_ip_lookups: true
     reverse_timeout: 0.5
