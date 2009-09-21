@@ -20,7 +20,7 @@ class FontStore
 
       # Add missing pixels to increase height by 3
       32.upto(255) do |c|
-        @font[c] += @font[c] + [0,0,0].pack("C*") * 24
+        @font[c] += @font[c] + ([0,0,0].pack("C*") * 24)
       end
 
       0.upto(196607) do |i|
@@ -35,9 +35,9 @@ class FontStore
         offset = row * 256*16*3 + col*8*3
         0.upto(15) do |y|
           0.upto(7) do |x|
-            font_data[offset + y*256*3 + x*3 +0] = @font[c][y*8*3 + x*3 + 0]
-            font_data[offset + y*256*3 + x*3 +1] = @font[c][y*8*3 + x*3 + 1]
-            font_data[offset + y*256*3 + x*3 +2] = @font[c][y*8*3 + x*3 + 2]
+            font_data[offset + y*256*3 + x*3 +0] = @font[c][y*8*3 + x*3 + 0].ord
+            font_data[offset + y*256*3 + x*3 +1] = @font[c][y*8*3 + x*3 + 1].ord
+            font_data[offset + y*256*3 + x*3 +2] = @font[c][y*8*3 + x*3 + 2].ord
           end
         end
 

@@ -10,13 +10,13 @@
 # Available Blocks 
 #action: block|pass
 #rule: Rule number matched
-#proto: carp|icmp|tcp|udp|ah|igmp|esp|gre you get the idea..
+#ipprotocol: carp|icmp|tcp|udp|ah|igmp|esp|gre you get the idea..
 #int: This will be the actual interface (fxp0, vlan2, em1, etc) as the 'friendly' name is not put in the logs.
-#srchost: source host/IP
-#srcport: source port
-#dsthost: destination host/IP
-#dstport: destination port
-#srcdst:  source host and port > destination host and port
+#sourcehost: source host/IP
+#sourceport: source port
+#destinationhost: destination host/IP
+#destinationport: destination port
+#sourcedestination:  source host and port > destination host and port
 
 class PFSenseParser < Parser
   require 'date'
@@ -64,7 +64,7 @@ class PFSenseParser < Parser
   
   def parse( line )
     if line.include?('(match)') and not line.include?('ICMPv6') and not line.include?('icmp6')
-      proto = "TCP"
+      ipprotocol = "TCP"
       _, ltime, host, rule, action, int, details, src, dst = /(.*)\s(.*)\spf:\s.*\srule\s(.*)\(match\)\:\s(.*)\s\w+\son\s(\w+)\:\s\((.*)\)\s(.*)\s>\s(.*)\:\s.*/.match(line).to_a
       
       # Assume the server is in the same time zone as the viewing client.
@@ -84,9 +84,9 @@ class PFSenseParser < Parser
         # Debug
         # printf("Adding entry from %s hours, %s minutes ago\n", hours.to_s, minutes.to_s)
 
-        srchost, srcport = getipandport(src)
+        sourcehost, sourceport = getipandport(src)
 
-        dsthost, dstport = getipandport(dst)
+        destinationhost, destinationport = getipandport(dst)
         
         rule = rule.split('/')[0]
         
@@ -95,26 +95,26 @@ class PFSenseParser < Parser
           add_activity(:block => 'Flags',   :name => flags)
         end
         if details.include?('proto ')
-          _, proto = /.*\sproto\s(.*)\s\(/.match(details).to_a
+          _, ipprotocol = /.*\sproto\s(.*)\s\(/.match(details).to_a
         elsif details.include?('proto: ')
-          _, proto = /.*\sproto:\s(.*)\s\(/.match(details).to_a
+          _, ipprotocol = /.*\sproto:\s(.*)\s\(/.match(details).to_a
         elsif details.include?('next-header ')
-          _, proto = /.*\snext-header\s(.*)\s\(/.match(details).to_a
+          _, ipprotocol = /.*\snext-header\s(.*)\s\(/.match(details).to_a
         end
   
       	add_activity(:block => 'action',  :name => action.to_s)
       	add_activity(:block => 'int',     :name => host.to_s + ":" + int.to_s)
       	add_activity(:block => 'rule',    :name => rule.to_s)
-      	add_activity(:block => 'proto',   :name => proto.to_s)
-      	add_activity(:block => 'srchost', :name => srchost.to_s)	
-      	if srcport != "none"
-      	  add_activity(:block => 'srcport', :name => srcport.to_s)
+      	add_activity(:block => 'ipprotocol',   :name => ipprotocol.to_s)
+      	add_activity(:block => 'sourcehost', :name => sourechost.to_s)	
+      	if sourceport != "none"
+      	  add_activity(:block => 'sourceport', :name => sourceport.to_s)
       	end
-      	add_activity(:block => 'dsthost', :name => dsthost.to_s, :type => 5)	
-      	if dstport != "none"
-      	  add_activity(:block => 'dstport', :name => dstport.to_s, :type => 5)
+      	add_activity(:block => 'destinationhost', :name => destinationhost.to_s, :type => 5)	
+      	if destinationport != "none"
+      	  add_activity(:block => 'destinationport', :name => destinationport.to_s, :type => 5)
       	end
-      	add_activity(:block => 'srcdst',  :name => srchost.to_s + getport(srcport) + " > " + dsthost.to_s + getport(dstport) + " (" + proto.to_s + ")")
+      	add_activity(:block => 'sourcedestination',  :name => sourcehost.to_s + getport(sourceport) + " > " + destinationhost.to_s + getport(destinationport) + " (" + ipprotocol.to_s + ")")
       else
         # Debug
         # printf("Not adding entry from %s hours, %s minutes ago\n", hours.to_s, minutes.to_s)

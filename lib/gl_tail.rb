@@ -5,7 +5,7 @@
 #
 
 module GlTail
-  VERSION = '0.1.7'
+  VERSION = '0.1.8'
 end
 
 begin
@@ -38,12 +38,12 @@ rescue LoadError
 end
 
 begin
-  gem 'net-ssh', '< 1.2'
+  gem 'net-ssh'
   require 'net/ssh'
 rescue LoadError
   puts "Missing gem net-ssh."
   puts "Ubuntu:"
-  puts "  sudo gem install -y net-ssh -v 1.1.4 -r"
+  puts "  sudo gem install -y net-ssh -r"
   exit
 end
 
@@ -56,16 +56,19 @@ rescue LoadError
   exit
 end
 
+$PHYSICS = true
+
 begin
   require 'chipmunk'
 rescue LoadError
-  puts "Missing Chipmunk C extension."
+  puts "Missing Chipmunk C extension. Disabling physics..."
   puts "Ubuntu:"
   puts "  cd vendor/Chipmunk-4.1.0/ruby"
   puts "  ruby extconf.rb"
   puts "  sudo make install"
   puts "  cd ../../../"
-  exit
+
+  $PHYSICS = false
 end
 
 $:.unshift(File.dirname(__FILE__)) # this should be obsolete once its a gem

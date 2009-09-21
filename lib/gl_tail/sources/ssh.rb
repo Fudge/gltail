@@ -46,27 +46,27 @@ module GlTail
         # FIXME: add support for multiple files (eg. write files accessor)
         do_tail(files, command)
 
-        @session.connection.process
+        @session.process(0)
       end
 
       def process
-        @session.connection.process(true)
+        @session.process(0)
       end
 
       def update
-        @channels.each { |ch| ch.connection.ping! }
+        @channels.each { |ch| ch.process }
       end
 
       def parse_line(data)
-        @buffer.gsub(/\r\n/,"\n").gsub(/\n/, "\n\n").each("") do |line|
+        @buffer.split("\n").each() do |line|
 
-          unless line.include? "\n\n"
-            @buffer = "#{line}"
-            next
-          end
+#          unless line.include? "\n"
+#            @buffer = "#{line}"
+#            next
+#          end
 
-          line.gsub!(/\n\n/, "\n")
-          line.gsub!(/\n\n/, "\n")
+#          line.gsub!(/\n\n/, "\n")
+#          line.gsub!(/\n\n/, "\n")
 
           puts "#{host}[#{user}]: #{line}" if $DBG > 0
 
@@ -81,18 +81,14 @@ module GlTail
           puts "Channel opened on #{@session.host}...\n" if($VRB > 0 || $DBG > 0)
 
           @buffer = ""
-          channel.request_pty :want_reply => true
+#          channel.request_pty :want_reply => true
 
           channel.on_data do |ch, data|
             @buffer << data
             parse_line(data)
           end
 
-          channel.on_success do |ch|
-            channel.exec "#{command} #{file}  "
-          end
-
-          channel.on_failure do |ch|
+          channel.on_open_failed do |ch|
             ch.close
           end
 
@@ -103,6 +99,8 @@ module GlTail
           channel.on_close do |ch|
             ch[:closed] = true
           end
+
+          channel.exec "#{command} #{file}  "
 
           puts "Pushing #{host}\n" if($VRB > 0 || $DBG > 0)
           @channels.push(channel)

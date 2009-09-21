@@ -326,21 +326,23 @@ class Element
 
         bs = (size + 0.0005) * engine.screen.window_width * engine.screen.aspect 
 
-        a.body =  CP::Body.new(0.0001, 0.0001)
-        a.body.m = bs * 5.5
-        a.body.p = CP::Vec2.new(a.x * engine.screen.window_width * engine.screen.aspect, a.y * engine.screen.window_height)
-        if a.x < 0.0 
-          a.body.v = CP::Vec2.new(250,0)
-        else 
-          a.body.v = CP::Vec2.new(-250,0)
-        end 
-        a.shape = CP::Shape::Circle.new(a.body, bs, CP::Vec2.new(0.0, 0.0))
-        a.shape.e = 0.9
-        a.shape.u = 1
+        if $PHYSICS
+          a.body =  CP::Body.new(0.0001, 0.0001)
+          a.body.m = bs * 5.5
+          a.body.p = CP::Vec2.new(a.x * engine.screen.window_width * engine.screen.aspect, a.y * engine.screen.window_height)
+          if a.x < 0.0 
+            a.body.v = CP::Vec2.new(250,0)
+          else 
+            a.body.v = CP::Vec2.new(-250,0)
+          end 
+          a.shape = CP::Shape::Circle.new(a.body, bs, CP::Vec2.new(0.0, 0.0))
+          a.shape.e = 0.9
+          a.shape.u = 1
 
-        engine.space.add_body(a.body)
-        engine.space.add_shape(a.shape)
-      end
+          engine.space.add_body(a.body)
+          engine.space.add_shape(a.shape)
+        end
+      end 
     end
 
     @delete = []

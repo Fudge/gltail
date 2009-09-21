@@ -41,7 +41,7 @@ module GlTail
       @render_time ||= 0
       @t = Time.new
 
-      @space.step(1.0/60.0)
+      @space.step(1.0/60.0) if $PHYSICS
 
       glClear(GL_COLOR_BUFFER_BIT);
       #    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -141,7 +141,7 @@ module GlTail
 
     # Change view angle, exit upon ESC
     def key(k, x, y)
-      case k
+      case k.ord
       when 27 # Escape
         exit
       when 32 # Space
@@ -171,7 +171,7 @@ module GlTail
         @config.screen.mode = 1 - @config.screen.mode.to_i
         BlobStore.empty
       end
-      puts "Keypress: #{k}"
+      puts "Keypress: #{k.ord}"
       glutPostRedisplay()
     end
 
@@ -211,12 +211,12 @@ module GlTail
 
       BlobStore.empty # Flush cached objects to recreate with correct size
 
-      unless defined?(@static_body)
+      if !defined?(@static_body) && $PHYSICS
         puts "Adding static shapes.."
         @static_body = CP::Body.new(Float::MAX, Float::MAX)
       end 
 
-      if @config.screen.bounce
+      if @config.screen.bounce && $PHYSICS
         if @static_shapes && @static_shapes.size > 0 
           0.upto(3) do |i|
             @space.remove_static_shape(@static_shapes[i])
@@ -255,7 +255,7 @@ module GlTail
         shape.u = 1
         @space.add_static_shape(shape)
         @static_shapes[3] = shape
-      elsif @static_shapes && @static_shapes.size > 0
+      elsif @static_shapes && @static_shapes.size > 0 
         0.upto(3) do |i|
           @space.remove_static_shape(@static_shapes[i])
         end 
@@ -289,11 +289,14 @@ module GlTail
       @frames = 0
       @t0 = 0
       @left_left = @left_right = @right_left = @right_right = 0.0 # TODO: Why is draw called before these are set by reshape?
-      @space = CP::Space.new
-      @space.damping = 0.89
-      @space.gravity = CP::Vec2.new(0, -85)
-		@space.iterations = 2
-		@space.elastic_iterations = 0
+
+      if $PHYSICS
+        @space = CP::Space.new
+        @space.damping = 0.89
+        @space.gravity = CP::Vec2.new(0, -85)
+        @space.iterations = 2
+        @space.elastic_iterations = 0
+      end 
     end
 
     def start
@@ -312,13 +315,15 @@ module GlTail
       glutMouseFunc(method(:mouse).to_proc)
       glutMotionFunc(method(:motion).to_proc)
 
-#      glutIdleFunc(method(:idle).to_proc)
+#     glutIdleFunc(method(:idle).to_proc)
       glutTimerFunc(14, method(:timer).to_proc, 0)
 
 #      glLightfv(GL_LIGHT0, GL_POSITION, [5.0, 5.0, 0.0, 0.0])
-      glLightfv(GL_LIGHT0, GL_AMBIENT, [0,0,0,1])
 
-      glLightModel(GL_LIGHT_MODEL_AMBIENT, [0.1,0.1,0.1,1]);
+#      glLightfv(GL_LIGHT0, GL_AMBIENT, [0,0,0,1])
+
+#      glLightModel(GL_LIGHT_MODEL_AMBIENT, [0.1,0.1,0.1,1]);
+
 #      glLightModel(GL_LIGHT_MODEL_LOCAL_VIEWER, 1);
 #      glLightModel(GL_LIGHT_MODEL_COLOR_CONTROL, GL_SEPARATE_SPECULAR_COLOR);
 

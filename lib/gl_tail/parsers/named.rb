@@ -41,14 +41,14 @@ class NamedParser < Parser
   # you can use size to distinguish request types
   def set_type_size(type)
     set_size = case type
-    when "A"     : 10
-    when "PTR"   : 90
-    when "AAAA"  : 70
-    when "TXT"   : 60
-    when "SOA"   : 50
-    when "MX"    : 40
-    when "SRV"   : 30
-    when "ANY"   : 100
+    when "A"     then 10
+    when "PTR"   then 90
+    when "AAAA"  then 70
+    when "TXT"   then 60
+    when "SOA"   then 50
+    when "MX"    then 40
+    when "SRV"   then 30
+    when "ANY"   then 100
     else 
       150
     end
