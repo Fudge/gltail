@@ -14,12 +14,18 @@ class HttpHelper
       "Firefox #{$1}"
     when /Iceweasel\/(\S+)/
       "Firefox #{$1}"
+    when /Shiretoko\/(\S+)/
+      "Firefox #{$1}"
     when /Camino\/(\S+)/
       "Camino #{$1}"
     when /Opera\/(\S+)/
       "Opera #{$1}"
+    when /Chrome\/([\d.]+)/
+      "Chrome #{$1}"
     when /Safari\/([\d.]+)/
       "Safari #{$1}"
+    when /Galeon\/([\d.]+)/
+      "Galeon #{$1}"
     when /Konqueror\/(\S+);/
       "Konqueror #{$1}"
     when /Wget/
@@ -29,6 +35,8 @@ class HttpHelper
       "Internet Archive Bot"
     when /Googlebot/
       "Google Bot"
+    when /Feedfetcher-Google/
+      "Google Feeds"
     when /msnbot-media/
       "Microsoft Media Bot"
     when /msnbot/
