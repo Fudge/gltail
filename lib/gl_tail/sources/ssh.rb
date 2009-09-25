@@ -24,15 +24,10 @@ module GlTail
         session_options[:port] = port if port
         session_options[:keys] = keys if keys
         session_options[:verbose] = :debug if $DBG > 1
+        session_options[:password] = password if password
 
         begin
-          if password
-            session_options[:auth_methods] = [ "password","keyboard-interactive" ]
-
-            @session = Net::SSH.start(host, user, password, session_options)
-          else
-            @session = Net::SSH.start(host, user, session_options)
-          end
+          @session = Net::SSH.start(host, user, session_options)
         rescue SocketError, Errno::ECONNREFUSED => e
           puts "!!! Could not connect to #{host}. Check to make sure that this is the correct url."
           puts $! if $DBG > 0
