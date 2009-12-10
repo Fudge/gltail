@@ -29,16 +29,16 @@ Versions tested:
 
 Installation instructions (Ubuntu/Debian):
   sudo apt-get install rubygems rake ruby1.8-dev libgl1-mesa-dev libglu1-mesa-dev libglut3-dev build-essential
-  sudo gem install -y net-ssh ruby-opengl -r
+  sudo gem install net-ssh ruby-opengl -r
 
 Installation instructions (Mandriva/RedHat):
   sudo urpmi ruby ruby-devel ruby-RubyGems ruby-rake
   sudo urpmi libmesagl1-devel libmesaglut3-devel ruby-rbogl
-  sudo gem install -y net-ssh ruby-opengl -r
+  sudo gem install net-ssh ruby-opengl -r
 
 Installation instructions (Mac OS/X):
   <install ruby & rubygems>
-  sudo gem install -y net-ssh ruby-opengl -r
+  sudo gem install net-ssh ruby-opengl file-tail -r
 
 Installation instructions (Windows):
   One-click Ruby installer from http://rubyforge.org/projects/rubyinstaller/

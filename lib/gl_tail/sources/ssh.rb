@@ -13,12 +13,11 @@ module GlTail
       config_attribute :port, "Port"
       config_attribute :keys, "Path to the ssh private key to use"
       config_attribute :password, "Password"
+      config_attribute :gateway, "Gateway"
 
       def init
 
         @channels = []
-
-        puts "Connecting to #{host}..." if($VRB > 0 || $DBG > 0)
 
         session_options = { }
         session_options[:port] = port if port
@@ -27,7 +26,15 @@ module GlTail
         session_options[:password] = password if password
 
         begin
-          @session = Net::SSH.start(host, user, session_options)
+          if gateway
+            puts "Connecting via gateway #{gateway}..." if($VRB > 0 || $DBG > 0)
+            gw = Net::SSH::Gateway.new(gateway, user, session_options)
+            puts "Connecting to #{host}..." if($VRB > 0 || $DBG > 0)
+            @session = gw.ssh(host, user, session_options)
+          else
+            puts "Connecting to #{host}..." if($VRB > 0 || $DBG > 0)
+            @session = Net::SSH.start(host, user, session_options)
+          end
         rescue SocketError, Errno::ECONNREFUSED => e
           puts "!!! Could not connect to #{host}. Check to make sure that this is the correct url."
           puts $! if $DBG > 0

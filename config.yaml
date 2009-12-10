@@ -8,6 +8,7 @@ servers:
         parser: apache
         color: 0.2, 1.0, 0.2, 1.0
     rails:
+        gateway: gw-server.anotherfunsite.com
         host: anotherfunsite.com
         user: anotherfunuser
         port: 222
