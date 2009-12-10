@@ -1,4 +1,4 @@
-
+require 'net/ssh/gateway'
 
 module GlTail
   module Source
