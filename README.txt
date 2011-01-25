@@ -32,7 +32,7 @@ Real-time view of server traffic and events using OpenGL and SSH.
 * opengl/ruby development packages (ruby1.8-dev libgl1-mesa-dev libglu1-mesa-dev libglut3-dev)
 
 == INSTALL:
-  * sudo gem install gl_tail
+  * sudo gem install gltail
 
 == LICENSE:
                     GNU GENERAL PUBLIC LICENSE
