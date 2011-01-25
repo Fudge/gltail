@@ -16,8 +16,8 @@ Configuration:
     keys: /path/to/key
 
 Running:
-  ./gl_tail.rb --help
-  ./gl_tail.rb <config.yaml>
+  ./bin/gl_tail --help
+  ./bin/gl_tail <config.yaml>
 
   You can also press 'f' while running to toggle the attempted frames per second. Or 'b'
   to change default blob type, and space to toggle bouncing.
