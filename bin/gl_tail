@@ -51,7 +51,7 @@ ARGV.each do |arg|
 end
 
 if defined? @init_config
-  require 'ftools'
+  require 'fileutils'
 
   if File.directory? file
     puts "'#{file}' is a directory, not overwriting."
@@ -59,11 +59,11 @@ if defined? @init_config
   end
 
   if File.exist? file
-    File.move(file, file + ".bak")
+    FileUtils.move(file, file + ".bak")
     puts "Existing configuration moved to '#{file + '.bak'}'"
   end
 
-  File.copy(File.dirname(__FILE__) + '/../dist/config.yaml', file)
+  FileUtils.copy(File.dirname(__FILE__) + '/../dist/config.yaml', file)
   puts "Example configuration installed in '#{file}'"
   puts "Please edit it and change server and login information."
   exit
