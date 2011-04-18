@@ -95,6 +95,12 @@ config:
             mappers:
                 order: 11
                 size: 8
+            sqlselect:
+              color: 1.0, 0.8, 0.4, 1.0
+            sqlupdate:
+              color: 1.0, 0.2, 0.2, 1.0
+            sqlinsert:
+              color: 1.0, 0.5, 0.5, 0.0
 
 
     right_column:
