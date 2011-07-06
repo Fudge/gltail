@@ -43,8 +43,17 @@ begin
 rescue LoadError
   puts "Missing gem net-ssh."
   puts "Ubuntu:"
-  puts "  sudo gem install -y net-ssh -r"
+  puts "  sudo gem install -y net-ssh net-ssh-gateway -r"
   exit
+end
+
+begin
+  gem 'net-ssh-gateway'
+  require 'net/ssh/gateway'
+rescue LoadError
+  puts "Missing gem net-ssh-gateway."
+  puts "Ubuntu:"
+  puts "  sudo gem install -y net-ssh-gateway -r"
 end
 
 begin
