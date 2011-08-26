@@ -28,6 +28,8 @@ module GlTail
     config_attribute :window_width, "Width of GlTail window"
     config_attribute :window_height, "Height of GlTail window"
 
+    config_attribute :fullscreen, "should glTail start in fullscren?"
+
     config_attribute :mode, "FIXME"
     config_attribute :bounce, "FIXME"
 
@@ -38,6 +40,8 @@ module GlTail
     def initialize(config)
       @config = config
 
+      @fullscreen = false
+            
       @wanted_fps = 0
       @aspect = 0.6
       @bounce = false
