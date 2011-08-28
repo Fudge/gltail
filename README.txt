@@ -25,6 +25,8 @@ Real-time view of server traffic and events using OpenGL and SSH.
   You can press 'f' while running to toggle the attempted frames per second. Or 'b'
   to change default blob type, and space to toggle bouncing.
 
+  To enable fullscreen mode, press shift + f, or set fullscreen: true in the config section of your config.yaml.
+
 == REQUIREMENTS:
 * rubygems    0.9.4
 * ruby-opengl 0.40.1
