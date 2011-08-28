@@ -167,12 +167,28 @@ module GlTail
                                       0
                                     end
         puts "WANTED_FPS[#{@config.screen.wanted_fps}]"
+      when 70 #F (shift + f) - toggle fullscreen mode
+        @config.screen.fullscreen = !@config.screen.fullscreen
+        set_fullscreen @config.screen.fullscreen
       when 98 #v
         @config.screen.mode = 1 - @config.screen.mode.to_i
         BlobStore.empty
       end
       puts "Keypress: #{k.ord}"
       glutPostRedisplay()
+    end
+    
+    # when toggling fullscreen, we need to remember the original coordinates
+    # so that when we restore the windowed mode we know how big it should be.
+    def set_fullscreen fullscreen
+      if fullscreen
+        @last_window_width = @config.screen.window_width
+        @last_window_height = @config.screen.window_height
+        glutFullScreen()
+      else
+        glutReshapeWindow(@last_window_width, @last_window_height)
+      end
+      
     end
 
     # Change view angle
@@ -306,6 +322,11 @@ module GlTail
       glutInitWindowPosition(0, 0)
       glutInitWindowSize(@config.screen.window_width, @config.screen.window_height)
       glutCreateWindow('glTail')
+      
+      # check if we should start in fullscreen
+      if @config.screen.fullscreen
+        set_fullscreen true
+      end
 
       glutDisplayFunc(method(:draw).to_proc)
       glutReshapeFunc(method(:reshape).to_proc)
