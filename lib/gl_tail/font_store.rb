@@ -140,6 +140,10 @@ class FontStore
     list = BlobStore.get(text) if cache
     if list.nil?
       list = glGenLists(1)
+      if list == 0
+        puts "Out of openGL lists!" if $DBG
+	return
+      end
       glNewList(list, GL_COMPILE)
       glEnable(GL_BLEND)
       glBindTexture(GL_TEXTURE_2D, @font_texture)
