@@ -328,16 +328,16 @@ class Element
 
         if $PHYSICS
           a.body =  CP::Body.new(0.0001, 0.0001)
-          a.body.m = bs * 5.5
+          a.body.m = size * size * 5.5 # Mass
           a.body.p = CP::Vec2.new(a.x * engine.screen.window_width * engine.screen.aspect, a.y * engine.screen.window_height)
           if a.x < 0.0 
-            a.body.v = CP::Vec2.new(250,0)
+            a.body.v = CP::Vec2.new(350,0)
           else 
-            a.body.v = CP::Vec2.new(-250,0)
+            a.body.v = CP::Vec2.new(-350,0)
           end 
           a.shape = CP::Shape::Circle.new(a.body, bs, CP::Vec2.new(0.0, 0.0))
-          a.shape.e = 0.9
-          a.shape.u = 1
+          a.shape.e = 0.1 # Elasticity
+          a.shape.u = 1   # Friction
 
           engine.space.add_body(a.body)
           engine.space.add_shape(a.shape)

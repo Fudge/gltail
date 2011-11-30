@@ -72,10 +72,7 @@ begin
 rescue LoadError
   puts "Missing Chipmunk C extension. Disabling physics..."
   puts "Ubuntu:"
-  puts "  cd vendor/Chipmunk-4.1.0/ruby"
-  puts "  ruby extconf.rb"
-  puts "  sudo make install"
-  puts "  cd ../../../"
+  puts "  sudo gem install -y chipmunk -r"
 
   $PHYSICS = false
 end
