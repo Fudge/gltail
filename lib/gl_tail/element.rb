@@ -252,7 +252,7 @@ class Element
       text = sprintf("%#{@block_width}s", @name.length > @block_width ? @name[-@block_width..-1] : @name)
 
       if text != @last_text
-        glDeleteLists(@text_list,1)
+        glDeleteLists(@text_list,1) unless @text_list.nil?
         @text_list = nil
       end 
      
@@ -275,7 +275,7 @@ class Element
       txt = txt[1..-1]
       text = @name[0..@block_width-1]
       if text != @last_text
-        glDeleteLists(@text_list,1)
+        glDeleteLists(@text_list,1) unless @text_list.nil?
         @text_list = nil
       end 
 

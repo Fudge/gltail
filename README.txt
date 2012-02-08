@@ -29,7 +29,7 @@ Real-time view of server traffic and events using OpenGL and SSH.
 
 == REQUIREMENTS:
 * rubygems    0.9.4
-* ruby-opengl 0.40.1
+* opengl      0.7.0.pre1
 * net-ssh     1.1.2
 * opengl/ruby development packages (ruby1.8-dev libgl1-mesa-dev libglu1-mesa-dev libglut3-dev)
 

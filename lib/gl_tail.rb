@@ -5,7 +5,7 @@
 #
 
 module GlTail
-  VERSION = '0.1.8'
+  VERSION = '0.1.9'
 end
 
 begin
@@ -18,22 +18,22 @@ end
 gem_version = Gem::RubyGemsVersion.split('.')
 
 if gem_version[0].to_i == 0 && gem_version[1].to_i < 9 || (gem_version[0].to_i == 0 && gem_version[1].to_i >= 9 && gem_version[2].to_i < 2)
-  puts "rubygems too old to build ruby-opengl. Please update."
+  puts "rubygems too old to build opengl. Please update."
   puts "Ubuntu:"
   puts "  sudo gem update --system"
   exit
 end
 
 begin
-  gem 'ruby-opengl', '>= 0.40.1'
+  gem 'opengl', '~> 0.7.0.pre1'
   require 'gl'
   require 'glut'
 rescue LoadError
-  puts "Missing or outdated gem: ruby-opengl (>=0.40.1)"
+  puts "Missing or outdated gem: opengl (~> 0.7.0.pre1)"
   puts "Ubuntu:"
   puts "  sudo apt-get install rake ruby1.8-dev libgl1-mesa-dev libglu1-mesa-dev libglut3-dev"
-  puts "  sudo gem install -y ruby-opengl -r"
-  puts "\nFor more information: http://ruby-opengl.rubyforge.org/build_install.html"
+  puts "  sudo gem install -y opengl --pre -r"
+  puts "\nFor more information: http://rubygems.org/gems/opengl"
   exit
 end
 
