@@ -26,26 +26,26 @@ Running:
 
 Versions tested:
   rubygems    0.9.4
-  ruby-opengl 0.40.1
+  opengl      0.7.0.pre1
   net-ssh     1.1.2
 
 Installation instructions (Ubuntu/Debian):
   sudo apt-get install rubygems rake ruby1.8-dev libgl1-mesa-dev libglu1-mesa-dev libglut3-dev build-essential
-  sudo gem install net-ssh ruby-opengl -r
+  sudo gem install net-ssh opengl --pre -r
 
 Installation instructions (Mandriva/RedHat):
   sudo urpmi ruby ruby-devel ruby-RubyGems ruby-rake
   sudo urpmi libmesagl1-devel libmesaglut3-devel ruby-rbogl
-  sudo gem install net-ssh ruby-opengl -r
+  sudo gem install net-ssh opengl --pre -r
 
 Installation instructions (Mac OS/X):
   <install ruby & rubygems>
-  sudo gem install net-ssh ruby-opengl file-tail -r
+  sudo gem install net-ssh opengl --pre file-tail -r
 
 Installation instructions (Windows):
   One-click Ruby installer from http://rubyforge.org/projects/rubyinstaller/
   Start RubyGems/RubyGems Package Manager
-  gem install net-ssh ruby-opengl
+  gem install net-ssh opengl --pre
 
   (Make sure you've got accelerated OpenGL installed for your graphics card. Some drivers
   shipped with your version of Windows do not include this, and it can be installed by
