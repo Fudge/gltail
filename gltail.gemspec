@@ -20,7 +20,7 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
 
-  gem.add_dependency('opengl', '0.7.0.pre2')
+  gem.add_dependency('opengl', '~> 0.8.0')
   gem.add_dependency('net-ssh', '>= 1.1.4')
   gem.add_dependency('net-ssh-gateway')
   gem.add_dependency('chipmunk')
