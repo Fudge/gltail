@@ -4,80 +4,25 @@
 # Licensed under the General Public License v2 (see LICENSE)
 #
 
-module GlTail
-  VERSION = '0.1.9'
-end
-
 begin
   require 'rubygems'
+  require 'bundler/setup'
 rescue LoadError
-  puts "Rubygems missing. Please install."
-  puts "Ubuntu:\n  sudo apt-get install rubygems"
+  puts "Rubygems and/or bundler missing."
 end
 
-gem_version = Gem::RubyGemsVersion.split('.')
+require 'opengl'
+require 'gl'
+require 'glut'
 
-if gem_version[0].to_i == 0 && gem_version[1].to_i < 9 || (gem_version[0].to_i == 0 && gem_version[1].to_i >= 9 && gem_version[2].to_i < 2)
-  puts "rubygems too old to build opengl. Please update."
-  puts "Ubuntu:"
-  puts "  sudo gem update --system"
-  exit
-end
+require 'net/ssh'
+require 'net/ssh/gateway'
 
-begin
-  gem 'opengl', '~> 0.7.0.pre1'
-  require 'gl'
-  require 'glut'
-rescue LoadError
-  puts "Missing or outdated gem: opengl (~> 0.7.0.pre1)"
-  puts "Ubuntu:"
-  puts "  sudo apt-get install rake ruby1.8-dev libgl1-mesa-dev libglu1-mesa-dev libglut3-dev"
-  puts "  sudo gem install -y opengl --pre -r"
-  puts "\nFor more information: http://rubygems.org/gems/opengl"
-  exit
-end
-
-begin
-  gem 'net-ssh'
-  require 'net/ssh'
-rescue LoadError
-  puts "Missing gem net-ssh."
-  puts "Ubuntu:"
-  puts "  sudo gem install -y net-ssh net-ssh-gateway -r"
-  exit
-end
-
-begin
-  gem 'net-ssh-gateway'
-  require 'net/ssh/gateway'
-rescue LoadError
-  puts "Missing gem net-ssh-gateway."
-  puts "Ubuntu:"
-  puts "  sudo gem install -y net-ssh-gateway -r"
-end
-
-begin
-  require 'file/tail'
-rescue LoadError
-  puts "Missing gem file-tail."
-  puts "Ubuntu:"
-  puts "  sudo gem install -y file-tail -r"
-  exit
-end
+require 'file/tail'
 
 $PHYSICS = true
 
-begin
-  require 'chipmunk'
-rescue LoadError
-  puts "Missing Chipmunk C extension. Disabling physics..."
-  puts "Ubuntu:"
-  puts "  sudo gem install -y chipmunk -r"
-
-  $PHYSICS = false
-end
-
-$:.unshift(File.dirname(__FILE__)) # this should be obsolete once its a gem
+require 'chipmunk'
 
 # load our libraries
 require 'gl_tail/engine'
@@ -91,7 +36,7 @@ require 'gl_tail/sources/base'
 require 'gl_tail/sources/ssh'
 require 'gl_tail/sources/local'
 
-%w( engine activity block item element parser resolver blob_store font_store).each {|f| require "gl_tail/#{f}" }
+%w(version engine activity block item element parser resolver blob_store font_store).each {|f| require "gl_tail/#{f}" }
 
 Dir.glob( "#{File.dirname(__FILE__)}/gl_tail/parsers/*.rb" ).each {|f| require f }
 
