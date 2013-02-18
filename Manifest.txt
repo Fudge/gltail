@@ -30,6 +30,7 @@ lib/gl_tail/parsers/postgresql.rb
 lib/gl_tail/parsers/pureftpd.rb
 lib/gl_tail/parsers/qmail.rb
 lib/gl_tail/parsers/rails.rb
+lib/gl_tail/parsers/rails3.rb
 lib/gl_tail/parsers/rails_syslog.rb
 lib/gl_tail/parsers/squid.rb
 lib/gl_tail/parsers/tshark.rb
