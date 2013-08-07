@@ -74,6 +74,8 @@ elsif !File.exist?(file)
   exit
 end
 
+$LOAD_PATH.unshift(File.dirname(__FILE__) + '/../lib')
+
 require File.dirname(__FILE__) + '/../lib/gl_tail.rb'
 
 if defined? @print
