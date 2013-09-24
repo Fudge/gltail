@@ -1,0 +1,206 @@
+# Only use spaces to indent, not tabs
+
+servers:
+    server1:
+        source: local
+        files: ./test/system1.log
+        parser: cassandra
+        color: 0.2, 1.0, 0.2, 1.0
+    server2:
+        source: local
+        files: ./test/system2.log
+        parser: cassandra
+        color: 0.2, 1.0, 0.4, 1.0
+    server3:
+        source: local
+        files: ./test/system3.log
+        parser: cassandra
+        color: 0.2, 1.0, 0.6, 1.0
+    server_errors:
+        source: local
+        files: ./test/system4.log
+        parser: cassandra
+        color: 0.2, 1.0, 0.8, 1.0
+config:
+    dimensions: 1200x600
+    min_blob_size: 0.004
+    max_blob_size: 0.04
+    highlight_color: orange
+    bounce: false
+    left_column:
+        size: 25
+        alignment: -0.99
+        blocks:
+            info:
+                order: 0
+                size: 10
+                auto_clean: false
+                show: total
+            hosts:
+                order: 1
+                size: 3
+            sites:
+                order: 2
+                size: 10
+            content:
+                order: 3
+                size: 5
+                show: total
+                color: 1.0, 0.8, 0.4, 1.0
+            status:
+                order: 4
+                size: 10
+                color: 1.0, 0.8, 0.4, 1.0
+            types:
+                order: 5
+                size: 5
+                color: 1.0, 0.4, 0.2, 1.0
+            users:
+                order: 6
+                size: 10
+            smtp:
+                order: 7
+                size: 5
+            logins:
+                order: 8
+                size: 5
+            database:
+                order: 9
+                size: 10
+            firewall:
+                order: 10
+                size: 15
+            action:
+                order: 11
+                size: 15
+                auto_clean: false
+                show: total
+            int:
+                order: 11
+                size: 5
+            rule:
+                order: 11
+                size: 5
+            sourceinterface:
+                order: 12
+                size: 15
+            sourcehost:
+                order: 13
+                size: 15
+            sourceport:
+                order: 14
+                size: 15
+            mappers:
+                order: 15
+                size: 8
+            errors:
+                order: 16
+                size: 10
+                show: total
+                color: 1.0, 0.0, 0.0, 0.0
+            dropped messages:
+                order: 17
+                size: 5 
+                show: total
+                color: 1.0, 0.0, 0.0, 0.0
+            warnings:
+                order: 18
+                size: 10
+                show: total
+                color: 1.0, 1.0, 0.0, 0.0
+            compacted:
+                order: 19
+                size: 5 
+                show: total
+                color: 1.0, 1.0, 0.2, 0.0
+            flushing:
+                order: 20
+                size: 5 
+                show: total
+                color: 1.0, 1.0, 0.2, 0.0
+            sqlselect:
+                color: 1.0, 0.8, 0.4, 1.0
+            sqlupdate:
+                color: 1.0, 0.2, 0.2, 1.0
+            sqlinsert:
+                color: 1.0, 0.5, 0.5, 0.0
+
+    right_column:
+        size: 25
+        alignment: 0.99
+        blocks:
+            urls:
+                order: 0
+                size: 15
+            slow requests:
+                order: 1
+                size: 5
+                show: average
+            referrers:
+                order: 2
+                size: 10
+            user agents:
+                order: 3
+                size: 5
+                color: 1.0, 1.0, 1.0, 1.0
+            mail from:
+                order: 4
+                size: 5
+            mail to:
+                order: 5
+                size: 5
+            viruses:
+                order: 6
+                size: 5
+            rejections:
+                order: 7
+                size: 5
+                color: 1.0, 0.2, 0.2, 1.0
+            warnings:
+                order: 8
+                size: 5
+            destinationinterface:
+                order: 9
+                size: 15
+            ipprotocol:
+                order: 10
+                size: 15
+            sourcedestination:
+                order: 11
+                size: 15
+            destinationhost:
+                order: 12
+                size: 15
+            destinationport:
+                order: 13
+                size: 15
+            agents:
+                order: 14
+                size: 8
+                show: total
+                auto_clean: false
+                color: 0.5, 0.5, 0.5, 0.5
+            dse servers:
+                order: 15
+                size: 20
+                auto_clean: false
+                show: total
+            cassandra servers:
+                order: 16
+                size: 20
+                auto_clean: false
+                show: total
+            loads:
+                order: 17
+                size: 20
+                auto_clean: false
+                show: total
+            schemas:
+                order: 18
+                size: 20
+                auto_clean: false
+                show: total
+
+resolver:
+    reverse_ip_lookups: true
+    reverse_timeout: 0.5
