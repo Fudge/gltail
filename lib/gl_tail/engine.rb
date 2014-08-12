@@ -119,13 +119,14 @@ module GlTail
       @last_run ||= Time.new
       @last_run_time ||= 0
       delta = (Time.new - @last_run) - @last_run_time
-      if @config.screen.wanted_fps > 0 && delta < (1000.0/(@config.screen.wanted_fps*1000.0))
-        sleep((1000.0/(@config.screen.wanted_fps*1000.0) - delta))
+      targetDelta = 1000.0/(@config.screen.wanted_fps*1000.0)
+      if @config.screen.wanted_fps > 0 && delta < targetDelta
+        sleep(targetDelta - delta)
       end
       @last_run = Time.new
-      glutPostRedisplay()
-      glutSwapBuffers()
-      do_process
+      #glutPostRedisplay()
+      #glutSwapBuffers()
+      #do_process
       @last_run_time = (@last_run_time.to_f * (@config.screen.wanted_fps-1.0) + (Time.new - @last_run).to_f) / @config.screen.wanted_fps.to_f if @config.screen.wanted_fps > 0
     end
 
@@ -336,7 +337,7 @@ module GlTail
       glutMouseFunc(method(:mouse).to_proc)
       glutMotionFunc(method(:motion).to_proc)
 
-#     glutIdleFunc(method(:idle).to_proc)
+      glutIdleFunc(method(:idle).to_proc)
       glutTimerFunc(14, method(:timer).to_proc, 0)
 
 #      glLightfv(GL_LIGHT0, GL_POSITION, [5.0, 5.0, 0.0, 0.0])
