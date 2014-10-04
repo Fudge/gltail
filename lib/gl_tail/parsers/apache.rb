@@ -35,7 +35,7 @@ class ApacheParser < Parser
         type = 'javascript'
       elsif url.include?('.swf')
         type = 'flash'
-      elsif( url.include?('.avi') || url.include?('.ogm') || url.include?('.flv') || url.include?('.mpg') )
+      elsif( url.include?('.avi') || url.include?('.ogm') || url.include?('.flv') || url.include?('.mpg') || url.include?('.mp4') )
         type = 'movie'
       elsif( url.include?('.mp3') || url.include?('.wav') || url.include?('.fla') || url.include?('.aac') || url.include?('.ogg'))
         type = 'music'
