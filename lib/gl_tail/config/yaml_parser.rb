@@ -5,7 +5,7 @@ module GlTail
     attr_reader :yaml
 
     def initialize file
-      file  ||= "config.yaml"
+      file  ||= 'config.yaml'
       @yaml   = YAML.load_file(file)
     end
 
