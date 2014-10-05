@@ -15,25 +15,27 @@
 #
 #     - blocks:
 #     
-#       date        time                host      port        view              query          type    
-#       01-Jul-2009 00:12:34.567 client 127.0.0.1#37534: view vistafool: query: www.thefool.it IN A +E
+#       date        time                host      port        view              query          type
+#       06-Oct-2014 00:16:40.464 client 127.0.0.1#42797 (vistafool): query: www.thefool.it IN A + (127.0.0.1)
 #                
 #                                                                                                          
 #-----------------------------------------------------------------------------------------------------------#
 
 class NamedParser < Parser
   def parse( line )
-    _, date, time, host, port, view, query, type, type2 = /(\d+-\w+-\d+) (\d+:\d+:\d+\.\d+) client (\d+\.\d+\.\d+\.\d+)#(\d+): view (.+): query: (.*) (.*) (.*) (.*)/.match(line).to_a
+    _, date, time, host, port, view, query, type, type2, _ = /(\d+-\w+-\d+) (\d+:\d+:\d+\.\d+) client (\d+\.\d+\.\d+\.\d+)#(\d+) \((.+)\): query: (.*) (.*) (.*) (.*)/.match(line).to_a
     
-    if host                                                                        
-      add_activity(:block => 'time', :name => time, :size => 1, :type => 3)         
-      add_activity(:block => 'host', :name => host, :size => 1, :type => 3)     
-      add_activity(:block => 'port', :name => host, :size => 1, :type => 3)
-      add_activity(:block => 'view', :name => host, :size => 1, :type => 3)   
-      user_id = Digest::MD5.hexdigest(host)                                       
-      add_activity(:block => 'dns_user_id', :name => user_id, :size => set_type_size(type))
-      add_activity(:block => 'query', :name => host, :size => set_type_size(type))   
-      add_activity(:block => 'type', :name => "#{type} #{type2}", :type => 3)
+    if host
+      add_activity(block: 'sites', name: source.name)
+      add_activity(block: 'hosts', name: host, size: 1)
+      add_activity(block: 'types', name: "#{type} #{type2}")
+
+      add_activity(:block => 'dns query', :name => query, :size => set_type_size(type))
+      # add_activity(:block => 'port', :name => port, :size => 1, :type => 3)
+      # add_activity(:block => 'time', :name => time, :size => 1, :type => 3)
+      # add_activity(:block => 'view', :name => view, :size => 1, :type => 3)
+      # user_id = Digest::MD5.hexdigest(host)
+      # add_activity(:block => 'dns_user_id', :name => user_id, :size => set_type_size(type))
     end
     
   end   
