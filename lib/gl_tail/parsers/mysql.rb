@@ -6,24 +6,20 @@
 
 # Parser which handles logs from MySQL
 class MysqlParser < Parser
-  def parse( line )
-    # 071013  9:43:17       7 Query       select * from users where username='test' limit 10
-
-    if line.include? " Query   "
-      _, query = /^.* Query\s+(.+)$/.match(line).to_a
-
-      if query
-        add_activity(:block => 'sites', :name => server.name)
-        add_activity(:block => 'database', :name => query)
-      end
-
-    elsif line.include? " Connect  "
-      #                      8 Connect     debian-sys-maint@localhost on
-      _, user = /^.* Connect\s+(.+) on\s+/.match(line).to_a
+  def parse(line)
+    add_activity(block: 'sites',    name: source.name)
+    if line.include? 'Init DB'
+      _, db = /^.*Init DB\s+(.+)/.match(line).to_a
+      add_activity(block: 'database', name: "mysql: #{db}") if db
+    elsif line.include? 'Query'
+      _, query = /^.*Query\s+(.+)/.match(line).to_a
+      add_activity(block: 'database queries', name: "mysql: #{query.to_s.split[0].upcase}") if query
+    elsif line.include? 'Connect'
+      _, user = /^.*Connect\s+(.+) on/.match(line).to_a
       if user
-        add_activity(:block => 'logins', :name => "#{user}/mysql" )
+        add_activity(block: 'logins', name: "mysql: #{user.to_s.split('@')[0]}")
+        add_event(block: 'info', name: 'Logins', message: "mysql: #{user}", update_stats: true)
       end
     end
-
   end
 end
