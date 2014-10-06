@@ -7,19 +7,19 @@
 # Parser which handles logs from MySQL
 class MysqlParser < Parser
   def parse(line)
-    add_activity(block: 'sites',    name: source.name)
-    if line.include? 'Init DB'
-      _, db = /^.*Init DB\s+(.+)/.match(line).to_a
-      add_activity(block: 'database', name: "mysql: #{db}") if db
-    elsif line.include? 'Query'
-      _, query = /^.*Query\s+(.+)/.match(line).to_a
-      add_activity(block: 'database queries', name: "mysql: #{query.to_s.split[0].upcase}") if query
-    elsif line.include? 'Connect'
-      _, user = /^.*Connect\s+(.+) on/.match(line).to_a
-      if user
-        add_activity(block: 'logins', name: "mysql: #{user.to_s.split('@')[0]}")
-        add_event(block: 'info', name: 'Logins', message: "mysql: #{user}", update_stats: true)
-      end
+    add_activity(block: 'sites', name: source.name)
+    case line.to_s
+      when /^.*Init DB\s+(.+)/ # Get the database name
+        add_activity(block: 'database', name: "mysql: #{$1}")
+      when /^.*Query\s+(\S+)/  # Get the query type: SELECT, INSERT, SET, UPDATE etc.
+        add_activity(block: 'database queries', name: "mysql: #{$1}")
+      when /^.*Connect\s+((\S+)@\S+) on/ # Get "user" and "user@hostname"
+        add_activity(block: 'logins', name: "mysql: #{$2}")
+        add_event(block: 'info', name: 'MySQL Login', message: "mysql: #{$1}", update_stats: true)
+      when /^.*Quit\s+/
+        add_event(block: 'sites', name: source.name, message: 'mysql: Quit', update_stats: false)
+      else
+        # Multiline query? Do nothing yet.
     end
   end
 end
