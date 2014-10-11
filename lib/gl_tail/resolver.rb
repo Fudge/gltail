@@ -47,17 +47,11 @@ class Resolver
   end
 
   def lookup(ip, element)
-    return ip if not @reverse_ip_lookups
-
-    if name = cache[ip]
-      return name
-    else
-      puts "[Resolver] Pushing #{ip} for lookup" if $DBG > 0
-      queue.push([ip, element])
-    end
-
-    return ip
-
+    return ip        unless @reverse_ip_lookups
+    return cache[ip] if     cache[ip]
+    puts "[Resolver] Pushing #{ip} for lookup" if $DBG > 0
+    queue.push([ip, element])
+    ip
   end
 
   def self.resolv(ip, element)
