@@ -23,7 +23,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency('opengl', '~> 0.8.0')
   gem.add_dependency('net-ssh', '>= 1.1.4')
   gem.add_dependency('net-ssh-gateway')
-  gem.add_dependency('chipmunk')
+  gem.add_dependency('chipmunk', '~> 5.3.4.5')
   gem.add_dependency('file-tail')
 end
 

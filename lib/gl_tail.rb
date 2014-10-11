@@ -14,15 +14,13 @@ end
 require 'opengl'
 require 'gl'
 require 'glut'
+require 'chipmunk'
+$PHYSICS = true
 
 require 'net/ssh'
 require 'net/ssh/gateway'
 
 require 'file/tail'
-
-$PHYSICS = true
-
-require 'chipmunk'
 
 # load our libraries
 require 'gl_tail/engine'
