@@ -3,8 +3,8 @@ require 'resolv-replace'
 class Resolver
   include GlTail::Configurable
 
-  config_attribute :reverse_ip_lookups, "Lookup Hostnames"
-  config_attribute :reverse_timeout,    "Wait how long for DNS reply [s]"
+  config_attribute :reverse_ip_lookups, 'Lookup Hostnames'
+  config_attribute :reverse_timeout, 'Wait how long for DNS reply [s]'
 
   def self.instance
     @@instance ||= Resolver.new
@@ -36,7 +36,7 @@ class Resolver
               element.name = hostname
             }
           rescue Timeout::Error
-            puts "[Resolver] Timeout!" if $DBG > 0
+            puts '[Resolver] Timeout!' if $DBG > 0
           rescue Resolv::ResolvError
             # No result, don't bother retrying
             @cache[ip] = ip

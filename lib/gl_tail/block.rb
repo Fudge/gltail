@@ -9,11 +9,11 @@ class Block
 
   attr_reader :name, :bottom_position
 
-  config_attribute :color, "FIXME: add description", :type => :color
-  config_attribute :order, "FIXME"
-  config_attribute :size, "FIXME"
-  config_attribute :auto_clean, "FIXME"
-  config_attribute :activity_type, "FIXME"
+  config_attribute :color, 'FIXME: add description', :type => :color
+  config_attribute :order, 'FIXME'
+  config_attribute :size, 'FIXME'
+  config_attribute :auto_clean, 'FIXME'
+  config_attribute :activity_type, 'FIXME'
 
   attr_accessor :column
   attr_reader   :config
@@ -25,7 +25,7 @@ class Block
 
     @size = 10
     @auto_clean = true
-    @activity_type = "blobs"
+    @activity_type = 'blobs'
     @order = 100
 
     @show = 0

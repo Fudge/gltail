@@ -229,7 +229,7 @@ module GlTail
       BlobStore.empty # Flush cached objects to recreate with correct size
 
       if !defined?(@static_body) && $PHYSICS
-        puts "Adding static shapes.."
+        puts 'Adding static shapes..'
         @static_body = CP::Body.new(Float::MAX, Float::MAX)
       end 
 

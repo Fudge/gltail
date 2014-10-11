@@ -20,7 +20,7 @@ class FontStore
 
       # Add missing pixels to increase height by 3
       32.upto(255) do |c|
-        @font[c] += @font[c] + ([0,0,0].pack("C*") * 24)
+        @font[c] += @font[c] + ([0,0,0].pack('C*') * 24)
       end
 
       0.upto(196607) do |i|
@@ -47,7 +47,7 @@ class FontStore
 #        Marshal.dump(font_data, f)
 #      end
 
-      font_data = font_data.pack("C*")
+      font_data = font_data.pack('C*')
 
       glBindTexture(GL_TEXTURE_2D, @font_texture)
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
@@ -141,7 +141,7 @@ class FontStore
     if list.nil?
       list = glGenLists(1)
       if list == 0
-        puts "Out of openGL lists!" if $DBG
+        puts 'Out of openGL lists!' if $DBG
 	return
       end
       glNewList(list, GL_COMPILE)

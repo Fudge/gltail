@@ -8,7 +8,7 @@
 # Brilliant format design and code by Magnus Holm <judofyr>
 class MemcachedParser < Parser
   def parse( line )
-    hits, miss = line.split(" & ").map { |x| x.to_i }
+    hits, miss = line.split(' & ').map { |x| x.to_i }
 
     hits.times do
       add_activity(:block => 'memcached', :name => 'hit', :color => [0.0, 1.0, 0.0, 1.0])

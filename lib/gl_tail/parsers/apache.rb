@@ -15,7 +15,7 @@ class ApacheParser < Parser
 
     if host
       _, referrer_host, referrer_url = /^http[s]?:\/\/([^\/]+)(\/.*)/.match(referrer).to_a if referrer
-      method, url, http_version = url.split(" ")
+      method, url, http_version = url.split(' ')
       url = method if url.nil?
       url, parameters = url.split('?')
 
@@ -48,9 +48,9 @@ class ApacheParser < Parser
       add_activity(:block => 'warnings', :name => "#{status}: #{url}") if status.to_i > 400
 
       # Events to pop up
-      add_event(:block => 'info', :name => "Logins", :message => "Login...", :update_stats => true, :color => [1.5, 1.0, 0.5, 1.0]) if method == "POST" && url.include?('login')
-      add_event(:block => 'info', :name => "Sales", :message => "$", :update_stats => true, :color => [1.5, 0.0, 0.0, 1.0]) if method == "POST" && url.include?('/checkout')
-      add_event(:block => 'info', :name => "Signups", :message => "New User...", :update_stats => true, :color => [1.0, 1.0, 1.0, 1.0]) if( method == "POST" && (url.include?('/signup') || url.include?('/users/create')))
+      add_event(:block => 'info', :name => 'Logins', :message => 'Login...', :update_stats => true, :color => [1.5, 1.0, 0.5, 1.0]) if method == 'POST' && url.include?('login')
+      add_event(:block => 'info', :name => 'Sales', :message => '$', :update_stats => true, :color => [1.5, 0.0, 0.0, 1.0]) if method == 'POST' && url.include?('/checkout')
+      add_event(:block => 'info', :name => 'Signups', :message => 'New User...', :update_stats => true, :color => [1.0, 1.0, 1.0, 1.0]) if( method == 'POST' && (url.include?('/signup') || url.include?('/users/create')))
     end
   end
 end

@@ -39,8 +39,8 @@ class NginxParser < Parser
       add_activity(:block => 'content', :name => type)
       add_activity(:block => 'status', :name => status, :type => 3)
 
-      add_event(:block => 'info', :name => "Logins", :message => "Login...", :update_stats => true, :color => [1.5, 1.0, 0.5, 1.0]) if method == "POST" && url.include?('/login')
-      add_event(:block => 'info', :name => "Registration", :message => "Register", :update_stats => true, :color => [1.5, 0.0, 0.0, 1.0]) if method == "POST" && url.include?('/register')
+      add_event(:block => 'info', :name => 'Logins', :message => 'Login...', :update_stats => true, :color => [1.5, 1.0, 0.5, 1.0]) if method == 'POST' && url.include?('/login')
+      add_event(:block => 'info', :name => 'Registration', :message => 'Register', :update_stats => true, :color => [1.5, 0.0, 0.0, 1.0]) if method == 'POST' && url.include?('/register')
     end
   end
 end

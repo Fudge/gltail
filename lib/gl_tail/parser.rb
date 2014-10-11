@@ -31,7 +31,7 @@ class Parser
 
   def parse( line )
     raise NotImplementedError,
-      "Concrete parsers must implement parse()"
+          'Concrete parsers must implement parse()'
   end
 
   # dsl-ish helper methods so the parsers don't call server.add_* anymore.  That

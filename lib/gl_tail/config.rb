@@ -152,21 +152,21 @@ module GlTail
   class Screen
     include Configurable
 
-    config_attribute :wanted_fps, "FIXME: add description"
+    config_attribute :wanted_fps, 'FIXME: add description'
 
-    config_attribute :min_blob_size, "Minimum size of activity indicators [0.0 - 1.0]"
-    config_attribute :max_blob_size, "Maximum size of activity indicators [0.0 - 1.0]"
+    config_attribute :min_blob_size, 'Minimum size of activity indicators [0.0 - 1.0]'
+    config_attribute :max_blob_size, 'Maximum size of activity indicators [0.0 - 1.0]'
 
     # shortcut to set these via dimensions
-    config_attribute :window_width, "Width of GlTail window"
-    config_attribute :window_height, "Height of GlTail window"
+    config_attribute :window_width, 'Width of GlTail window'
+    config_attribute :window_height, 'Height of GlTail window'
 
-    config_attribute :fullscreen, "should glTail start in fullscren?"
+    config_attribute :fullscreen, 'should glTail start in fullscren?'
 
-    config_attribute :mode, "FIXME"
-    config_attribute :bounce, "FIXME"
+    config_attribute :mode, 'FIXME'
+    config_attribute :bounce, 'FIXME'
 
-    config_attribute :highlight_color, "FIXME: add description", :type => :color
+    config_attribute :highlight_color, 'FIXME: add description', :type => :color
 
     attr_accessor :aspect, :line_size, :top, :bitmap_mode
 
@@ -220,8 +220,8 @@ module GlTail
   class Column
     include Configurable
 
-    config_attribute :size, "FIXME: add description"
-    config_attribute :alignment, "FIXME: add description"
+    config_attribute :size, 'FIXME: add description'
+    config_attribute :alignment, 'FIXME: add description'
 
     def initialize(config, which)
       @config = config

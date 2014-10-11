@@ -18,8 +18,8 @@ class Rails3Parser < Parser
       add_activity(:block => 'status', :name => $1, :size => size)
       add_activity(:block => 'sites', :name => server.name, :size => size)
     when matchdata = /^([^ ]+Error) \((.*)\):/
-      add_event(:block => 'info', :name => "Exceptions", :message => $1, :update_stats => true, :color => [1.0, 0.0, 0.0, 1.0])
-      add_event(:block => 'info', :name => "Exceptions", :message => $2, :update_stats => false, :color => [1.0, 0.0, 0.0, 1.0])
+      add_event(:block => 'info', :name => 'Exceptions', :message => $1, :update_stats => true, :color => [1.0, 0.0, 0.0, 1.0])
+      add_event(:block => 'info', :name => 'Exceptions', :message => $2, :update_stats => false, :color => [1.0, 0.0, 0.0, 1.0])
       add_activity(:block => 'warnings', :name => $2)
     end
   end

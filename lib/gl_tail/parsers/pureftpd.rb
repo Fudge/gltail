@@ -12,10 +12,10 @@ class PureftpdParser < Parser
     if host
       user = host if user == 'ftp'
 
-      method, url = url.split(" ")
+      method, url = url.split(' ')
       url = method if url.nil?
 
-      if method == "PUT"
+      if method == 'PUT'
         add_activity(:block => 'urls', :name => url, :size => size.to_i, :type => 5)
       else
         add_activity(:block => 'urls', :name => url, :size => size.to_i)

@@ -30,7 +30,7 @@ class PFSenseParser < Parser
         thishost = hostwithport.split('.')[0].to_s
       else 
         thishost = hostwithport
-        thisport = "none"
+        thisport = 'none'
       end
     else
       # IPv4
@@ -40,7 +40,7 @@ class PFSenseParser < Parser
         thishost = thishost[0,thishost.length()-1].join('.')
       else 
         thishost = hostwithport
-        thisport = "none"
+        thisport = 'none'
       end
     end
     
@@ -55,16 +55,16 @@ class PFSenseParser < Parser
   end
   
   def getport(thisport)
-    if thisport == "none"
-      return ""
+    if thisport == 'none'
+      return ''
     else
-      return ":" + thisport.to_s
+      return ':' + thisport.to_s
     end
   end
   
   def parse( line )
     if line.include?('(match)') and not line.include?('ICMPv6') and not line.include?('icmp6')
-      ipprotocol = "TCP"
+      ipprotocol = 'TCP'
       _, ltime, host, rule, action, int, details, src, dst = /(.*)\s(.*)\spf:\s.*\srule\s(.*)\(match\)\:\s(.*)\s\w+\son\s(\w+)\:\s\((.*)\)\s(.*)\s>\s(.*)\:\s.*/.match(line).to_a
       
       # Assume the server is in the same time zone as the viewing client.
@@ -103,18 +103,18 @@ class PFSenseParser < Parser
         end
   
       	add_activity(:block => 'action',  :name => action.to_s)
-      	add_activity(:block => 'int',     :name => host.to_s + ":" + int.to_s)
+      	add_activity(:block => 'int',     :name => host.to_s + ':' + int.to_s)
       	add_activity(:block => 'rule',    :name => rule.to_s)
       	add_activity(:block => 'ipprotocol',   :name => ipprotocol.to_s)
       	add_activity(:block => 'sourcehost', :name => sourechost.to_s)	
-      	if sourceport != "none"
+      	if sourceport != 'none'
       	  add_activity(:block => 'sourceport', :name => sourceport.to_s)
       	end
       	add_activity(:block => 'destinationhost', :name => destinationhost.to_s, :type => 5)	
-      	if destinationport != "none"
+      	if destinationport != 'none'
       	  add_activity(:block => 'destinationport', :name => destinationport.to_s, :type => 5)
       	end
-      	add_activity(:block => 'sourcedestination',  :name => sourcehost.to_s + getport(sourceport) + " > " + destinationhost.to_s + getport(destinationport) + " (" + ipprotocol.to_s + ")")
+      	add_activity(:block => 'sourcedestination',  :name => sourcehost.to_s + getport(sourceport) + ' > ' + destinationhost.to_s + getport(destinationport) + ' (' + ipprotocol.to_s + ')')
       else
         # Debug
         # printf("Not adding entry from %s hours, %s minutes ago\n", hours.to_s, minutes.to_s)

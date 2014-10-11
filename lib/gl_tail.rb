@@ -8,7 +8,7 @@ begin
   require 'rubygems'
   require 'bundler/setup'
 rescue LoadError
-  puts "Rubygems and/or bundler missing."
+  puts 'Rubygems and/or bundler missing.'
 end
 
 require 'opengl'

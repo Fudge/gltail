@@ -19,9 +19,9 @@ class RailsSyslogParser < Parser
       add_activity(:block => 'content', :name => 'page')
 
       # Events to pop up
-      add_event(:block => 'info', :name => "Logins", :message => "Login...", :update_stats => true, :color => [0.5, 1.0, 0.5, 1.0]) if url.include?('/login')
-      add_event(:block => 'info', :name => "Sales", :message => "$", :update_stats => true, :color => [1.5, 0.0, 0.0, 1.0]) if url.include?('/checkout')
-      add_event(:block => 'info', :name => "Signups", :message => "New User...", :update_stats => true, :color => [1.0, 1.0, 1.0, 1.0]) if(url.include?('/signup') || url.include?('/users/create'))
+      add_event(:block => 'info', :name => 'Logins', :message => 'Login...', :update_stats => true, :color => [0.5, 1.0, 0.5, 1.0]) if url.include?('/login')
+      add_event(:block => 'info', :name => 'Sales', :message => '$', :update_stats => true, :color => [1.5, 0.0, 0.0, 1.0]) if url.include?('/checkout')
+      add_event(:block => 'info', :name => 'Signups', :message => 'New User...', :update_stats => true, :color => [1.0, 1.0, 1.0, 1.0]) if(url.include?('/signup') || url.include?('/users/create'))
     elsif line.include?('Processing ')
       #Apr 18 07:27:02 appname network_name[pid]: Processing TasksController#update_sheet_info (for 123.123.123.123 at 2007-10-05 22:34:33) [POST]
       _, host = /^.*: Processing .* \(for (\d+.\d+.\d+.\d+) at .*\).*$/.match(line).to_a
@@ -31,8 +31,8 @@ class RailsSyslogParser < Parser
     elsif line.include?('Error (')
       _, error, msg = /^([^ ]+Error) \((.*)\):/.match(line).to_a
       if error
-        add_event(:block => 'info', :name => "Exceptions", :message => error, :update_stats => true, :color => [1.0, 0.0, 0.0, 1.0])
-        add_event(:block => 'info', :name => "Exceptions", :message => msg, :update_stats => false, :color => [1.0, 0.0, 0.0, 1.0])
+        add_event(:block => 'info', :name => 'Exceptions', :message => error, :update_stats => true, :color => [1.0, 0.0, 0.0, 1.0])
+        add_event(:block => 'info', :name => 'Exceptions', :message => msg, :update_stats => false, :color => [1.0, 0.0, 0.0, 1.0])
         add_activity(:block => 'warnings', :name => msg)
 
       end

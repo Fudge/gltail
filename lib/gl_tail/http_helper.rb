@@ -32,21 +32,21 @@ class HttpHelper
       'Wget'
 
     when /ia_archiver/
-      "Internet Archive Bot"
+      'Internet Archive Bot'
     when /Googlebot/
-      "Google Bot"
+      'Google Bot'
     when /Feedfetcher-Google/
-      "Google Feeds"
+      'Google Feeds'
     when /msnbot-media/
-      "Microsoft Media Bot"
+      'Microsoft Media Bot'
     when /msnbot/
-      "Microsoft Bot"
+      'Microsoft Bot'
     when /Gigabot/
       'Gigabot'
     when /Yahoo!/
       'Yahoo Bot'
-    when "-"
-      "-"
+    when '-'
+      '-'
     else
       ua
     end

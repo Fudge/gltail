@@ -36,7 +36,7 @@ class Element
     @updates = 0
     @active = false
     @color = color || [1.0, 1.0, 1.0, 1.0]
-    @type = (@block.activity_type == "blobs" ? :blobs : :bars)
+    @type = (@block.activity_type == 'blobs' ? :blobs : :bars)
     @bar_color ||= @color.dup
     @text_list   = nil
     @number_list = nil
@@ -229,21 +229,21 @@ class Element
     case @block.show
     when 0
       if @rate == 0
-        txt = "     r/m "
+        txt = '     r/m '
       else
-        txt = "#{sprintf("%8.2f",@rate * 60)} "
+        txt = "#{sprintf('%8.2f',@rate * 60)} "
       end
     when 1
       if @total == 0
-        txt = "   total "
+        txt = '   total '
       else
-        txt = "#{sprintf("%8d",@total)} "
+        txt = "#{sprintf('%8d',@total)} "
       end
     when 2
       if @average == 0
-        txt = "     avg "
+        txt = '     avg '
       else
-        txt = "#{sprintf("%8.2f",@average)} "
+        txt = "#{sprintf('%8.2f',@average)} "
       end
     else
       raise "unknown block type #{self.inspect}"

@@ -17,10 +17,10 @@ class NaniteParser < Parser
     # RECV only appears on debug mode...
     elsif line =~ /RECV/
       if matchdata = line.scan(/\/(.*) from mapper, target (.*), payload (.*)/)[0]
-        add_activity(:block => "agents", :name => matchdata[1], :message => "#{matchdata[0]} to #{matchdata[1]}", :size => 0.005)
+        add_activity(:block => 'agents', :name => matchdata[1], :message => "#{matchdata[0]} to #{matchdata[1]}", :size => 0.005)
       end
     elsif line =~ /Error \(/
-      add_activity(:block => "warnings", :name => line)
+      add_activity(:block => 'warnings', :name => line)
     end
   end
   # eval the payload .. TODO?

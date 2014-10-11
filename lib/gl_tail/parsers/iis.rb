@@ -11,7 +11,7 @@ class IISParser < Parser
 
     if host
       _, referrer_host, referrer_url = /^http[s]?:\/\/([^\/]+)(\/.*)/.match(referrer).to_a if referrer
-      method, url, http_version = url.split(" ")
+      method, url, http_version = url.split(' ')
       url, parameters = url.split('?')
 
       add_activity(:block => 'sites', :name => server.name, :size => size.to_i) # Size of activity based on size of request
@@ -39,9 +39,9 @@ class IISParser < Parser
       add_activity(:block => 'status', :name => status, :type => 3) # don't show a blob
 
       # Events to pop up
-      add_event(:block => 'info', :name => "Logins", :message => "Login...", :update_stats => true, :color => [1.5, 1.0, 0.5, 1.0]) if method == "POST" && url.include?('login')
-      add_event(:block => 'info', :name => "Sales", :message => "$", :update_stats => true, :color => [1.5, 0.0, 0.0, 1.0]) if method == "POST" && url.include?('/checkout')
-      add_event(:block => 'info', :name => "Signups", :message => "New User...", :update_stats => true, :color => [1.0, 1.0, 1.0, 1.0]) if( method == "POST" && (url.include?('/signup') || url.include?('/users/create')))
+      add_event(:block => 'info', :name => 'Logins', :message => 'Login...', :update_stats => true, :color => [1.5, 1.0, 0.5, 1.0]) if method == 'POST' && url.include?('login')
+      add_event(:block => 'info', :name => 'Sales', :message => '$', :update_stats => true, :color => [1.5, 0.0, 0.0, 1.0]) if method == 'POST' && url.include?('/checkout')
+      add_event(:block => 'info', :name => 'Signups', :message => 'New User...', :update_stats => true, :color => [1.0, 1.0, 1.0, 1.0]) if( method == 'POST' && (url.include?('/signup') || url.include?('/users/create')))
     end
   end
 end
