@@ -43,7 +43,11 @@ class Activity
     @screen_height ||= engine.screen.window_height
     @top ||= engine.screen.top
 
-    unless @body
+    if @body
+      p = body.p
+      @x = p.x / @screen_width
+      @y = p.y / @screen_height
+    else
       if @type != 5
         @x += @xi
         @y += @yi
@@ -63,7 +67,7 @@ class Activity
         else
           @y += dy / 20
         end
-        
+
         dx = @wx - @x
         if dx.abs < 0.001
           @x = @wx
@@ -76,11 +80,7 @@ class Activity
         end
 
       end
-    else 
-      p = body.p
-      @x = p.x / @screen_width
-      @y = p.y / @screen_height
-    end 
+    end
 
     glPushMatrix()
     glColor(@color)

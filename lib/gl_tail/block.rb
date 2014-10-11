@@ -99,17 +99,16 @@ class Block
 
   def add_activity(options = { })
     return unless options[:name]
-    x = nil
-    unless @elements[options[:name]]
-      x = Element.new(self, options[:name], @color || options[:color] )
+    if @elements[options[:name]]
+      x = @elements[options[:name]]
+    else
+      x = Element.new(self, options[:name], @color || options[:color])
       @elements[options[:name]] = x
       if @sorted.size > @size
-        @sorted.insert(@size+1,x)
+        @sorted.insert(@size+1, x)
       else
         @sorted << x
       end
-    else
-      x = @elements[options[:name]]
     end
     x.add_activity(options[:message], @color || options[:color], options[:size] || 0.01, options[:type] || 0, options[:real_size] || options[:size] )
   end
