@@ -116,20 +116,18 @@ class Block
 
   def add_event(options = { })
     return unless options[:name]
-    x = nil
-    unless @elements[options[:name]]
-      x = Element.new(self, options[:name], @color || options[:color] )
+    if @elements[options[:name]]
+      x = @elements[options[:name]]
+    else
+      x = Element.new(self, options[:name], @color || options[:color])
       @elements[options[:name]] = x
       if @sorted.size > @size
-        @sorted.insert(@size+1,x)
+        @sorted.insert(@size+1, x)
       else
         @sorted << x
       end
-    else
-      x = @elements[options[:name]]
     end
-
-    x.add_event(options[:message], options[:color] || @color, options[:update_stats] || false)
+    x.add_event(options[:message], options[:color] || @color, options[:update_stats])
   end
 
   def update
