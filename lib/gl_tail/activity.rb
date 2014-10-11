@@ -11,9 +11,13 @@ class Activity
   def initialize(message, x, y, z, color, size, type = 0)
     @shape = @body = nil
     @message = message
-    @x, @y, @z = x, y, z
+    @x = x
+    @y = y
+    @z = z
 #    @xi, @yi, @zi = 0.012 + (rand(100)/100.0 ) * 0.0012 , 0.002 + (rand(1000)/1000.0 ) * 0.002, 0
-    @xi, @yi, @zi = 0.006 , 0.0013, 0
+    @xi = 0.006
+    @yi = 0.0013
+    @zi = 0
 
     if @x >= 0.0
       @xi = -@xi
@@ -26,7 +30,9 @@ class Activity
     @size  = size
     @type  = type
 
-    @rx, @ry, @rz = rand(360), rand(360), 0
+    @rx = rand(360)
+    @ry = rand(360)
+    @rz = 0
     @gl_list     = nil
     @text_list   = nil
   end

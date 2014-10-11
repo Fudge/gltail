@@ -291,13 +291,15 @@ module GlTail
 
     def mouse(button, state, x, y)
       @mouse = state
-      @x0, @y0 = x, y
+      @x0 = x
+      @y0 = y
     end
 
     def motion(x, y)
       if @mouse == GLUT_DOWN then
       end
-      @x0, @y0 = x, y
+      @x0 = x
+      @y0 = y
     end
 
     def initialize(config)

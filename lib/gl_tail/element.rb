@@ -32,7 +32,8 @@ class Element
     @sum = 0
     @average = 0.0
     @last_time = 0
-    @step = 0, @updates = 0
+    @step = 0
+    @updates = 0
     @active = false
     @color = color || [1.0, 1.0, 1.0, 1.0]
     @type = (@block.activity_type == "blobs" ? :blobs : :bars)
@@ -142,7 +143,7 @@ class Element
       @z = 0
       @wy = @start_position
 
-      @color = @block.color.dup if @color.nil? && @block.color
+      @color = @block.color.dup if @color.nil? && @block.color # FIXME(CKA) : try dup.clone
       @color ||= [1.0, 1.0, 1.0, 1.0]
       @size = 0.01
 
