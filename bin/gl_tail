@@ -60,7 +60,7 @@ if defined? @init_config
 
   if File.exist? file
     FileUtils.move(file, file + '.bak')
-    puts "Existing configuration moved to '#{file + '.bak'}'"
+    puts "Existing configuration moved to '#{file}.bak'"
   end
 
   FileUtils.copy(File.dirname(__FILE__) + '/../dist/config.yaml', file)
