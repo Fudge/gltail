@@ -111,6 +111,13 @@ class Block
       end
     end
     x.add_activity(options[:message], @color || options[:color], options[:size] || 0.01, options[:type] || 0, options[:real_size] || options[:size] )
+    if options.include?(:check_rate) && options[:check_rate].to_i > 0
+      rate_to_check = options[:check_rate].to_i
+      curr_rate = (x.rate * 60).to_i
+      if curr_rate >= rate_to_check
+        puts "/!\\ IP|DNS to ban #{options[:name]}"
+      end
+    end
   end
 
   def add_event(options = { })
