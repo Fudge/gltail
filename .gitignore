@@ -4,3 +4,4 @@ vendor/Chipmunk-4.1.0/ruby/*.o
 
 .idea/
 config.*.yaml
+ip_dns_to_ban.txt
