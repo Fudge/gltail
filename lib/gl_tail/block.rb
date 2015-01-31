@@ -115,7 +115,7 @@ class Block
       rate_to_check = options[:check_rate].to_i
       curr_rate = (x.rate * 60).to_i
       if curr_rate >= rate_to_check
-        puts "[/!\\ IP_DNS to ban]: {\"ip_dns\": \"#{options[:name]}\", \"rate\": #{curr_rate}}"
+        puts "[/!\\ IP_DNS to ban]: {\"ip_dns\": \"#{options[:name]}\", \"rate\": #{curr_rate}}, \"timestamp\": #{Time.now.localtime.strftime('%Y%m%d-%Hh%Mm%Ss')}"
       end
     end
   end
