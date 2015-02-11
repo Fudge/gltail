@@ -106,7 +106,7 @@ class PFSenseParser < Parser
       	add_activity(:block => 'int',     :name => host.to_s + ":" + int.to_s)
       	add_activity(:block => 'rule',    :name => rule.to_s)
       	add_activity(:block => 'ipprotocol',   :name => ipprotocol.to_s)
-      	add_activity(:block => 'sourcehost', :name => sourechost.to_s)	
+      	add_activity(:block => 'sourcehost', :name => sourcehost.to_s)
       	if sourceport != "none"
       	  add_activity(:block => 'sourceport', :name => sourceport.to_s)
       	end
