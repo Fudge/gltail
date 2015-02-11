@@ -94,7 +94,7 @@ end
 
 ######## TRAP Interrupts and exit cleanly ########
 
-if RUBY_PLATFORM.split('-',2).last != "mswin32"
+unless Gem.win_platform?
 	trap("HUP") { exit }
 	trap("INT") { exit }
 	trap("QUIT") { exit }

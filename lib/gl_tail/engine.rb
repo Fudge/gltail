@@ -312,7 +312,7 @@ module GlTail
         @space.damping = 0.89
         @space.gravity = CP::Vec2.new(0, -85)
         @space.iterations = 2
-        @space.elastic_iterations = 0
+        #@space.elastic_iterations = 0
       end 
     end
 
