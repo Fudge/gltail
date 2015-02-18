@@ -1,0 +1,570 @@
+ INFO [main] 2013-08-05 19:33:38,088 CassandraDaemon.java (line 118) Logging initialized
+ INFO [main] 2013-08-05 19:33:38,115 DseDaemon.java (line 150) DSE version: 3.1.2
+ INFO [main] 2013-08-05 19:33:38,116 DseDaemon.java (line 151) Hadoop version: 1.0.4.8
+ INFO [main] 2013-08-05 19:33:38,117 DseDaemon.java (line 152) Hive version: 0.9.0.1
+ INFO [main] 2013-08-05 19:33:38,118 DseDaemon.java (line 153) Pig version: 0.9.2
+ INFO [main] 2013-08-05 19:33:38,120 DseDaemon.java (line 154) Solr version: 4.3.0.1
+ INFO [main] 2013-08-05 19:33:38,121 DseDaemon.java (line 155) Sqoop version: 1.4.2.3
+ INFO [main] 2013-08-05 19:33:38,123 DseDaemon.java (line 156) Mahout version: 0.6
+ INFO [main] 2013-08-05 19:33:38,125 DseDaemon.java (line 157) Appender version: 1.1
+ INFO [main] 2013-08-05 19:33:38,216 CassandraDaemon.java (line 145) JVM vendor/version: Java HotSpot(TM) 64-Bit Server VM/1.6.0_45
+ INFO [main] 2013-08-05 19:33:38,220 CassandraDaemon.java (line 183) Heap size: 1931476992/1931476992
+ INFO [main] 2013-08-05 19:33:38,220 CassandraDaemon.java (line 184) Classpath: /home/automaton/dse/resources/cassandra/conf:/home/automaton/dse/resources/cassandra/build/classes/main:/home/automaton/dse/resources/cassandra/build/classes/thrift::/home/automaton/dse/lib/dse-3.1-dev.jar:/home/automaton/dse/resources/dse/lib/commons-codec-1.6.jar:/home/automaton/dse/resources/dse/lib/commons-io-2.4.jar:/home/automaton/dse/resources/dse/lib/guava-13.0.1.jar:/home/automaton/dse/resources/dse/lib/jbcrypt-0.3m.jar:/home/automaton/dse/resources/dse/lib/log4j-1.2.17.jar:/home/automaton/dse/resources/dse/lib/slf4j-api-1.7.2.jar:/home/automaton/dse/resources/dse/lib/slf4j-log4j12-1.7.2.jar:/home/automaton/dse/resources/dse/lib/tape-1.1.0.jar:/usr/share/java/jna.jar:/home/automaton/dse/resources/dse/conf:/home/automaton/dse/resources/cassandra/conf:/home/automaton/dse/resources/cassandra/tools/lib/stress.jar:/home/automaton/dse/resources/cassandra/lib/antlr-2.7.7.jar:/home/automaton/dse/resources/cassandra/lib/antlr-3.2.jar:/home/automaton/dse/resources/cassandra/lib/antlr-runtime-3.2.jar:/home/automaton/dse/resources/cassandra/lib/avro-1.4.0-cassandra-1.jar:/home/automaton/dse/resources/cassandra/lib/cassandra-all-1.2.6.1-DSP-2332-20130725.215526-4.jar:/home/automaton/dse/resources/cassandra/lib/cassandra-clientutil-1.2.6.1-DSP-2332-20130725.215520-4.jar:/home/automaton/dse/resources/cassandra/lib/cassandra-thrift-1.2.6.1-DSP-2332-20130725.215511-4.jar:/home/automaton/dse/resources/cassandra/lib/commons-cli-1.1.jar:/home/automaton/dse/resources/cassandra/lib/commons-codec-1.6.jar:/home/automaton/dse/resources/cassandra/lib/commons-lang-2.6.jar:/home/automaton/dse/resources/cassandra/lib/commons-logging-1.1.1.jar:/home/automaton/dse/resources/cassandra/lib/compress-lzf-0.8.4.jar:/home/automaton/dse/resources/cassandra/lib/concurrentlinkedhashmap-lru-1.3.jar:/home/automaton/dse/resources/cassandra/lib/guava-13.0.1.jar:/home/automaton/dse/resources/cassandra/lib/high-scale-lib-1.1.2.jar:/home/automaton/dse/resources/cassandra/lib/httpclient-4.0.1.jar:/home/automaton/dse/resources/cassandra/lib/httpcore-4.0.1.jar:/home/automaton/dse/resources/cassandra/lib/jackson-core-asl-1.9.2.jar:/home/automaton/dse/resources/cassandra/lib/jackson-mapper-asl-1.9.2.jar:/home/automaton/dse/resources/cassandra/lib/jamm-0.2.5.jar:/home/automaton/dse/resources/cassandra/lib/jbcrypt-0.3m.jar:/home/automaton/dse/resources/cassandra/lib/jline-1.0.jar:/home/automaton/dse/resources/cassandra/lib/joda-time-1.6.2.jar:/home/automaton/dse/resources/cassandra/lib/json-simple-1.1.jar:/home/automaton/dse/resources/cassandra/lib/libthrift-0.7.0.jar:/home/automaton/dse/resources/cassandra/lib/log4j-1.2.16.jar:/home/automaton/dse/resources/cassandra/lib/lz4-1.1.0.jar:/home/automaton/dse/resources/cassandra/lib/metrics-core-2.0.3.jar:/home/automaton/dse/resources/cassandra/lib/netty-3.5.9.Final.jar:/home/automaton/dse/resources/cassandra/lib/servlet-api-2.5.jar:/home/automaton/dse/resources/cassandra/lib/slf4j-api-1.7.2.jar:/home/automaton/dse/resources/cassandra/lib/snakeyaml-1.6.jar:/home/automaton/dse/resources/cassandra/lib/snappy-java-1.0.5.jar:/home/automaton/dse/resources/cassandra/lib/snaptree-0.1.jar:/home/automaton/dse/resources/cassandra/lib/stringtemplate-3.2.jar::/home/automaton/dse/resources/solr/lib/solr-4.3.0.1-uber.jar:/home/automaton/dse/resources/solr/lib/solr-web-4.3.0.1.jar:/home/automaton/dse/resources/solr/conf::/home/automaton/dse/resources/tomcat/lib/annotations-api-6.0.32.jar:/home/automaton/dse/resources/tomcat/lib/catalina-6.0.32.jar:/home/automaton/dse/resources/tomcat/lib/catalina-ha-6.0.32.jar:/home/automaton/dse/resources/tomcat/lib/coyote-6.0.32.jar:/home/automaton/dse/resources/tomcat/lib/el-api-6.0.29.jar:/home/automaton/dse/resources/tomcat/lib/jasper-6.0.29.jar:/home/automaton/dse/resources/tomcat/lib/jasper-el-6.0.29.jar:/home/automaton/dse/resources/tomcat/lib/jasper-jdt-6.0.29.jar:/home/automaton/dse/resources/tomcat/lib/jsp-api-6.0.29.jar:/home/automaton/dse/resources/tomcat/lib/juli-6.0.32.jar:/home/automaton/dse/resources/tomcat/lib/servlet-api-6.0.29.jar:/home/automaton/dse/resources/tomcat/lib/tribes-6.0.32.jar:/home/automaton/dse/resources/tomcat/conf::/home/automaton/dse/resources/hadoop:/home/automaton/dse/resources/hadoop/conf:/home/automaton/dse/resources/hadoop/hadoop-core-1.0.4.8.jar:/home/automaton/dse/resources/hadoop/hadoop-examples-1.0.4.8.jar:/home/automaton/dse/resources/hadoop/hadoop-fairscheduler-1.0.4.8.jar:/home/automaton/dse/resources/hadoop/hadoop-streaming-1.0.4.8.jar:/home/automaton/dse/resources/hadoop/hadoop-test-1.0.4.8.jar:/home/automaton/dse/resources/hadoop/hadoop-tools-1.0.4.8.jar:/home/automaton/dse/resources/hadoop/lib/ant-1.6.5.jar:/home/automaton/dse/resources/hadoop/lib/automaton-1.11-8.jar:/home/automaton/dse/resources/hadoop/lib/commons-beanutils-1.7.0.jar:/home/automaton/dse/resources/hadoop/lib/commons-beanutils-core-1.8.0.jar:/home/automaton/dse/resources/hadoop/lib/commons-cli-1.2.jar:/home/automaton/dse/resources/hadoop/lib/commons-codec-1.4.jar:/home/automaton/dse/resources/hadoop/lib/commons-collections-3.2.1.jar:/home/automaton/dse/resources/hadoop/lib/commons-configuration-1.6.jar:/home/automaton/dse/resources/hadoop/lib/commons-digester-1.8.jar:/home/automaton/dse/resources/hadoop/lib/commons-el-1.0.jar:/home/automaton/dse/resources/hadoop/lib/commons-httpclient-3.0.1.jar:/home/automaton/dse/resources/hadoop/lib/commons-lang-2.4.jar:/home/automaton/dse/resources/hadoop/lib/commons-logging-1.1.1.jar:/home/automaton/dse/resources/hadoop/lib/commons-math-2.1.jar:/home/automaton/dse/resources/hadoop/lib/commons-net-1.4.1.jar:/home/automaton/dse/resources/hadoop/lib/core-3.1.1.jar:/home/automaton/dse/resources/hadoop/lib/ftplet-api-1.0.0.jar:/home/automaton/dse/resources/hadoop/lib/ftpserver-core-1.0.0.jar:/home/automaton/dse/resources/hadoop/lib/ftpserver-deprecated-1.0.0-M2.jar:/home/automaton/dse/resources/hadoop/lib/hsqldb-1.8.0.10.jar:/home/automaton/dse/resources/hadoop/lib/jackson-core-asl-1.8.8.jar:/home/automaton/dse/resources/hadoop/lib/jackson-mapper-asl-1.8.8.jar:/home/automaton/dse/resources/hadoop/lib/jasper-compiler-5.5.12.jar:/home/automaton/dse/resources/hadoop/lib/jasper-runtime-5.5.12.jar:/home/automaton/dse/resources/hadoop/lib/jets3t-0.7.1.jar:/home/automaton/dse/resources/hadoop/lib/jetty-6.1.26.jar:/home/automaton/dse/resources/hadoop/lib/jetty-util-6.1.26.jar:/home/automaton/dse/resources/hadoop/lib/jsp-2.1-6.1.14.jar:/home/automaton/dse/resources/hadoop/lib/jsp-api-2.1-6.1.14.jar:/home/automaton/dse/resources/hadoop/lib/kfs-0.3.jar:/home/automaton/dse/resources/hadoop/lib/mina-core-2.0.0-M5.jar:/home/automaton/dse/resources/hadoop/lib/oro-2.0.8.jar:/home/automaton/dse/resources/hadoop/lib/servlet-api-2.5-20081211.jar:/home/automaton/dse/resources/hadoop/lib/servlet-api-2.5-6.1.14.jar:/home/automaton/dse/resources/hadoop/lib/snappy-java-1.0.5.jar:/home/automaton/dse/resources/hadoop/lib/xmlenc-0.52.jar:/usr/share/java/jna.jar::/home/automaton/dse/lib/dse-3.1-dev.jar::/home/automaton/dse/resources/pig/lib/ant-1.6.5.jar:/home/automaton/dse/resources/pig/lib/antlr-2.7.7.jar:/home/automaton/dse/resources/pig/lib/antlr-runtime-3.2.jar:/home/automaton/dse/resources/pig/lib/asm-3.2.jar:/home/automaton/dse/resources/pig/lib/avro-1.3.2.jar:/home/automaton/dse/resources/pig/lib/commons-cli-1.2.jar:/home/automaton/dse/resources/pig/lib/commons-codec-1.4.jar:/home/automaton/dse/resources/pig/lib/commons-el-1.0.jar:/home/automaton/dse/resources/pig/lib/commons-httpclient-3.1.jar:/home/automaton/dse/resources/pig/lib/commons-lang-2.5.jar:/home/automaton/dse/resources/pig/lib/commons-logging-1.0.4.jar:/home/automaton/dse/resources/pig/lib/commons-net-1.4.1.jar:/home/automaton/dse/resources/pig/lib/core-3.1.1.jar:/home/automaton/dse/resources/pig/lib/guava-r06.jar:/home/automaton/dse/resources/pig/lib/hsqldb-1.8.0.10.jar:/home/automaton/dse/resources/pig/lib/jackson-core-asl-1.4.2.jar:/home/automaton/dse/resources/pig/lib/jackson-mapper-asl-1.4.2.jar:/home/automaton/dse/resources/pig/lib/jasper-compiler-5.5.12.jar:/home/automaton/dse/resources/pig/lib/jasper-runtime-5.5.12.jar:/home/automaton/dse/resources/pig/lib/jets3t-0.7.1.jar:/home/automaton/dse/resources/pig/lib/jline-0.9.94.jar:/home/automaton/dse/resources/pig/lib/jsp-2.1-6.1.14.jar:/home/automaton/dse/resources/pig/lib/jsp-api-2.1-6.1.14.jar:/home/automaton/dse/resources/pig/lib/kfs-0.3.jar:/home/automaton/dse/resources/pig/lib/oro-2.0.8.jar:/home/automaton/dse/resources/pig/lib/paranamer-2.2.jar:/home/automaton/dse/resources/pig/lib/paranamer-ant-2.2.jar:/home/automaton/dse/resources/pig/lib/paranamer-generator-2.2.jar:/home/automaton/dse/resources/pig/lib/pig-0.9.2.jar:/home/automaton/dse/resources/pig/lib/qdox-1.10.1.jar:/home/automaton/dse/resources/pig/lib/servlet-api-2.5-6.1.14.jar:/home/automaton/dse/resources/pig/lib/snappy-java-1.0.5.jar:/home/automaton/dse/resources/pig/lib/stringtemplate-3.2.jar:/home/automaton/dse/resources/pig/lib/xmlenc-0.52.jar::/home/automaton/dse/resources/hive/conf:/home/automaton/dse/resources/hive/lib/antlr-3.2.jar:/home/automaton/dse/resources/hive/lib/antlr-runtime-3.0.1.jar:/home/automaton/dse/resources/hive/lib/asm-3.3.1.jar:/home/automaton/dse/resources/hive/lib/commons-cli-1.2.jar:/home/automaton/dse/resources/hive/lib/commons-codec-1.4.jar:/home/automaton/dse/resources/hive/lib/commons-collections-3.2.1.jar:/home/automaton/dse/resources/hive/lib/commons-dbcp-1.4.jar:/home/automaton/dse/resources/hive/lib/commons-lang-2.4.jar:/home/automaton/dse/resources/hive/lib/commons-logging-1.0.4.jar:/home/automaton/dse/resources/hive/lib/commons-logging-api-1.0.4.jar:/home/automaton/dse/resources/hive/lib/commons-pool-1.5.4.jar:/home/automaton/dse/resources/hive/lib/datanucleus-connectionpool-2.0.3.jar:/home/automaton/dse/resources/hive/lib/datanucleus-core-2.0.3.jar:/home/automaton/dse/resources/hive/lib/datanucleus-enhancer-2.0.3.jar:/home/automaton/dse/resources/hive/lib/datanucleus-rdbms-2.0.3.jar:/home/automaton/dse/resources/hive/lib/derby-10.4.2.0.jar:/home/automaton/dse/resources/hive/lib/guava-r09.jar:/home/automaton/dse/resources/hive/lib/hamcrest-core-1.1.jar:/home/automaton/dse/resources/hive/lib/hive-builtins-0.9.0.1.jar:/home/automaton/dse/resources/hive/lib/hive-cli-0.9.0.1.jar:/home/automaton/dse/resources/hive/lib/hive-common-0.9.0.1.jar:/home/automaton/dse/resources/hive/lib/hive-exec-0.9.0.1.jar:/home/automaton/dse/resources/hive/lib/hive-hwi-0.9.0.1.jar:/home/automaton/dse/resources/hive/lib/hive-jdbc-0.9.0.1.jar:/home/automaton/dse/resources/hive/lib/hive-metastore-0.9.0.1.jar:/home/automaton/dse/resources/hive/lib/hive-serde-0.9.0.1.jar:/home/automaton/dse/resources/hive/lib/hive-service-0.9.0.1.jar:/home/automaton/dse/resources/hive/lib/hive-shims-0.9.0.1.jar:/home/automaton/dse/resources/hive/lib/httpclient-4.0.1.jar:/home/automaton/dse/resources/hive/lib/httpcore-4.0.1.jar:/home/automaton/dse/resources/hive/lib/jackson-core-asl-1.8.8.jar:/home/automaton/dse/resources/hive/lib/jackson-mapper-asl-1.8.8.jar:/home/automaton/dse/resources/hive/lib/JavaEWAH-0.3.2.jar:/home/automaton/dse/resources/hive/lib/jdo2-api-2.3-ec.jar:/home/automaton/dse/resources/hive/lib/jline-0.9.94.jar:/home/automaton/dse/resources/hive/lib/json-20090211.jar:/home/automaton/dse/resources/hive/lib/libfb303-0.7.0.jar:/home/automaton/dse/resources/hive/lib/libthrift-0.7.0.jar:/home/automaton/dse/resources/hive/lib/log4j-1.2.16.jar:/home/automaton/dse/resources/hive/lib/mockito-all-1.8.2.jar:/home/automaton/dse/resources/hive/lib/netty-3.2.2.Final.jar:/home/automaton/dse/resources/hive/lib/netty-3.5.9.Final.jar:/home/automaton/dse/resources/hive/lib/servlet-api-2.5.jar:/home/automaton/dse/resources/hive/lib/slf4j-api-1.6.1.jar:/home/automaton/dse/resources/hive/lib/snappy-java-1.0.5.jar:/home/automaton/dse/resources/hive/lib/zookeeper-3.4.3.jar:/home/automaton/dse/resources/cassandra/lib/antlr-2.7.7.jar:/home/automaton/dse/resources/cassandra/lib/antlr-3.2.jar:/home/automaton/dse/resources/cassandra/lib/antlr-runtime-3.2.jar:/home/automaton/dse/resources/cassandra/lib/avro-1.4.0-cassandra-1.jar:/home/automaton/dse/resources/cassandra/lib/cassandra-all-1.2.6.1-DSP-2332-20130725.215526-4.jar:/home/automaton/dse/resources/cassandra/lib/cassandra-clientutil-1.2.6.1-DSP-2332-20130725.215520-4.jar:/home/automaton/dse/resources/cassandra/lib/cassandra-thrift-1.2.6.1-DSP-2332-20130725.215511-4.jar:/home/automaton/dse/resources/cassandra/lib/commons-cli-1.1.jar:/home/automaton/dse/resources/cassandra/lib/commons-codec-1.6.jar:/home/automaton/dse/resources/cassandra/lib/commons-lang-2.6.jar:/home/automaton/dse/resources/cassandra/lib/commons-logging-1.1.1.jar:/home/automaton/dse/resources/cassandra/lib/compress-lzf-0.8.4.jar:/home/automaton/dse/resources/cassandra/lib/concurrentlinkedhashmap-lru-1.3.jar:/home/automaton/dse/resources/cassandra/lib/guava-13.0.1.jar:/home/automaton/dse/resources/cassandra/lib/high-scale-lib-1.1.2.jar:/home/automaton/dse/resources/cassandra/lib/httpclient-4.0.1.jar:/home/automaton/dse/resources/cassandra/lib/httpcore-4.0.1.jar:/home/automaton/dse/resources/cassandra/lib/jackson-core-asl-1.9.2.jar:/home/automaton/dse/resources/cassandra/lib/jackson-mapper-asl-1.9.2.jar:/home/automaton/dse/resources/cassandra/lib/jamm-0.2.5.jar:/home/automaton/dse/resources/cassandra/lib/jbcrypt-0.3m.jar:/home/automaton/dse/resources/cassandra/lib/jline-1.0.jar:/home/automaton/dse/resources/cassandra/lib/joda-time-1.6.2.jar:/home/automaton/dse/resources/cassandra/lib/json-simple-1.1.jar:/home/automaton/dse/resources/cassandra/lib/libthrift-0.7.0.jar:/home/automaton/dse/resources/cassandra/lib/log4j-1.2.16.jar:/home/automaton/dse/resources/cassandra/lib/lz4-1.1.0.jar:/home/automaton/dse/resources/cassandra/lib/metrics-core-2.0.3.jar:/home/automaton/dse/resources/cassandra/lib/netty-3.5.9.Final.jar:/home/automaton/dse/resources/cassandra/lib/servlet-api-2.5.jar:/home/automaton/dse/resources/cassandra/lib/slf4j-api-1.7.2.jar:/home/automaton/dse/resources/cassandra/lib/snakeyaml-1.6.jar:/home/automaton/dse/resources/cassandra/lib/snappy-java-1.0.5.jar:/home/automaton/dse/resources/cassandra/lib/snaptree-0.1.jar:/home/automaton/dse/resources/cassandra/lib/stringtemplate-3.2.jar:/home/automaton/dse/resources/cassandra/lib/jamm-0.2.5.jar
+ WARN [main] 2013-08-05 19:33:38,226 CLibrary.java (line 137) Unable to lock JVM memory (ENOMEM). This can result in part of the JVM being swapped out, especially with mmapped I/O enabled. Increase RLIMIT_MEMLOCK or run Cassandra as root.
+ INFO [main] 2013-08-05 19:33:38,245 DatabaseDescriptor.java (line 137) Loading settings from file:/home/automaton/dse/resources/cassandra/conf/cassandra.yaml
+ INFO [main] 2013-08-05 19:33:38,774 DatabaseDescriptor.java (line 155) Data files directories: [/var/lib/cassandra/data]
+ INFO [main] 2013-08-05 19:33:38,775 DatabaseDescriptor.java (line 156) Commit log directory: /var/lib/cassandra/commitlog
+ INFO [main] 2013-08-05 19:33:38,778 DatabaseDescriptor.java (line 196) DiskAccessMode 'auto' determined to be mmap, indexAccessMode is mmap
+ INFO [main] 2013-08-05 19:33:38,779 DatabaseDescriptor.java (line 210) disk_failure_policy is stop
+ INFO [main] 2013-08-05 19:33:38,779 DatabaseDescriptor.java (line 222) Legacy authentication config found. Existing authentication data will be migrated to a system keyspace.
+ INFO [main] 2013-08-05 19:33:38,802 DatabaseDescriptor.java (line 313) Global memtable threshold is enabled at 614MB
+ INFO [main] 2013-08-05 19:33:38,814 DseDelegateSnitch.java (line 57) Setting my role to Cassandra
+ INFO [main] 2013-08-05 19:33:38,819 DseConfig.java (line 88) Loading settings from file:/home/automaton/dse/resources/dse/conf/dse.yaml
+ INFO [main] 2013-08-05 19:33:38,843 DseConfig.java (line 228) Load of settings is done.
+ INFO [main] 2013-08-05 19:33:39,044 DatabaseDescriptor.java (line 441) Not using multi-threaded compaction
+ INFO [main] 2013-08-05 19:33:39,376 CacheService.java (line 111) Initializing key cache with capacity of 92 MBs.
+ INFO [main] 2013-08-05 19:33:39,390 CacheService.java (line 140) Scheduling key cache save to each 14400 seconds (going to save all keys).
+ INFO [main] 2013-08-05 19:33:39,391 CacheService.java (line 154) Initializing row cache with capacity of 0 MBs and provider org.apache.cassandra.cache.SerializingCacheProvider
+ INFO [main] 2013-08-05 19:33:39,402 CacheService.java (line 166) Scheduling row cache save to each 0 seconds (going to save all keys).
+ INFO [main] 2013-08-05 19:33:39,894 DatabaseDescriptor.java (line 596) Couldn't detect any schema definitions in local storage.
+ INFO [main] 2013-08-05 19:33:39,897 DatabaseDescriptor.java (line 601) To create keyspaces and column families, see 'help create keyspace' in the CLI, or set up a schema using the thrift system_* calls.
+ INFO [main] 2013-08-05 19:33:39,970 CommitLog.java (line 120) No commitlog files found; skipping replay
+ INFO [main] 2013-08-05 19:33:40,327 StorageService.java (line 456) Cassandra version: 1.2.6.1-DSP-2332-SNAPSHOT
+ INFO [main] 2013-08-05 19:33:40,328 StorageService.java (line 457) Thrift API version: 19.36.0
+ INFO [main] 2013-08-05 19:33:40,328 StorageService.java (line 458) CQL supported versions: 2.0.0,3.0.4 (default: 3.0.4)
+ INFO [main] 2013-08-05 19:33:40,381 StorageService.java (line 483) Loading persisted ring state
+ INFO [main] 2013-08-05 19:33:40,386 StorageService.java (line 564) Starting up server gossip
+ WARN [main] 2013-08-05 19:33:40,395 SystemTable.java (line 583) No host ID found, created 58b2ebd1-f2b7-4f9c-8adb-0e8a92c7a4ad (Note: This should happen exactly once per node).
+ INFO [main] 2013-08-05 19:33:40,415 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-local@1850278722(373/373 serialized/live bytes, 15 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:33:40,418 Memtable.java (line 461) Writing Memtable-local@1850278722(373/373 serialized/live bytes, 15 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:33:40,518 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/local/system-local-ic-1-Data.db (367 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=54599)
+ INFO [main] 2013-08-05 19:33:40,599 MessagingService.java (line 461) Starting Messaging Service on port 7000
+ INFO [main] 2013-08-05 19:33:40,672 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-local@550008353(86/86 serialized/live bytes, 4 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:33:40,673 Memtable.java (line 461) Writing Memtable-local@550008353(86/86 serialized/live bytes, 4 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:33:40,696 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/local/system-local-ic-2-Data.db (122 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=54876)
+ INFO [main] 2013-08-05 19:33:40,698 StorageService.java (line 897) JOINING: waiting for ring information
+ INFO [WRITE-/10.196.18.67] 2013-08-05 19:33:41,717 EndpointStatePersister.java (line 48) EndpointStatePersister started
+ INFO [WRITE-/10.196.18.67] 2013-08-05 19:33:41,723 EndpointStateTracker.java (line 58) EndpointStateTracker started
+ INFO [HANDSHAKE-/10.196.18.67] 2013-08-05 19:33:41,728 OutboundTcpConnection.java (line 399) Handshaking version with /10.196.18.67
+ INFO [GossipStage:1] 2013-08-05 19:33:42,299 Gossiper.java (line 805) Node /10.197.21.58 is now part of the cluster
+ INFO [GossipStage:1] 2013-08-05 19:33:42,303 Gossiper.java (line 771) InetAddress /10.197.21.58 is now UP
+ INFO [HANDSHAKE-/10.197.21.58] 2013-08-05 19:33:42,313 OutboundTcpConnection.java (line 399) Handshaking version with /10.197.21.58
+ INFO [GossipStage:1] 2013-08-05 19:33:42,325 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-peers@153920896(200/200 serialized/live bytes, 16 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:33:42,326 Memtable.java (line 461) Writing Memtable-peers@153920896(200/200 serialized/live bytes, 16 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:33:42,353 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/peers/system-peers-ic-1-Data.db (243 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=55947)
+ INFO [GossipStage:1] 2013-08-05 19:33:42,363 Gossiper.java (line 805) Node /10.196.18.67 is now part of the cluster
+ INFO [GossipStage:1] 2013-08-05 19:33:42,408 Gossiper.java (line 771) InetAddress /10.196.18.67 is now UP
+ INFO [HANDSHAKE-/10.196.18.67] 2013-08-05 19:33:42,411 OutboundTcpConnection.java (line 399) Handshaking version with /10.196.18.67
+ INFO [GossipStage:1] 2013-08-05 19:33:42,420 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-peers@1992677825(395/395 serialized/live bytes, 28 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:33:42,421 Memtable.java (line 461) Writing Memtable-peers@1992677825(395/395 serialized/live bytes, 28 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:33:42,445 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/peers/system-peers-ic-2-Data.db (391 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=57836)
+ INFO [InternalResponseStage:1] 2013-08-05 19:33:42,446 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-schema_keyspaces@1884932277(389/389 serialized/live bytes, 11 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:33:42,447 Memtable.java (line 461) Writing Memtable-schema_keyspaces@1884932277(389/389 serialized/live bytes, 11 ops)
+ INFO [GossipStage:1] 2013-08-05 19:33:42,453 Gossiper.java (line 805) Node /10.196.74.231 is now part of the cluster
+ INFO [GossipStage:1] 2013-08-05 19:33:42,457 Gossiper.java (line 771) InetAddress /10.196.74.231 is now UP
+ INFO [GossipStage:1] 2013-08-05 19:33:42,465 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-peers@1162992854(325/325 serialized/live bytes, 26 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:33:42,470 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/schema_keyspaces/system-schema_keyspaces-ic-1-Data.db (264 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=59734)
+ INFO [FlushWriter:1] 2013-08-05 19:33:42,471 Memtable.java (line 461) Writing Memtable-peers@1162992854(325/325 serialized/live bytes, 26 ops)
+ INFO [InternalResponseStage:1] 2013-08-05 19:33:42,472 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-schema_columnfamilies@2052294837(23328/23328 serialized/live bytes, 391 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:33:42,500 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/peers/system-peers-ic-3-Data.db (362 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=61456)
+ INFO [FlushWriter:1] 2013-08-05 19:33:42,508 Memtable.java (line 461) Writing Memtable-schema_columnfamilies@2052294837(23328/23328 serialized/live bytes, 391 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:33:42,542 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/schema_columnfamilies/system-schema_columnfamilies-ic-1-Data.db (4937 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=61456)
+ INFO [InternalResponseStage:1] 2013-08-05 19:33:42,543 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-schema_columns@1320403535(25288/25288 serialized/live bytes, 410 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:33:42,544 Memtable.java (line 461) Writing Memtable-schema_columns@1320403535(25288/25288 serialized/live bytes, 410 ops)
+ INFO [HANDSHAKE-/10.197.21.58] 2013-08-05 19:33:42,569 OutboundTcpConnection.java (line 399) Handshaking version with /10.197.21.58
+ INFO [FlushWriter:1] 2013-08-05 19:33:42,585 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/schema_columns/system-schema_columns-ic-1-Data.db (4482 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=62247)
+ INFO [ScheduledTasks:1] 2013-08-05 19:33:42,603 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 48229.0
+ INFO [HANDSHAKE-/10.196.74.231] 2013-08-05 19:33:42,620 OutboundTcpConnection.java (line 399) Handshaking version with /10.196.74.231
+ INFO [InternalResponseStage:1] 2013-08-05 19:33:42,680 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SCHEMA = b69c61d1-3365-3d61-bf55-eb9d413735fd
+ INFO [main] 2013-08-05 19:33:42,699 StorageService.java (line 897) JOINING: schema complete, ready to bootstrap
+ INFO [main] 2013-08-05 19:33:42,699 StorageService.java (line 897) JOINING: getting bootstrap token
+ INFO [main] 2013-08-05 19:33:42,703 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-local@1343563331(91/91 serialized/live bytes, 4 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:33:42,704 Memtable.java (line 461) Writing Memtable-local@1343563331(91/91 serialized/live bytes, 4 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:33:42,728 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/local/system-local-ic-3-Data.db (154 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=62563)
+ INFO [main] 2013-08-05 19:33:42,729 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed TOKENS =    @           
+ INFO [main] 2013-08-05 19:33:42,730 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed STATUS = BOOT,4611686018427387904
+ INFO [main] 2013-08-05 19:33:42,730 StorageService.java (line 897) JOINING: sleeping 30000 ms for pending range setup
+ INFO [InternalResponseStage:2] 2013-08-05 19:33:42,803 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-schema_keyspaces@1593996794(138/138 serialized/live bytes, 3 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:33:42,804 Memtable.java (line 461) Writing Memtable-schema_keyspaces@1593996794(138/138 serialized/live bytes, 3 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:33:42,825 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/schema_keyspaces/system-schema_keyspaces-ic-2-Data.db (161 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=64461)
+ INFO [InternalResponseStage:2] 2013-08-05 19:33:42,827 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-schema_columnfamilies@51163041(1116/1116 serialized/live bytes, 21 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:33:42,827 Memtable.java (line 461) Writing Memtable-schema_columnfamilies@51163041(1116/1116 serialized/live bytes, 21 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:33:42,847 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/schema_columnfamilies/system-schema_columnfamilies-ic-2-Data.db (712 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=64461)
+ INFO [InternalResponseStage:2] 2013-08-05 19:33:42,848 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-schema_columns@532185378(278/278 serialized/live bytes, 6 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:33:42,849 Memtable.java (line 461) Writing Memtable-schema_columns@532185378(278/278 serialized/live bytes, 6 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:33:42,868 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/schema_columns/system-schema_columns-ic-2-Data.db (216 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=64461)
+ INFO [InternalResponseStage:2] 2013-08-05 19:33:42,917 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SCHEMA = b69c61d1-3365-3d61-bf55-eb9d413735fd
+ INFO [InternalResponseStage:1] 2013-08-05 19:33:42,969 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-schema_keyspaces@1523242039(138/138 serialized/live bytes, 3 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:33:42,970 Memtable.java (line 461) Writing Memtable-schema_keyspaces@1523242039(138/138 serialized/live bytes, 3 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:33:42,990 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/schema_keyspaces/system-schema_keyspaces-ic-3-Data.db (161 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=66501)
+ INFO [InternalResponseStage:1] 2013-08-05 19:33:42,991 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-schema_columnfamilies@1324453175(1116/1116 serialized/live bytes, 21 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:33:42,992 Memtable.java (line 461) Writing Memtable-schema_columnfamilies@1324453175(1116/1116 serialized/live bytes, 21 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:33:43,011 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/schema_columnfamilies/system-schema_columnfamilies-ic-3-Data.db (712 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=66501)
+ INFO [InternalResponseStage:1] 2013-08-05 19:33:43,012 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-schema_columns@297842848(278/278 serialized/live bytes, 6 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:33:43,013 Memtable.java (line 461) Writing Memtable-schema_columns@297842848(278/278 serialized/live bytes, 6 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:33:43,032 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/schema_columns/system-schema_columns-ic-3-Data.db (216 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=66501)
+ INFO [InternalResponseStage:1] 2013-08-05 19:33:43,068 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SCHEMA = b69c61d1-3365-3d61-bf55-eb9d413735fd
+ INFO [HANDSHAKE-/10.196.18.67] 2013-08-05 19:33:43,292 OutboundTcpConnection.java (line 399) Handshaking version with /10.196.18.67
+ INFO [HANDSHAKE-/10.196.74.231] 2013-08-05 19:33:43,483 OutboundTcpConnection.java (line 399) Handshaking version with /10.196.74.231
+ INFO [GossipStage:1] 2013-08-05 19:33:44,295 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed SCHEMA = b69c61d1-3365-3d61-bf55-eb9d413735fd
+ INFO [GossipStage:1] 2013-08-05 19:33:44,296 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed SEVERITY = 5.551115123125783E-17
+ INFO [GossipStage:1] 2013-08-05 19:33:44,297 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed SCHEMA = b69c61d1-3365-3d61-bf55-eb9d413735fd
+ INFO [GossipStage:1] 2013-08-05 19:33:48,577 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 64970.0
+ INFO [GossipStage:1] 2013-08-05 19:33:58,267 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 74475.0
+ INFO [main] 2013-08-05 19:34:12,731 StorageService.java (line 897) JOINING: Starting to bootstrap...
+ INFO [Thread-10] 2013-08-05 19:34:12,822 StreamInSession.java (line 199) Finished streaming session 01c5b810-fe06-11e2-ba37-3118f9fff636 from /10.197.21.58
+ INFO [main] 2013-08-05 19:34:12,824 StorageService.java (line 931) Bootstrap completed! for the tokens [4611686018427387904]
+ INFO [main] 2013-08-05 19:34:12,826 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-local@702703106(84/84 serialized/live bytes, 6 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:34:12,826 Memtable.java (line 461) Writing Memtable-local@702703106(84/84 serialized/live bytes, 6 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:34:12,852 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/local/system-local-ic-4-Data.db (121 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=67058)
+ INFO [main] 2013-08-05 19:34:12,856 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-local@687155732(50/50 serialized/live bytes, 2 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:34:12,857 Memtable.java (line 461) Writing Memtable-local@687155732(50/50 serialized/live bytes, 2 ops)
+ INFO [CompactionExecutor:2] 2013-08-05 19:34:12,858 CompactionTask.java (line 105) Compacting [SSTableReader(path='/var/lib/cassandra/data/system/local/system-local-ic-3-Data.db'), SSTableReader(path='/var/lib/cassandra/data/system/local/system-local-ic-4-Data.db'), SSTableReader(path='/var/lib/cassandra/data/system/local/system-local-ic-1-Data.db'), SSTableReader(path='/var/lib/cassandra/data/system/local/system-local-ic-2-Data.db')]
+ INFO [CompactionExecutor:2] 2013-08-05 19:34:12,868 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SEVERITY = 0.010091068376992796
+ INFO [FlushWriter:1] 2013-08-05 19:34:12,880 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/local/system-local-ic-5-Data.db (109 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=67232)
+ INFO [main] 2013-08-05 19:34:12,892 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed TOKENS =    @           
+ INFO [main] 2013-08-05 19:34:12,895 StorageService.java (line 1336) Node /10.197.28.138 state jump to normal
+ INFO [main] 2013-08-05 19:34:12,896 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed STATUS = NORMAL,4611686018427387904
+ INFO [main] 2013-08-05 19:34:12,898 StorageService.java (line 790) Startup completed! Now serving reads.
+ INFO [CompactionExecutor:2] 2013-08-05 19:34:12,912 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SEVERITY = 0.0
+ INFO [CompactionExecutor:2] 2013-08-05 19:34:12,938 CompactionTask.java (line 262) Compacted 4 sstables to [/var/lib/cassandra/data/system/local/system-local-ic-6,].  764 bytes to 447 (~58% of original) in 62ms = 0.006876MB/s.  4 total rows, 1 unique.  Row merge counts were {1:0, 2:0, 3:0, 4:1, }
+ INFO [main] 2013-08-05 19:34:12,939 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed DC = Cassandra
+ INFO [main] 2013-08-05 19:34:12,941 DseDaemon.java (line 173) Waiting for other nodes to become alive...
+ INFO [main] 2013-08-05 19:34:12,948 AuditLoggerPlugin.java (line 40) Initialising audit logger plugin
+ INFO [main] 2013-08-05 19:34:12,948 AuditLoggerPlugin.java (line 42) Using logger implementation : com.datastax.bdp.cassandra.audit.Log4JAuditLogger
+ INFO [main] 2013-08-05 19:34:12,949 AuditLoggerPlugin.java (line 58) Audit logging is disabled
+ INFO [main] 2013-08-05 19:34:12,949 PluginManager.java (line 162) Plugin activated: com.datastax.bdp.plugin.AuditLoggerPlugin
+ INFO [main] 2013-08-05 19:34:13,021 Server.java (line 147) Starting listening for CQL clients on /0.0.0.0:9042...
+ INFO [main] 2013-08-05 19:34:13,117 DseDaemon.java (line 422) Binding thrift service to /0.0.0.0:9160
+ INFO [main] 2013-08-05 19:34:13,132 TServerCustomFactory.java (line 47) Using synchronous/threadpool thrift server on 0.0.0.0 : 9160
+ INFO [Thread-12] 2013-08-05 19:34:13,132 DseDaemon.java (line 454) Listening for thrift clients...
+ INFO [MigrationStage:1] 2013-08-05 19:34:38,238 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-schema_keyspaces@1260777033(138/138 serialized/live bytes, 3 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:34:38,239 Memtable.java (line 461) Writing Memtable-schema_keyspaces@1260777033(138/138 serialized/live bytes, 3 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:34:38,265 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/schema_keyspaces/system-schema_keyspaces-ic-4-Data.db (165 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=74761)
+ INFO [MigrationStage:1] 2013-08-05 19:34:38,266 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-schema_columnfamilies@563765383(4612/4612 serialized/live bytes, 84 ops)
+ INFO [CompactionExecutor:2] 2013-08-05 19:34:38,266 CompactionTask.java (line 105) Compacting [SSTableReader(path='/var/lib/cassandra/data/system/schema_keyspaces/system-schema_keyspaces-ic-4-Data.db'), SSTableReader(path='/var/lib/cassandra/data/system/schema_keyspaces/system-schema_keyspaces-ic-2-Data.db'), SSTableReader(path='/var/lib/cassandra/data/system/schema_keyspaces/system-schema_keyspaces-ic-3-Data.db'), SSTableReader(path='/var/lib/cassandra/data/system/schema_keyspaces/system-schema_keyspaces-ic-1-Data.db')]
+ INFO [FlushWriter:1] 2013-08-05 19:34:38,266 Memtable.java (line 461) Writing Memtable-schema_columnfamilies@563765383(4612/4612 serialized/live bytes, 84 ops)
+ INFO [CompactionExecutor:2] 2013-08-05 19:34:38,269 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SEVERITY = 0.012793033407772329
+ INFO [FlushWriter:1] 2013-08-05 19:34:38,298 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/schema_columnfamilies/system-schema_columnfamilies-ic-4-Data.db (1415 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=74761)
+ INFO [MigrationStage:1] 2013-08-05 19:34:38,299 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-schema_columns@615949665(1681/1681 serialized/live bytes, 30 ops)
+ INFO [CompactionExecutor:1] 2013-08-05 19:34:38,299 CompactionTask.java (line 105) Compacting [SSTableReader(path='/var/lib/cassandra/data/system/schema_columnfamilies/system-schema_columnfamilies-ic-4-Data.db'), SSTableReader(path='/var/lib/cassandra/data/system/schema_columnfamilies/system-schema_columnfamilies-ic-2-Data.db'), SSTableReader(path='/var/lib/cassandra/data/system/schema_columnfamilies/system-schema_columnfamilies-ic-1-Data.db'), SSTableReader(path='/var/lib/cassandra/data/system/schema_columnfamilies/system-schema_columnfamilies-ic-3-Data.db')]
+ INFO [FlushWriter:1] 2013-08-05 19:34:38,300 Memtable.java (line 461) Writing Memtable-schema_columns@615949665(1681/1681 serialized/live bytes, 30 ops)
+ INFO [CompactionExecutor:1] 2013-08-05 19:34:38,303 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SEVERITY = 0.3700875690762541
+ INFO [CompactionExecutor:2] 2013-08-05 19:34:38,313 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SEVERITY = 0.3572945356684818
+ INFO [CompactionExecutor:2] 2013-08-05 19:34:38,315 CompactionTask.java (line 262) Compacted 4 sstables to [/var/lib/cassandra/data/system/schema_keyspaces/system-schema_keyspaces-ic-5,].  751 bytes to 332 (~44% of original) in 48ms = 0.006596MB/s.  6 total rows, 4 unique.  Row merge counts were {1:3, 2:0, 3:1, 4:0, }
+ INFO [GossipStage:1] 2013-08-05 19:34:38,325 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 76305.0
+ INFO [GossipStage:1] 2013-08-05 19:34:38,327 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed SCHEMA = 5fccd554-41ac-3cfa-848c-cc152cc363ec
+ INFO [FlushWriter:1] 2013-08-05 19:34:38,336 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/schema_columns/system-schema_columns-ic-4-Data.db (527 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=74761)
+ INFO [CompactionExecutor:2] 2013-08-05 19:34:38,338 CompactionTask.java (line 105) Compacting [SSTableReader(path='/var/lib/cassandra/data/system/schema_columns/system-schema_columns-ic-4-Data.db'), SSTableReader(path='/var/lib/cassandra/data/system/schema_columns/system-schema_columns-ic-2-Data.db'), SSTableReader(path='/var/lib/cassandra/data/system/schema_columns/system-schema_columns-ic-3-Data.db'), SSTableReader(path='/var/lib/cassandra/data/system/schema_columns/system-schema_columns-ic-1-Data.db')]
+ INFO [CompactionExecutor:2] 2013-08-05 19:34:38,343 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SEVERITY = 0.7110009751274894
+ INFO [CompactionExecutor:1] 2013-08-05 19:34:38,377 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SEVERITY = 0.3537064394590076
+ INFO [CompactionExecutor:1] 2013-08-05 19:34:38,379 CompactionTask.java (line 262) Compacted 4 sstables to [/var/lib/cassandra/data/system/schema_columnfamilies/system-schema_columnfamilies-ic-5,].  7,776 bytes to 5,954 (~76% of original) in 79ms = 0.071876MB/s.  6 total rows, 4 unique.  Row merge counts were {1:3, 2:0, 3:1, 4:0, }
+ INFO [CompactionExecutor:2] 2013-08-05 19:34:38,395 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SEVERITY = 0.0
+ INFO [CompactionExecutor:2] 2013-08-05 19:34:38,399 CompactionTask.java (line 262) Compacted 4 sstables to [/var/lib/cassandra/data/system/schema_columns/system-schema_columns-ic-5,].  5,441 bytes to 4,895 (~89% of original) in 58ms = 0.080487MB/s.  6 total rows, 4 unique.  Row merge counts were {1:3, 2:0, 3:1, 4:0, }
+ INFO [MigrationStage:1] 2013-08-05 19:34:38,404 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SCHEMA = 5fccd554-41ac-3cfa-848c-cc152cc363ec
+ INFO [GossipStage:1] 2013-08-05 19:34:38,475 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed SCHEMA = 5fccd554-41ac-3cfa-848c-cc152cc363ec
+ INFO [GossipStage:1] 2013-08-05 19:34:38,476 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed SEVERITY = 5.551115123125783E-17
+ INFO [GossipStage:1] 2013-08-05 19:34:38,476 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed SEVERITY = 0.37596097474641327
+ INFO [Creating index: inode.cfs_parent_path] 2013-08-05 19:34:38,527 SecondaryIndex.java (line 175) Submitting index build of inode.cfs_parent_path for data in 
+ INFO [CompactionExecutor:1] 2013-08-05 19:34:38,530 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SEVERITY = 0.0
+ INFO [Creating index: inode.cfs_sentinel] 2013-08-05 19:34:38,528 SecondaryIndex.java (line 175) Submitting index build of inode.cfs_sentinel for data in 
+ INFO [CompactionExecutor:2] 2013-08-05 19:34:38,534 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SEVERITY = 0.0
+ INFO [Creating index: inode.cfs_path] 2013-08-05 19:34:38,538 SecondaryIndex.java (line 175) Submitting index build of inode.cfs_path for data in 
+ INFO [CompactionExecutor:1] 2013-08-05 19:34:38,539 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SEVERITY = 0.0
+ INFO [Creating index: inode.cfs_parent_path] 2013-08-05 19:34:38,539 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-IndexInfo@705084391(55/55 serialized/live bytes, 2 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:34:38,540 Memtable.java (line 461) Writing Memtable-IndexInfo@705084391(55/55 serialized/live bytes, 2 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:34:38,565 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/IndexInfo/system-IndexInfo-ic-1-Data.db (88 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=75402)
+ INFO [Creating index: inode.cfs_sentinel] 2013-08-05 19:34:38,566 SecondaryIndex.java (line 202) Index build of inode.cfs_sentinel complete
+ INFO [Creating index: inode.cfs_parent_path] 2013-08-05 19:34:38,567 SecondaryIndex.java (line 202) Index build of inode.cfs_parent_path complete
+ INFO [Creating index: inode.cfs_path] 2013-08-05 19:34:38,569 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-IndexInfo@1172519864(22/22 serialized/live bytes, 1 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:34:38,570 Memtable.java (line 461) Writing Memtable-IndexInfo@1172519864(22/22 serialized/live bytes, 1 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:34:38,592 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/IndexInfo/system-IndexInfo-ic-2-Data.db (56 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=75505)
+ INFO [Creating index: inode.cfs_path] 2013-08-05 19:34:38,593 SecondaryIndex.java (line 202) Index build of inode.cfs_path complete
+ INFO [MigrationStage:1] 2013-08-05 19:34:38,612 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-schema_keyspaces@1066955437(138/138 serialized/live bytes, 3 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:34:38,613 Memtable.java (line 461) Writing Memtable-schema_keyspaces@1066955437(138/138 serialized/live bytes, 3 ops)
+ INFO [GossipStage:1] 2013-08-05 19:34:38,621 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed SCHEMA = 5fccd554-41ac-3cfa-848c-cc152cc363ec
+ INFO [GossipStage:1] 2013-08-05 19:34:38,621 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed SEVERITY = 0.0
+ INFO [FlushWriter:1] 2013-08-05 19:34:38,640 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/schema_keyspaces/system-schema_keyspaces-ic-6-Data.db (173 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=82935)
+ INFO [MigrationStage:1] 2013-08-05 19:34:38,642 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-schema_columnfamilies@2011100149(4612/4612 serialized/live bytes, 84 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:34:38,642 Memtable.java (line 461) Writing Memtable-schema_columnfamilies@2011100149(4612/4612 serialized/live bytes, 84 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:34:38,662 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/schema_columnfamilies/system-schema_columnfamilies-ic-6-Data.db (1424 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=83076)
+ INFO [MigrationStage:1] 2013-08-05 19:34:38,663 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-schema_columns@716941846(1705/1705 serialized/live bytes, 30 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:34:38,664 Memtable.java (line 461) Writing Memtable-schema_columns@716941846(1705/1705 serialized/live bytes, 30 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:34:38,684 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/schema_columns/system-schema_columns-ic-6-Data.db (537 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=83076)
+ INFO [MigrationStage:1] 2013-08-05 19:34:38,742 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SCHEMA = 96a95a60-59e9-3602-8601-a87ab413a3af
+ INFO [Creating index: inode.cfs_archive_sentinel] 2013-08-05 19:34:38,818 SecondaryIndex.java (line 175) Submitting index build of inode.cfs_archive_sentinel for data in 
+ INFO [CompactionExecutor:2] 2013-08-05 19:34:38,818 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SEVERITY = 0.0
+ INFO [Creating index: inode.cfs_archive_sentinel] 2013-08-05 19:34:38,822 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-IndexInfo@384298697(34/34 serialized/live bytes, 1 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:34:38,822 Memtable.java (line 461) Writing Memtable-IndexInfo@384298697(34/34 serialized/live bytes, 1 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:34:38,844 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/IndexInfo/system-IndexInfo-ic-3-Data.db (68 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=83341)
+ INFO [Creating index: inode.cfs_archive_sentinel] 2013-08-05 19:34:38,845 SecondaryIndex.java (line 202) Index build of inode.cfs_archive_sentinel complete
+ INFO [Creating index: inode.cfs_archive_parent_path] 2013-08-05 19:34:38,846 SecondaryIndex.java (line 175) Submitting index build of inode.cfs_archive_parent_path for data in 
+ INFO [Creating index: inode.cfs_archive_path] 2013-08-05 19:34:38,846 SecondaryIndex.java (line 175) Submitting index build of inode.cfs_archive_path for data in 
+ INFO [CompactionExecutor:1] 2013-08-05 19:34:38,846 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SEVERITY = 0.0
+ INFO [CompactionExecutor:2] 2013-08-05 19:34:38,846 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SEVERITY = 0.0
+ INFO [Creating index: inode.cfs_archive_path] 2013-08-05 19:34:38,849 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-IndexInfo@11202659(67/67 serialized/live bytes, 2 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:34:38,850 Memtable.java (line 461) Writing Memtable-IndexInfo@11202659(67/67 serialized/live bytes, 2 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:34:38,870 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/IndexInfo/system-IndexInfo-ic-4-Data.db (91 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=83586)
+ INFO [Creating index: inode.cfs_archive_parent_path] 2013-08-05 19:34:38,871 SecondaryIndex.java (line 202) Index build of inode.cfs_archive_parent_path complete
+ INFO [Creating index: inode.cfs_archive_path] 2013-08-05 19:34:38,871 SecondaryIndex.java (line 202) Index build of inode.cfs_archive_path complete
+ INFO [CompactionExecutor:1] 2013-08-05 19:34:38,872 CompactionTask.java (line 105) Compacting [SSTableReader(path='/var/lib/cassandra/data/system/IndexInfo/system-IndexInfo-ic-1-Data.db'), SSTableReader(path='/var/lib/cassandra/data/system/IndexInfo/system-IndexInfo-ic-4-Data.db'), SSTableReader(path='/var/lib/cassandra/data/system/IndexInfo/system-IndexInfo-ic-3-Data.db'), SSTableReader(path='/var/lib/cassandra/data/system/IndexInfo/system-IndexInfo-ic-2-Data.db')]
+ INFO [CompactionExecutor:1] 2013-08-05 19:34:38,876 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SEVERITY = 0.0037217170649185873
+ INFO [CompactionExecutor:1] 2013-08-05 19:34:38,955 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SEVERITY = 0.0
+ INFO [CompactionExecutor:1] 2013-08-05 19:34:38,960 CompactionTask.java (line 262) Compacted 4 sstables to [/var/lib/cassandra/data/system/IndexInfo/system-IndexInfo-ic-5,].  303 bytes to 158 (~52% of original) in 86ms = 0.001752MB/s.  4 total rows, 2 unique.  Row merge counts were {1:0, 2:2, 3:0, 4:0, }
+ INFO [MigrationStage:1] 2013-08-05 19:34:38,988 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-schema_keyspaces@1874394333(138/138 serialized/live bytes, 3 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:34:38,989 Memtable.java (line 461) Writing Memtable-schema_keyspaces@1874394333(138/138 serialized/live bytes, 3 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:34:39,014 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/schema_keyspaces/system-schema_keyspaces-ic-7-Data.db (174 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=85122)
+ INFO [MigrationStage:1] 2013-08-05 19:34:39,016 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-schema_columnfamilies@368565208(1110/1110 serialized/live bytes, 21 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:34:39,016 Memtable.java (line 461) Writing Memtable-schema_columnfamilies@368565208(1110/1110 serialized/live bytes, 21 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:34:39,036 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/schema_columnfamilies/system-schema_columnfamilies-ic-7-Data.db (698 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=85122)
+ INFO [MigrationStage:1] 2013-08-05 19:34:39,059 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SCHEMA = e585f355-6104-3f0b-99d9-9946d58913f3
+ INFO [MigrationStage:1] 2013-08-05 19:34:39,255 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-schema_keyspaces@1443971291(138/138 serialized/live bytes, 3 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:34:39,256 Memtable.java (line 461) Writing Memtable-schema_keyspaces@1443971291(138/138 serialized/live bytes, 3 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:34:39,278 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/schema_keyspaces/system-schema_keyspaces-ic-8-Data.db (175 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=86831)
+ INFO [CompactionExecutor:1] 2013-08-05 19:34:39,280 CompactionTask.java (line 105) Compacting [SSTableReader(path='/var/lib/cassandra/data/system/schema_keyspaces/system-schema_keyspaces-ic-6-Data.db'), SSTableReader(path='/var/lib/cassandra/data/system/schema_keyspaces/system-schema_keyspaces-ic-7-Data.db'), SSTableReader(path='/var/lib/cassandra/data/system/schema_keyspaces/system-schema_keyspaces-ic-5-Data.db'), SSTableReader(path='/var/lib/cassandra/data/system/schema_keyspaces/system-schema_keyspaces-ic-8-Data.db')]
+ INFO [MigrationStage:1] 2013-08-05 19:34:39,280 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-schema_columnfamilies@1632886976(1140/1140 serialized/live bytes, 21 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:34:39,281 Memtable.java (line 461) Writing Memtable-schema_columnfamilies@1632886976(1140/1140 serialized/live bytes, 21 ops)
+ INFO [CompactionExecutor:1] 2013-08-05 19:34:39,285 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SEVERITY = 0.013820794153773108
+ INFO [FlushWriter:1] 2013-08-05 19:34:39,317 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/schema_columnfamilies/system-schema_columnfamilies-ic-8-Data.db (685 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=86831)
+ INFO [CompactionExecutor:2] 2013-08-05 19:34:39,319 CompactionTask.java (line 105) Compacting [SSTableReader(path='/var/lib/cassandra/data/system/schema_columnfamilies/system-schema_columnfamilies-ic-7-Data.db'), SSTableReader(path='/var/lib/cassandra/data/system/schema_columnfamilies/system-schema_columnfamilies-ic-6-Data.db'), SSTableReader(path='/var/lib/cassandra/data/system/schema_columnfamilies/system-schema_columnfamilies-ic-8-Data.db'), SSTableReader(path='/var/lib/cassandra/data/system/schema_columnfamilies/system-schema_columnfamilies-ic-5-Data.db')]
+ INFO [CompactionExecutor:1] 2013-08-05 19:34:39,323 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SEVERITY = 0.0
+ INFO [CompactionExecutor:2] 2013-08-05 19:34:39,323 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SEVERITY = 0.3839816844082655
+ INFO [GossipStage:1] 2013-08-05 19:34:39,330 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed SCHEMA = 4cb3f690-6031-364c-8df4-f6c85df9a2ef
+ INFO [GossipStage:1] 2013-08-05 19:34:39,330 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed SEVERITY = 0.0
+ INFO [CompactionExecutor:1] 2013-08-05 19:34:39,325 CompactionTask.java (line 262) Compacted 4 sstables to [/var/lib/cassandra/data/system/schema_keyspaces/system-schema_keyspaces-ic-9,].  854 bytes to 447 (~52% of original) in 44ms = 0.009688MB/s.  7 total rows, 7 unique.  Row merge counts were {1:7, 2:0, 3:0, 4:0, }
+ INFO [MigrationStage:1] 2013-08-05 19:34:39,352 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SCHEMA = 4cb3f690-6031-364c-8df4-f6c85df9a2ef
+ INFO [CompactionExecutor:2] 2013-08-05 19:34:39,385 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SEVERITY = 0.0
+ INFO [CompactionExecutor:2] 2013-08-05 19:34:39,387 CompactionTask.java (line 262) Compacted 4 sstables to [/var/lib/cassandra/data/system/schema_columnfamilies/system-schema_columnfamilies-ic-9,].  8,761 bytes to 7,967 (~90% of original) in 67ms = 0.113402MB/s.  7 total rows, 7 unique.  Row merge counts were {1:7, 2:0, 3:0, 4:0, }
+ INFO [MigrationStage:1] 2013-08-05 19:34:39,454 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-schema_keyspaces@1293073531(138/138 serialized/live bytes, 3 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:34:39,455 Memtable.java (line 461) Writing Memtable-schema_keyspaces@1293073531(138/138 serialized/live bytes, 3 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:34:39,477 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/schema_keyspaces/system-schema_keyspaces-ic-10-Data.db (172 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=87354)
+ INFO [MigrationStage:1] 2013-08-05 19:34:39,495 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SCHEMA = 0606bdca-39a9-3b0d-bfba-a0f7caf8f103
+ INFO [GossipStage:1] 2013-08-05 19:34:39,626 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed SCHEMA = 0606bdca-39a9-3b0d-bfba-a0f7caf8f103
+ INFO [GossipStage:1] 2013-08-05 19:34:39,626 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed SEVERITY = 5.551115123125783E-17
+ INFO [GossipStage:1] 2013-08-05 19:34:39,627 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed SCHEMA = 4cb3f690-6031-364c-8df4-f6c85df9a2ef
+ INFO [GossipStage:1] 2013-08-05 19:34:39,628 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed SEVERITY = 0.0
+ INFO [MigrationStage:1] 2013-08-05 19:34:39,633 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-schema_columnfamilies@374121515(1267/1267 serialized/live bytes, 21 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:34:39,633 Memtable.java (line 461) Writing Memtable-schema_columnfamilies@374121515(1267/1267 serialized/live bytes, 21 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:34:39,653 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/schema_columnfamilies/system-schema_columnfamilies-ic-10-Data.db (737 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=89681)
+ INFO [MigrationStage:1] 2013-08-05 19:34:39,654 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-schema_columns@1245262183(329/329 serialized/live bytes, 6 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:34:39,655 Memtable.java (line 461) Writing Memtable-schema_columns@1245262183(329/329 serialized/live bytes, 6 ops)
+ INFO [FlushWriter:1] 2013-08-05 19:34:39,678 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/schema_columns/system-schema_columns-ic-7-Data.db (224 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=89681)
+ INFO [MigrationStage:1] 2013-08-05 19:34:39,696 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SCHEMA = b168fe8c-2074-3b74-85b3-c0d9febb75d7
+ INFO [GossipStage:1] 2013-08-05 19:34:40,332 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed SCHEMA = b168fe8c-2074-3b74-85b3-c0d9febb75d7
+ INFO [GossipStage:1] 2013-08-05 19:34:40,332 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed SEVERITY = 0.0
+ INFO [GossipStage:1] 2013-08-05 19:34:40,333 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed SCHEMA = b168fe8c-2074-3b74-85b3-c0d9febb75d7
+ INFO [GossipStage:1] 2013-08-05 19:34:40,622 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed SCHEMA = b168fe8c-2074-3b74-85b3-c0d9febb75d7
+ INFO [GossipStage:1] 2013-08-05 19:34:40,622 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed SEVERITY = 5.551115123125783E-17
+ INFO [ScheduledTasks:1] 2013-08-05 19:34:42,603 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 88430.0
+ INFO [NonPeriodicTasks:1] 2013-08-05 19:34:42,901 Auth.java (line 187) Migrating legacy Auth data to system keyspace
+ INFO [NonPeriodicTasks:1] 2013-08-05 19:34:42,901 Auth.java (line 198) Migration of legacy auth data is complete. You should now switch to org.apache.cassandra.auth implementations in cassandra.yaml.
+ INFO [GossipStage:1] 2013-08-05 19:34:48,626 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 87212.0
+ INFO [GossipStage:1] 2013-08-05 19:34:58,634 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 93049.0
+ INFO [GossipStage:1] 2013-08-05 19:35:38,343 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 77714.0
+ INFO [ScheduledTasks:1] 2013-08-05 19:35:42,604 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 88430.0
+ INFO [GossipStage:1] 2013-08-05 19:35:48,664 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 87212.0
+ INFO [GossipStage:1] 2013-08-05 19:35:58,344 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 93049.0
+ INFO [GossipStage:1] 2013-08-05 19:36:38,519 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 77714.0
+ INFO [ScheduledTasks:1] 2013-08-05 19:36:42,605 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 88430.0
+ INFO [GossipStage:1] 2013-08-05 19:36:48,523 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 87212.0
+ INFO [GossipStage:1] 2013-08-05 19:36:58,704 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 93049.0
+ INFO [GossipStage:1] 2013-08-05 19:37:38,728 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 77714.0
+ INFO [ScheduledTasks:1] 2013-08-05 19:37:42,606 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 88430.0
+ INFO [GossipStage:1] 2013-08-05 19:37:48,734 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 87212.0
+ INFO [GossipStage:1] 2013-08-05 19:37:58,740 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 93049.0
+ INFO [GossipStage:1] 2013-08-05 19:38:38,439 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 77714.0
+ INFO [ScheduledTasks:1] 2013-08-05 19:38:42,606 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 88430.0
+ INFO [GossipStage:1] 2013-08-05 19:38:48,769 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 87212.0
+ INFO [MigrationStage:1] 2013-08-05 19:38:52,129 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-schema_keyspaces@1630029116(118/118 serialized/live bytes, 3 ops)
+ INFO [FlushWriter:2] 2013-08-05 19:38:52,130 Memtable.java (line 461) Writing Memtable-schema_keyspaces@1630029116(118/118 serialized/live bytes, 3 ops)
+ INFO [FlushWriter:2] 2013-08-05 19:38:52,154 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/schema_keyspaces/system-schema_keyspaces-ic-11-Data.db (153 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=90466)
+ INFO [MigrationStage:1] 2013-08-05 19:38:52,171 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SCHEMA = ecbba504-a002-3ef3-8180-88f6aafcc047
+ INFO [MigrationStage:1] 2013-08-05 19:38:52,204 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-schema_columnfamilies@70266357(1366/1366 serialized/live bytes, 21 ops)
+ INFO [FlushWriter:2] 2013-08-05 19:38:52,205 Memtable.java (line 461) Writing Memtable-schema_columnfamilies@70266357(1366/1366 serialized/live bytes, 21 ops)
+ INFO [FlushWriter:2] 2013-08-05 19:38:52,225 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/schema_columnfamilies/system-schema_columnfamilies-ic-11-Data.db (743 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=92665)
+ INFO [MigrationStage:1] 2013-08-05 19:38:52,227 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-schema_columns@387960286(384/384 serialized/live bytes, 6 ops)
+ INFO [FlushWriter:2] 2013-08-05 19:38:52,227 Memtable.java (line 461) Writing Memtable-schema_columns@387960286(384/384 serialized/live bytes, 6 ops)
+ INFO [FlushWriter:2] 2013-08-05 19:38:52,247 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/schema_columns/system-schema_columns-ic-8-Data.db (227 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=92665)
+ INFO [CompactionExecutor:3] 2013-08-05 19:38:52,252 CompactionTask.java (line 105) Compacting [SSTableReader(path='/var/lib/cassandra/data/system/schema_columns/system-schema_columns-ic-7-Data.db'), SSTableReader(path='/var/lib/cassandra/data/system/schema_columns/system-schema_columns-ic-5-Data.db'), SSTableReader(path='/var/lib/cassandra/data/system/schema_columns/system-schema_columns-ic-8-Data.db'), SSTableReader(path='/var/lib/cassandra/data/system/schema_columns/system-schema_columns-ic-6-Data.db')]
+ INFO [CompactionExecutor:3] 2013-08-05 19:38:52,255 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SEVERITY = 0.31901644733661444
+ INFO [MigrationStage:1] 2013-08-05 19:38:52,289 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SCHEMA = ee4121d2-1313-314e-8326-a465e64103f7
+ INFO [CompactionExecutor:3] 2013-08-05 19:38:52,375 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SEVERITY = 0.0
+ INFO [CompactionExecutor:3] 2013-08-05 19:38:52,379 CompactionTask.java (line 262) Compacted 4 sstables to [/var/lib/cassandra/data/system/schema_columns/system-schema_columns-ic-9,].  5,883 bytes to 5,513 (~93% of original) in 126ms = 0.041727MB/s.  7 total rows, 7 unique.  Row merge counts were {1:7, 2:0, 3:0, 4:0, }
+ INFO [GossipStage:1] 2013-08-05 19:38:52,583 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed SCHEMA = ee4121d2-1313-314e-8326-a465e64103f7
+ INFO [GossipStage:1] 2013-08-05 19:38:52,584 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed SEVERITY = 5.551115123125783E-17
+ INFO [GossipStage:1] 2013-08-05 19:38:52,585 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed SCHEMA = ee4121d2-1313-314e-8326-a465e64103f7
+ INFO [GossipStage:1] 2013-08-05 19:38:52,585 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed SEVERITY = 0.0
+ INFO [GossipStage:1] 2013-08-05 19:38:52,586 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed SCHEMA = ee4121d2-1313-314e-8326-a465e64103f7
+ INFO [GossipStage:1] 2013-08-05 19:38:52,587 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed SEVERITY = 0.0
+ INFO [GossipStage:1] 2013-08-05 19:38:58,775 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 93885.0
+ INFO [MigrationStage:1] 2013-08-05 19:39:14,602 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-schema_keyspaces@1156331114(133/133 serialized/live bytes, 3 ops)
+ INFO [FlushWriter:2] 2013-08-05 19:39:14,603 Memtable.java (line 461) Writing Memtable-schema_keyspaces@1156331114(133/133 serialized/live bytes, 3 ops)
+ INFO [FlushWriter:2] 2013-08-05 19:39:14,626 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/schema_keyspaces/system-schema_keyspaces-ic-12-Data.db (161 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=201714)
+ INFO [MigrationStage:1] 2013-08-05 19:39:14,627 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-schema_columnfamilies@207626047(1035/1035 serialized/live bytes, 21 ops)
+ INFO [CompactionExecutor:3] 2013-08-05 19:39:14,627 CompactionTask.java (line 105) Compacting [SSTableReader(path='/var/lib/cassandra/data/system/schema_keyspaces/system-schema_keyspaces-ic-11-Data.db'), SSTableReader(path='/var/lib/cassandra/data/system/schema_keyspaces/system-schema_keyspaces-ic-12-Data.db'), SSTableReader(path='/var/lib/cassandra/data/system/schema_keyspaces/system-schema_keyspaces-ic-9-Data.db'), SSTableReader(path='/var/lib/cassandra/data/system/schema_keyspaces/system-schema_keyspaces-ic-10-Data.db')]
+ INFO [FlushWriter:2] 2013-08-05 19:39:14,627 Memtable.java (line 461) Writing Memtable-schema_columnfamilies@207626047(1035/1035 serialized/live bytes, 21 ops)
+ INFO [CompactionExecutor:3] 2013-08-05 19:39:14,629 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SEVERITY = 0.020134656498292863
+ INFO [FlushWriter:2] 2013-08-05 19:39:14,653 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/schema_columnfamilies/system-schema_columnfamilies-ic-12-Data.db (662 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=201714)
+ INFO [CompactionExecutor:4] 2013-08-05 19:39:14,654 CompactionTask.java (line 105) Compacting [SSTableReader(path='/var/lib/cassandra/data/system/schema_columnfamilies/system-schema_columnfamilies-ic-12-Data.db'), SSTableReader(path='/var/lib/cassandra/data/system/schema_columnfamilies/system-schema_columnfamilies-ic-9-Data.db'), SSTableReader(path='/var/lib/cassandra/data/system/schema_columnfamilies/system-schema_columnfamilies-ic-11-Data.db'), SSTableReader(path='/var/lib/cassandra/data/system/schema_columnfamilies/system-schema_columnfamilies-ic-10-Data.db')]
+ INFO [CompactionExecutor:4] 2013-08-05 19:39:14,656 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SEVERITY = 0.45784302550406425
+ INFO [CompactionExecutor:3] 2013-08-05 19:39:14,663 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SEVERITY = 0.43770836900577137
+ INFO [CompactionExecutor:3] 2013-08-05 19:39:14,674 CompactionTask.java (line 262) Compacted 4 sstables to [/var/lib/cassandra/data/system/schema_keyspaces/system-schema_keyspaces-ic-13,].  933 bytes to 573 (~61% of original) in 46ms = 0.011879MB/s.  10 total rows, 10 unique.  Row merge counts were {1:10, 2:0, 3:0, 4:0, }
+ INFO [MigrationStage:1] 2013-08-05 19:39:14,681 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SCHEMA = 6007027d-d7a2-3f98-a283-66671a773d52
+ INFO [CompactionExecutor:4] 2013-08-05 19:39:14,710 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SEVERITY = 0.0
+ INFO [CompactionExecutor:4] 2013-08-05 19:39:14,712 CompactionTask.java (line 262) Compacted 4 sstables to [/var/lib/cassandra/data/system/schema_columnfamilies/system-schema_columnfamilies-ic-13,].  10,109 bytes to 8,952 (~88% of original) in 57ms = 0.149777MB/s.  10 total rows, 10 unique.  Row merge counts were {1:10, 2:0, 3:0, 4:0, }
+ INFO [MigrationStage:1] 2013-08-05 19:39:14,735 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-schema_columnfamilies@1312420207(1034/1034 serialized/live bytes, 21 ops)
+ INFO [FlushWriter:2] 2013-08-05 19:39:14,736 Memtable.java (line 461) Writing Memtable-schema_columnfamilies@1312420207(1034/1034 serialized/live bytes, 21 ops)
+ INFO [FlushWriter:2] 2013-08-05 19:39:14,758 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/schema_columnfamilies/system-schema_columnfamilies-ic-14-Data.db (643 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=205585)
+ INFO [MigrationStage:1] 2013-08-05 19:39:14,758 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-schema_columns@307468946(2184/2184 serialized/live bytes, 36 ops)
+ INFO [FlushWriter:2] 2013-08-05 19:39:14,759 Memtable.java (line 461) Writing Memtable-schema_columns@307468946(2184/2184 serialized/live bytes, 36 ops)
+ INFO [FlushWriter:2] 2013-08-05 19:39:14,778 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/schema_columns/system-schema_columns-ic-10-Data.db (581 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=205585)
+ INFO [GossipStage:1] 2013-08-05 19:39:14,785 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed SCHEMA = 6007027d-d7a2-3f98-a283-66671a773d52
+ INFO [MigrationStage:1] 2013-08-05 19:39:14,798 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SCHEMA = 3d196497-2f08-3b01-854c-f6c417a4ad5d
+ INFO [MigrationStage:1] 2013-08-05 19:39:14,848 SecondaryIndexManager.java (line 272) Creating new index : ColumnDefinition{name=736f6c725f7175657279, validator=org.apache.cassandra.db.marshal.UTF8Type, index_type=CUSTOM, index_name='wiki_solr_solr_query_index'}
+ INFO [MigrationStage:1] 2013-08-05 19:39:14,848 SecondaryIndexManager.java (line 272) Creating new index : ColumnDefinition{name=6e616d65, validator=org.apache.cassandra.db.marshal.UTF8Type, index_type=CUSTOM, index_name='wiki_solr_name_index'}
+ INFO [MigrationStage:1] 2013-08-05 19:39:14,849 SecondaryIndexManager.java (line 272) Creating new index : ColumnDefinition{name=7469746c65, validator=org.apache.cassandra.db.marshal.UTF8Type, index_type=CUSTOM, index_name='wiki_solr_title_index'}
+ INFO [MigrationStage:1] 2013-08-05 19:39:14,849 SecondaryIndexManager.java (line 272) Creating new index : ColumnDefinition{name=64617465, validator=org.apache.cassandra.db.marshal.UTF8Type, index_type=CUSTOM, index_name='wiki_solr_date_index'}
+ INFO [MigrationStage:1] 2013-08-05 19:39:14,850 SecondaryIndexManager.java (line 272) Creating new index : ColumnDefinition{name=626f6479, validator=org.apache.cassandra.db.marshal.UTF8Type, index_type=CUSTOM, index_name='wiki_solr_body_index'}
+ INFO [GossipStage:1] 2013-08-05 19:39:15,786 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed SCHEMA = 3d196497-2f08-3b01-854c-f6c417a4ad5d
+ INFO [GossipStage:1] 2013-08-05 19:39:15,787 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed SEVERITY = 5.551115123125783E-17
+ INFO [GossipStage:1] 2013-08-05 19:39:15,788 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed SCHEMA = 3d196497-2f08-3b01-854c-f6c417a4ad5d
+ INFO [GossipStage:1] 2013-08-05 19:39:15,788 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed SEVERITY = 0.0
+ INFO [GossipStage:1] 2013-08-05 19:39:15,789 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed SCHEMA = 3d196497-2f08-3b01-854c-f6c417a4ad5d
+ INFO [GossipStage:1] 2013-08-05 19:39:15,789 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed SEVERITY = 0.0
+ INFO [GossipStage:1] 2013-08-05 19:39:38,478 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 98370.0
+ INFO [ScheduledTasks:1] 2013-08-05 19:39:42,607 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 80690.0
+ INFO [MigrationStage:1] 2013-08-05 19:39:48,279 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-schema_keyspaces@848667219(138/138 serialized/live bytes, 3 ops)
+ INFO [FlushWriter:2] 2013-08-05 19:39:48,280 Memtable.java (line 461) Writing Memtable-schema_keyspaces@848667219(138/138 serialized/live bytes, 3 ops)
+ INFO [FlushWriter:2] 2013-08-05 19:39:48,303 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/schema_keyspaces/system-schema_keyspaces-ic-14-Data.db (169 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=213651)
+ INFO [MigrationStage:1] 2013-08-05 19:39:48,304 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-schema_columnfamilies@1840118755(1181/1181 serialized/live bytes, 21 ops)
+ INFO [FlushWriter:2] 2013-08-05 19:39:48,304 Memtable.java (line 461) Writing Memtable-schema_columnfamilies@1840118755(1181/1181 serialized/live bytes, 21 ops)
+ INFO [FlushWriter:2] 2013-08-05 19:39:48,324 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/schema_columnfamilies/system-schema_columnfamilies-ic-15-Data.db (668 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=213651)
+ INFO [MigrationStage:1] 2013-08-05 19:39:48,325 ColumnFamilyStore.java (line 630) Enqueuing flush of Memtable-schema_columns@2047532945(5091/5091 serialized/live bytes, 90 ops)
+ INFO [FlushWriter:2] 2013-08-05 19:39:48,325 Memtable.java (line 461) Writing Memtable-schema_columns@2047532945(5091/5091 serialized/live bytes, 90 ops)
+ INFO [FlushWriter:2] 2013-08-05 19:39:48,346 Memtable.java (line 495) Completed flushing /var/lib/cassandra/data/system/schema_columns/system-schema_columns-ic-11-Data.db (1035 bytes) for commitlog position ReplayPosition(segmentId=1375731219858, position=213651)
+ INFO [MigrationStage:1] 2013-08-05 19:39:48,366 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed SCHEMA = 60b8726b-f146-36fd-b4f1-4bb3921929ce
+ INFO [GossipStage:1] 2013-08-05 19:39:48,606 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 94175.0
+ INFO [GossipStage:1] 2013-08-05 19:39:48,607 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed SCHEMA = 60b8726b-f146-36fd-b4f1-4bb3921929ce
+ INFO [GossipStage:1] 2013-08-05 19:39:48,607 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed SEVERITY = 5.551115123125783E-17
+ INFO [GossipStage:1] 2013-08-05 19:39:48,609 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed SCHEMA = 60b8726b-f146-36fd-b4f1-4bb3921929ce
+ INFO [GossipStage:1] 2013-08-05 19:39:48,609 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed SEVERITY = 0.0
+ INFO [GossipStage:1] 2013-08-05 19:39:48,610 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed SCHEMA = 60b8726b-f146-36fd-b4f1-4bb3921929ce
+ INFO [GossipStage:1] 2013-08-05 19:39:58,808 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [MemoryMeter:1] 2013-08-05 19:40:00,185 Memtable.java (line 238) CFS(Keyspace='Logging', ColumnFamily='log_entries') liveRatio is 6.529996338720644 (just-counted was 6.529996338720644).  calculation took 127ms for 949 columns
+ INFO [MemoryMeter:1] 2013-08-05 19:40:15,193 Memtable.java (line 238) CFS(Keyspace='Logging', ColumnFamily='log_entries') liveRatio is 6.87271676300578 (just-counted was 6.87271676300578).  calculation took 73ms for 2054 columns
+ INFO [MemoryMeter:1] 2013-08-05 19:40:36,515 Memtable.java (line 238) CFS(Keyspace='Logging', ColumnFamily='log_entries') liveRatio is 7.042735597843736 (just-counted was 7.042735597843736).  calculation took 16ms for 3341 columns
+ INFO [GossipStage:1] 2013-08-05 19:40:38,830 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 19:40:42,608 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 19:40:48,632 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 19:40:59,842 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [MemoryMeter:1] 2013-08-05 19:41:34,054 Memtable.java (line 238) CFS(Keyspace='Logging', ColumnFamily='log_entries') liveRatio is 7.012176608059821 (just-counted was 6.981617618275908).  calculation took 46ms for 6877 columns
+ INFO [GossipStage:1] 2013-08-05 19:41:38,865 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 19:41:42,608 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 19:41:48,870 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 19:41:58,876 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 19:42:38,683 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 19:42:42,609 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 19:42:48,688 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 19:42:58,586 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 19:43:38,578 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 19:43:42,610 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 19:43:48,949 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 19:43:58,719 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 19:44:38,738 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 19:44:42,611 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 19:44:48,742 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 19:44:58,998 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 19:45:38,628 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 19:45:42,611 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 19:45:49,031 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 19:45:59,037 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 19:46:38,728 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 19:46:42,612 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 19:46:50,071 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 19:46:58,741 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 19:47:38,768 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 19:47:42,613 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 19:47:48,831 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 19:47:58,784 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 19:48:38,814 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 19:48:42,613 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 19:48:48,861 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 19:48:59,165 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 19:49:38,738 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 19:49:42,614 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 19:49:48,875 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 19:49:58,884 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 19:50:39,246 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 19:50:42,615 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 19:50:49,254 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 19:50:59,263 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 19:51:38,296 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 19:51:42,616 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 19:51:49,306 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 19:51:58,983 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 19:52:38,348 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 19:52:42,616 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 19:52:48,982 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 19:52:58,366 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 19:53:38,403 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 19:53:42,617 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 19:53:49,013 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 19:53:59,085 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 19:54:38,459 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 19:54:42,618 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 19:54:48,469 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 19:54:58,479 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 19:55:38,925 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 19:55:42,619 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 19:55:48,535 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 19:55:58,554 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 19:56:39,597 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 19:56:42,619 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 19:56:49,605 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 19:56:58,615 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 19:57:38,651 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 19:57:42,620 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 19:57:48,660 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 19:57:58,669 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 19:58:39,002 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 19:58:42,621 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 19:58:49,163 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 19:58:58,723 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 19:59:39,760 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 19:59:42,622 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 19:59:48,769 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 19:59:58,777 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 20:00:38,813 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 20:00:42,622 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 20:00:49,227 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 20:00:58,491 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 20:01:39,868 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 20:01:42,623 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 20:01:48,876 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 20:01:59,550 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 20:02:38,920 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 20:02:42,624 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 20:02:48,930 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 20:02:58,608 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 20:03:38,977 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 20:03:42,625 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 20:03:48,986 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 20:03:58,997 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 20:04:38,700 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 20:04:42,625 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 20:04:49,045 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 20:04:59,055 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 20:05:39,756 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 20:05:42,626 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 20:05:49,102 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 20:05:59,111 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 20:06:39,151 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 20:06:42,627 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 20:06:49,396 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 20:06:59,169 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 20:07:39,195 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 20:07:42,628 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 20:07:49,200 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 20:07:58,877 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 20:08:38,906 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 20:08:42,628 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 20:08:48,912 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 20:08:59,455 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 20:09:39,257 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 20:09:42,629 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 20:09:49,262 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 20:09:59,267 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 20:10:38,288 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 20:10:42,630 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 20:10:49,294 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 20:11:00,300 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 20:11:38,357 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 20:11:42,631 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 20:11:49,327 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 20:11:58,333 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 20:12:38,355 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 20:12:42,631 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 20:12:49,362 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 20:12:59,368 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 20:13:39,391 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 20:13:42,632 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 20:13:49,397 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 20:13:59,078 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 20:14:38,445 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 20:14:42,633 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 20:14:49,110 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 20:14:59,440 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 20:15:38,465 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 20:15:42,634 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 20:15:49,472 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 20:15:59,478 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 20:16:39,177 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 20:16:42,634 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 20:16:48,511 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 20:16:59,189 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 20:17:38,535 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 20:17:42,635 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 20:17:48,540 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 20:17:59,545 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 20:18:38,589 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 20:18:42,636 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 20:18:48,596 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 20:18:59,266 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 20:19:38,630 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 20:19:42,637 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 20:19:48,637 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 20:19:58,644 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 20:20:38,623 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 20:20:42,637 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 20:20:48,752 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 20:20:58,345 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 20:21:38,716 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 20:21:42,638 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 20:21:49,657 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 20:21:58,732 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 20:22:38,680 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 20:22:42,639 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 20:22:49,684 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 20:22:58,688 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 20:23:38,807 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 20:23:42,640 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 20:23:48,814 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 20:23:58,472 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 20:24:38,848 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 20:24:42,640 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 20:24:48,861 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 20:24:58,870 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 20:25:38,904 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 20:25:42,641 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 20:25:49,879 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 20:25:58,561 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 20:26:39,790 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 20:26:42,642 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 20:26:48,957 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 20:26:58,606 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [GossipStage:1] 2013-08-05 20:27:38,996 EndpointStateTracker.java (line 139) Endpoint /10.196.18.67 state changed LOAD = 71143.0
+ INFO [ScheduledTasks:1] 2013-08-05 20:27:42,643 EndpointStateTracker.java (line 139) Endpoint /10.197.28.138 state changed LOAD = 96394.0
+ INFO [GossipStage:1] 2013-08-05 20:27:48,927 EndpointStateTracker.java (line 139) Endpoint /10.197.21.58 state changed LOAD = 80504.0
+ INFO [GossipStage:1] 2013-08-05 20:27:59,011 EndpointStateTracker.java (line 139) Endpoint /10.196.74.231 state changed LOAD = 101017.0
+ INFO [ScheduledTasks:1] 2013-06-13 22:18:55,565 MessagingService.java (line 663) 537 READ messages dropped in last 5000ms
+ INFO [ScheduledTasks:1] 2013-06-13 22:19:55,565 MessagingService.java (line 663) 637 READ messages dropped in last 5000ms
+ INFO [ScheduledTasks:1] 2013-06-13 22:20:55,565 MessagingService.java (line 663) 737 READ messages dropped in last 5000ms
+ INFO [ScheduledTasks:1] 2013-06-13 22:21:55,565 MessagingService.java (line 663) 837 READ messages dropped in last 5000ms
+ INFO [ScheduledTasks:1] 2013-06-13 22:22:55,565 MessagingService.java (line 663) 937 READ messages dropped in last 5000ms
+ERROR [main] 2013-05-20 15:55:24,299 AbstractCassandraDaemon.java (line 410) Exception encountered during startup
+java.lang.NoClassDefFoundError: com/sun/jna/Native
+        at com.datastax.bdp.util.FileSystemUtil.tryRegister(FileSystemUtil.java:40)
+        at com.datastax.bdp.util.FileSystemUtil.<clinit>(FileSystemUtil.java:34)
+        at com.datastax.bdp.server.DseDaemon.setup(DseDaemon.java:132)
+        at org.apache.cassandra.service.AbstractCassandraDaemon.activate(AbstractCassandraDaemon.java:393)
+        at com.datastax.bdp.server.DseDaemon.main(DseDaemon.java:356)
+Caused by: java.lang.ClassNotFoundException: com.sun.jna.Native
+        at java.net.URLClassLoader$1.run(URLClassLoader.java:202)
+        at java.security.AccessController.doPrivileged(Native Method)
+        at java.net.URLClassLoader.findClass(URLClassLoader.java:190)
+        at java.lang.ClassLoader.loadClass(ClassLoader.java:306)
+        at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:301)
+        at java.lang.ClassLoader.loadClass(ClassLoader.java:247)
+        ... 5 more
+ WARN [main] 2013-05-20 16:12:27,298 FileSystemUtil.java (line 47) JNA failed to register native C library: com/sun/jna/Native
+

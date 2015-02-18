@@ -1,28 +1,26 @@
 # Only use spaces to indent, not tabs
 
 servers:
-    site1:
-        host: foobar.com
-        user: foo
-        password: topsecret
-        command: tail -f -n0
-        files: /var/log/apache/access_log
-        parser: apache
-        color: 0.2, 1.0, 0.2, 1.0
-    rails:
-        host: anotherfunsite.com
-        user: anotherfunuser
-        port: 222
-        command: tail -f -n0
-        files: /var/www/apps/funapp/current/log/production.log
-        parser: rails
-        color: 0.2, 0.2, 1.0, 1.0
-    dev:
-        host: clockingit.com
+    server1:
         source: local
-        files: /var/www/clockingit/logs/production.log
-        parser: rails
-        color: 0.2, 0.2, 1.0, 1.0
+        files: ./test/system1.log
+        parser: cassandra
+        color: 0.2, 1.0, 0.2, 1.0
+    server2:
+        source: local
+        files: ./test/system2.log
+        parser: cassandra
+        color: 0.2, 1.0, 0.4, 1.0
+    server3:
+        source: local
+        files: ./test/system3.log
+        parser: cassandra
+        color: 0.2, 1.0, 0.6, 1.0
+    server_errors:
+        source: local
+        files: ./test/system4.log
+        parser: cassandra
+        color: 0.2, 1.0, 0.8, 1.0
 config:
     dimensions: 1200x600
     min_blob_size: 0.004
