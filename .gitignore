@@ -2,6 +2,20 @@ vendor/Chipmunk-4.1.0/ruby/Makefile
 vendor/Chipmunk-4.1.0/ruby/chipmunk.bundle
 vendor/Chipmunk-4.1.0/ruby/*.o
 
+# Vendored chipmunk build artifacts — built locally by bin/setup
+vendor/chipmunk/Makefile
+vendor/chipmunk/mkmf.log
+vendor/chipmunk/*.o
+vendor/chipmunk/*.so
+vendor/chipmunk/lib/*.so
+
+# Bundler / local config
+.bundle/
+
+# Local-only workspace artifacts (host-specific configs, agent state)
+test_ssh.yaml
+.claude/
+
 .idea/
 config.*.yaml
 ip_dns_to_ban.txt

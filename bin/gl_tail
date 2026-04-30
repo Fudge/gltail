@@ -74,7 +74,7 @@ elsif !File.exist?(file)
   exit
 end
 
-require File.dirname(__FILE__) + '/../lib/gl_tail.rb'
+require_relative '../lib/gl_tail.rb'
 
 if defined? @print
   case @print
@@ -99,8 +99,8 @@ if RUBY_PLATFORM.split('-',2).last != 'mswin32'
 	trap('INT') { exit }
 	trap('QUIT') { exit }
 	trap('ABRT') { exit }
-	trap('KILL') { exit }
 	trap('TERM') { exit }
+	# SIGKILL cannot be trapped; previous code attempted to and crashed on modern Ruby.
 	#trap("USR1") { $VRB >= 1 ? $VRB = 0 : $VRB += 1; puts "verbose toggled" }
 	trap('USR2') { $DBG >= 2 ? $DBG = 0 : $DBG += 1; puts 'debug level toggled' }
 end

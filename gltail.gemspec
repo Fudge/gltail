@@ -20,11 +20,21 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ['lib']
 
-  gem.add_dependency('opengl', '~> 0.8.0')
-  gem.add_dependency('net-ssh', '>= 1.1.4')
+  gem.add_dependency('opengl', '~> 0.10')
+  gem.add_dependency('glu', '~> 8.3')
+  gem.add_dependency('glut', '~> 8.3')
+  gem.add_dependency('net-ssh', '>= 2.9')
   gem.add_dependency('net-ssh-gateway')
   gem.add_dependency('chipmunk', '~> 5.3.4.5')
   gem.add_dependency('file-tail')
+
+  # No longer in stdlib as of Ruby 3.5+; net-ssh requires it.
+  gem.add_dependency('logger')
+  # Removed from default gems in Ruby 3.4+; gl_tail/resolver.rb requires it.
+  gem.add_dependency('resolv-replace')
+  # Required by net-ssh to read ed25519 keys (now the openssh default).
+  gem.add_dependency('ed25519', '~> 1.2')
+  gem.add_dependency('bcrypt_pbkdf', '~> 1.0')
 end
 
 # vim: syntax=Ruby

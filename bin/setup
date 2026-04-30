@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# One-shot modernization setup. Run after cloning, or whenever the vendored
+# chipmunk source changes. Safe to re-run.
+#
+# Why this exists:
+#   - GCC 14+ promotes several historical warnings (incompatible-pointer-types,
+#     int-conversion, implicit-function-declaration) to errors. Most of the
+#     C-extension gems gltail depends on were written before that.
+#   - Bundler does not auto-build C extensions for `path:` gems, so the
+#     vendored chipmunk under vendor/chipmunk/ needs an explicit make.
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+ROOT="$PWD"
+
+CFLAGS_RELAX="-Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-function-declaration"
+
+# Wire the relaxed CFLAGS into bundler so opengl, glu, glut all build.
+# These end up in .bundle/config as project-local settings.
+bundle config set --local build.opengl "--with-cflags=${CFLAGS_RELAX}"
+bundle config set --local build.glu    "--with-cflags=${CFLAGS_RELAX}"
+bundle config set --local build.glut   "--with-cflags=${CFLAGS_RELAX}"
+
+bundle install
+
+# Now build the vendored chipmunk extension into vendor/chipmunk/lib/.
+export CFLAGS="${CFLAGS:-} ${CFLAGS_RELAX}"
+cd "$ROOT/vendor/chipmunk"
+rm -f Makefile mkmf.log *.o *.so lib/chipmunk.so
+ruby ext/chipmunk/extconf.rb
+make
+mv chipmunk.so lib/chipmunk.so
+rm -f Makefile mkmf.log *.o
+
+echo
+echo "Setup complete. Run with:"
+echo "  bundle exec ruby bin/gl_tail <configfile>"
