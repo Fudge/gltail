@@ -1,0 +1,89 @@
+[
+  {
+    "line": "Apr 18 07:27:02 appname app[1234]: Completed in 21ms (View: 0, DB: 11) | 200 OK [http://example.com/users/show/1]",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "sites",
+          "name": "example.com",
+          "size": 21.0
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "urls",
+          "name": "/users/show/:id",
+          "size": 21.0
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "slow requests",
+          "name": "/users/show/:id",
+          "size": 21.0
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "content",
+          "name": "page"
+        }
+      ]
+    ]
+  },
+  {
+    "line": "Apr 18 07:27:03 appname app[1234]: Processing UsersController#show (for 192.168.1.5 at 2007-10-05 22:34:33) [GET]",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "users",
+          "name": "192.168.1.5"
+        }
+      ]
+    ]
+  },
+  {
+    "line": "Apr 18 07:27:04 appname app[1234]: User Load (1.2ms)   SELECT * FROM \"users\" WHERE id = 1",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "sqlselect",
+          "name": "User",
+          "size": 1.2
+        }
+      ]
+    ]
+  },
+  {
+    "line": "Apr 18 07:27:05 appname app[1234]: User Update (2.0ms)   UPDATE \"users\" SET \"name\" = 'x' WHERE id = 1",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "sqlupdate",
+          "name": "User",
+          "size": 2.0
+        }
+      ]
+    ]
+  },
+  {
+    "line": "Apr 18 07:27:06 appname app[1234]: SQL (3.0ms)   INSERT INTO \"users\" (\"name\") VALUES('alice') RETURNING \"id\"",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "sqlinsert",
+          "name": "users",
+          "size": 3.0
+        }
+      ]
+    ]
+  }
+]

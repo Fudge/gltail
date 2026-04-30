@@ -4,8 +4,8 @@ module GlTail
   class YamlParser
     attr_reader :yaml
 
-    def initialize file
-      file  ||= "config.yaml"
+    def initialize(file)
+      file  ||= 'config.yaml'
       @yaml   = YAML.load_file(file)
     end
 
@@ -24,7 +24,8 @@ module GlTail
     end
     
     def parse_resolver
-      if x = self.yaml['resolver']
+      x = self.yaml['resolver']
+      if x
         x.each do |k, v|
           apply_value(Resolver.instance, k, v )
         end

@@ -1,0 +1,6 @@
+# PostgreSQL log samples covering each PostgreSQLParser branch.
+[mydb, 2026-04-29 10:00:00 UTC] LOG:  connection authorized: user=alice database=mydb
+[mydb, 2026-04-29 10:00:01 UTC] LOG:  statement: SELECT * FROM users
+[mydb, 2026-04-29 10:00:02 UTC] LOG:  duration: 12.345
+[mydb, 2026-04-29 10:00:03 UTC] LOG:  autovacuum: VACUUM mydb.users
+[mydb, 2026-04-29 10:00:04 UTC] LOG:  disconnection: session time: 0:00:30

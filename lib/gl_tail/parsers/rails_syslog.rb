@@ -1,56 +1,71 @@
-# gl_tail.rb - OpenGL visualization of your server traffic
-# Copyright 2011 Guillaume Hain <zedtux@zedroot.org>
-#
-# Licensed under the GNU General Public License v2 (see LICENSE)
-#
+# Rails-via-syslog access log parser.
 
-# Parser which handles Rails access syslogs
-class RailsSyslogParser < Parser
-  def parse( line )
-    #Apr 18 07:27:02 appname network_name[pid]: Completed in 0.02100 (47 reqs/sec) | Rendering: 0.01374 (65%) | DB: 0.00570 (27%) | 200 OK [http://example.com/whatever/whatever]
-    _, ms, url = /^.*\[[\d.]+\]: Completed in ([\d.]+)ms .* \[([^\]]+)\]/.match(line).to_a
+module GlTail::Adapters
+  class RailsSyslog < ::GlTail::Adapter
+    register :railssyslog
+    COMPLETED  = /^.*\[[\d.]+\]: Completed in ([\d.]+)ms .* \[([^\]]+)\]/.freeze
+    PROCESSING = /^.*: Processing .* \(for (\d+.\d+.\d+.\d+) at .*\).*$/.freeze
+    ERROR      = /^([^ ]+Error) \((.*)\):/.freeze
+    SQL_LOAD   = /^.*\[[\d.]+\]: ([A-Za-z]+) Load \(([\d.]+)ms\)[\s]+SELECT.*$/.freeze
+    SQL_UPDATE = /^.*\[[\d.]+\]: ([A-Za-z]+) Update \(([\d.]+)ms\)[\s]+UPDATE.*$/.freeze
+    SQL_INSERT = /^.*\[[\d.]+\]: SQL \(([\d.]+)ms\)[\s]+INSERT INTO \"([A-Za-z_]+)\".*$/.freeze
 
-    if url
-      _, host, url = /^http[s]?:\/\/([^\/]*)(.*)/.match(url).to_a
-
-      add_activity(:block => 'sites', :name => host, :size => ms.to_f) # Size of activity based on request time.
-      add_activity(:block => 'urls', :name => HttpHelper.generalize_url(url), :size => ms.to_f)
-      add_activity(:block => 'slow requests', :name => HttpHelper.generalize_url(url), :size => ms.to_f)
-      add_activity(:block => 'content', :name => 'page')
-
-      # Events to pop up
-      add_event(:block => 'info', :name => "Logins", :message => "Login...", :update_stats => true, :color => [0.5, 1.0, 0.5, 1.0]) if url.include?('/login')
-      add_event(:block => 'info', :name => "Sales", :message => "$", :update_stats => true, :color => [1.5, 0.0, 0.0, 1.0]) if url.include?('/checkout')
-      add_event(:block => 'info', :name => "Signups", :message => "New User...", :update_stats => true, :color => [1.0, 1.0, 1.0, 1.0]) if(url.include?('/signup') || url.include?('/users/create'))
-    elsif line.include?('Processing ')
-      #Apr 18 07:27:02 appname network_name[pid]: Processing TasksController#update_sheet_info (for 123.123.123.123 at 2007-10-05 22:34:33) [POST]
-      _, host = /^.*: Processing .* \(for (\d+.\d+.\d+.\d+) at .*\).*$/.match(line).to_a
-      if host
-        add_activity(:block => 'users', :name => host)
+    def parse(line)
+      if (m = COMPLETED.match(line))
+        yield('kind' => :completed, 'ms' => m[1].to_f, 'url' => m[2])
+      elsif line.include?('Processing ') && (m = PROCESSING.match(line))
+        yield('kind' => :processing, 'host' => m[1])
+      elsif line.include?('Error (') && (m = ERROR.match(line))
+        yield('kind' => :error, 'error' => m[1], 'msg' => m[2])
+      elsif line.include?('SELECT ') && (m = SQL_LOAD.match(line))
+        yield('kind' => :select, 'model' => m[1], 'ms' => m[2].to_f)
+      elsif line.include?('UPDATE ') && (m = SQL_UPDATE.match(line))
+        yield('kind' => :update, 'model' => m[1], 'ms' => m[2].to_f)
+      elsif line.include?('INSERT INTO ') && (m = SQL_INSERT.match(line))
+        yield('kind' => :insert, 'table' => m[2], 'ms' => m[1].to_f)
       end
-    elsif line.include?('Error (')
-      _, error, msg = /^([^ ]+Error) \((.*)\):/.match(line).to_a
-      if error
-        add_event(:block => 'info', :name => "Exceptions", :message => error, :update_stats => true, :color => [1.0, 0.0, 0.0, 1.0])
-        add_event(:block => 'info', :name => "Exceptions", :message => msg, :update_stats => false, :color => [1.0, 0.0, 0.0, 1.0])
-        add_activity(:block => 'warnings', :name => msg)
-
-      end
-    elsif line.include?('SELECT ')
-      #Apr 18 07:27:02 appname network_name[pid]: IsinTarget Load (1.1ms)   SELECT * FROM "table" WHERE id = 1
-      _, model_name, ms = /^.*\[[\d.]+\]: ([A-Za-z]+) Load \(([\d.]+)ms\)[\s]+SELECT.*$/.match(line).to_a
-      
-      add_activity(:block => 'sqlselect', :name => model_name, :size => ms.to_f)
-    elsif line.include?('UPDATE ')
-      #Apr 18 07:27:02 appname network_name[pid]: IsinTarget Load (1.1ms)   UPDATE "table" SET "column" = 'value' WHERE id = 1
-      _, model_name, ms = /^.*\[[\d.]+\]: ([A-Za-z]+) Update \(([\d.]+)ms\)[\s]+UPDATE.*$/.match(line).to_a
-      
-      add_activity(:block => 'sqlupdate', :name => model_name, :size => ms.to_f)
-    elsif line.include?('INSERT INTO ')
-      #Apr 18 07:27:02 appname network_name[pid]: SQL (3.0ms)   INSERT INTO "table" ("field1", "field2") VALUES(value1, value2) RETURNING "id"
-      _, ms, table_name = /^.*\[[\d.]+\]: SQL \(([\d.]+)ms\)[\s]+INSERT INTO \"([A-Za-z_]+)\".*$/.match(line).to_a
-      
-      add_activity(:block => 'sqlinsert', :name => table_name, :size => ms.to_f)
     end
   end
+end
+
+module GlTail::Mappers
+  class RailsSyslog < ::GlTail::Mapper
+    register :railssyslog
+    def emit(record)
+      case record['kind']
+      when :completed
+        _, host, url = %r{^https?://([^/]*)(.*)}.match(record['url']).to_a
+        ms = record['ms']
+        add_activity(block: 'sites', name: host, size: ms)
+        add_activity(block: 'urls', name: HttpHelper.generalize_url(url), size: ms)
+        add_activity(block: 'slow requests', name: HttpHelper.generalize_url(url), size: ms)
+        add_activity(block: 'content', name: 'page')
+        add_event(block: 'info', name: 'Logins',  message: 'Login...', update_stats: true,
+                  color: [0.5, 1.0, 0.5, 1.0]) if url.include?('/login')
+        add_event(block: 'info', name: 'Sales',   message: '$',        update_stats: true,
+                  color: [1.5, 0.0, 0.0, 1.0]) if url.include?('/checkout')
+        add_event(block: 'info', name: 'Signups', message: 'New User...', update_stats: true,
+                  color: [1.0, 1.0, 1.0, 1.0]) if url.include?('/signup') || url.include?('/users/create')
+      when :processing
+        add_activity(block: 'users', name: record['host'])
+      when :error
+        add_event(block: 'info', name: 'Exceptions', message: record['error'],
+                  update_stats: true,  color: [1.0, 0.0, 0.0, 1.0])
+        add_event(block: 'info', name: 'Exceptions', message: record['msg'],
+                  update_stats: false, color: [1.0, 0.0, 0.0, 1.0])
+        add_activity(block: 'warnings', name: record['msg'])
+      when :select
+        add_activity(block: 'sqlselect', name: record['model'], size: record['ms'])
+      when :update
+        add_activity(block: 'sqlupdate', name: record['model'], size: record['ms'])
+      when :insert
+        add_activity(block: 'sqlinsert', name: record['table'], size: record['ms'])
+      end
+    end
+  end
+end
+
+class RailsSyslogParser < Parser
+  use_adapter :railssyslog
+  use_mapper  :railssyslog
 end

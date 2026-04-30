@@ -9,11 +9,11 @@ class Block
 
   attr_reader :name, :bottom_position
 
-  config_attribute :color, "FIXME: add description", :type => :color
-  config_attribute :order, "FIXME"
-  config_attribute :size, "FIXME"
-  config_attribute :auto_clean, "FIXME"
-  config_attribute :activity_type, "FIXME"
+  config_attribute :color, 'FIXME: add description', :type => :color
+  config_attribute :order, 'FIXME'
+  config_attribute :size, 'FIXME'
+  config_attribute :auto_clean, 'FIXME'
+  config_attribute :activity_type, 'FIXME'
 
   attr_accessor :column
   attr_reader   :config
@@ -25,7 +25,7 @@ class Block
 
     @size = 10
     @auto_clean = true
-    @activity_type = "blobs"
+    @activity_type = 'blobs'
     @order = 100
 
     @show = 0
@@ -99,37 +99,41 @@ class Block
 
   def add_activity(options = { })
     return unless options[:name]
-    x = nil
-    unless @elements[options[:name]]
-      x = Element.new(self, options[:name], @color || options[:color] )
+    if @elements[options[:name]]
+      x = @elements[options[:name]]
+    else
+      x = Element.new(self, options[:name], @color || options[:color])
       @elements[options[:name]] = x
       if @sorted.size > @size
-        @sorted.insert(@size+1,x)
+        @sorted.insert(@size+1, x)
       else
         @sorted << x
       end
-    else
-      x = @elements[options[:name]]
     end
     x.add_activity(options[:message], @color || options[:color], options[:size] || 0.01, options[:type] || 0, options[:real_size] || options[:size] )
+    if options.include?(:check_rate) && options[:check_rate].to_i > 0
+      rate_to_check = options[:check_rate].to_i
+      curr_rate = (x.rate * 60).to_i
+      if curr_rate >= rate_to_check
+        puts "{\"error_type\": \"attack\", \"ip_dns\": \"#{options[:name]}\", \"rate\": #{curr_rate}, \"date\": \"#{Time.now.localtime.strftime('%Y%m%d-%Hh%Mm%Ss')}\"}"
+      end
+    end
   end
 
   def add_event(options = { })
     return unless options[:name]
-    x = nil
-    unless @elements[options[:name]]
-      x = Element.new(self, options[:name], @color || options[:color] )
+    if @elements[options[:name]]
+      x = @elements[options[:name]]
+    else
+      x = Element.new(self, options[:name], @color || options[:color])
       @elements[options[:name]] = x
       if @sorted.size > @size
-        @sorted.insert(@size+1,x)
+        @sorted.insert(@size+1, x)
       else
         @sorted << x
       end
-    else
-      x = @elements[options[:name]]
     end
-
-    x.add_event(options[:message], options[:color] || @color, options[:update_stats] || false)
+    x.add_event(options[:message], options[:color] || @color, options[:update_stats])
   end
 
   def update

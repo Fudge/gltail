@@ -1,0 +1,110 @@
+Ruby Bindings to Chipmunk Physics Version 5.3.4
+
+(C) Scott Lembcke, Beoran and John Mair (banisterfiend)
+
+IMPORTANT NOTICE:
+This is version 5.3.4.3 of the bindings for MRI Ruby 1.8.x and 1.9.x to
+Chipmunk version 5.3.4.
+
+(1) 1/10/09 Cross-Platform Gem built by John Mair (banisterfiend)
+    * Just go: gem install chipmunk
+
+FORUM:
+  http://www.slembcke.net/forums
+
+CONTACT:
+  slembcke@gmail.com (also on Google Talk) for Chipmunk.
+  beoran@rubyforge.org for these bindings to Ruby.
+
+ABOUT CHIPMUNK:
+  Chipmunk is a simple, lightweight and fast 2D rigid body physics library
+  written in C by Slembcke. It's licensed under the unrestrictive, OSI approved
+  MIT license.
+
+ABOUT THESE RUBY BINDINGS:
+  Although chipmunk comes with ruby bindings, they are not always up to date
+  with regards to the functionality of the C library, and historically, they
+  have been incompatible with recent versions of Ruby.
+
+  Therefore, these bindings are intended to as an enhanced version with more
+  features and better compatibility with recent versions of Ruby. They are also
+  intended to be an alternative to the chipmunk-ffi bindings when performance
+  is of the utmost importance, as it may be for games.
+
+  The intent is for these bindings to be mostly source code compatible with the
+  FFI bindings. Main exceptions are when it did not support the functionality I
+  added yet. All this is documented by specs and by the html documentation.
+
+  If you have any problems with these bindings, please contact the maintainer at
+  beoran@rubyforge.org, or report the issue on the issue tracker:
+  https://github.com/beoran/chipmunk/issues
+
+INSTALLATION
+  Clone this repository, go into the ext directory and do:
+
+  ruby extconf.rb ; make ; make install
+
+  There is also a gem available for Linux and OS/X, and a binary gem for Windows,
+  which you can try to install with:
+
+  gem install chipmunk
+
+  However, due to incompatilties in the latest versions of
+  Rake, Rake-Compiler and rubygems, the gem method of installation may fail for
+  you. This will be solved when these incompatibilities are solved by these
+  upstream tools.
+
+  These bindings vendor Chipmunk 5.3.4 with a few extra patches, so you don't
+  need to have it installed.
+
+DOCUMENTATION:
+  Full handcrafted documentation based on the C documentation is available at:
+  http://beoran.github.com/chipmunk/
+
+CHANGES:
+  * Since 5.3.4.4: Vendored chipmunk again, uncleanly. should compile well now.
+  * Version 5.3.4.2 and 5.3.4.3 are broken, don't use them.
+  * Since 5.3.4.1: Vendored chipmunk again, cleanly. Several bugfixes.
+  * Since 5.1.0  : Much more of Chipmunk's functionality is wrapped. Unvendored
+    chipmunk. More specs and documentation.
+    
+VERSIONING POLICY:
+  Since 5.3.4.0 these bindings follow the version of chipmunk, followed by an 
+  extra number for the version of the bindings. All major releases will be 
+  backwards compatible in their API. The API may be enhanced in minor releases.
+  The next planned release that is expected to partialy break backwards 
+  compatibility with the 5.3.4 API will be 6.x.x.0, which will be based on
+  the upstream C Chipmunk library version 6.x.x after that leaves beta.
+
+KNOWN BUGS:
+  * There are no bindings to SpaceHash since I think they are not so useful
+    anymore since Chipmunk supports BB queries.
+  * Some methods may crash with a segentation violation in case they are not
+    used correctly, according to the underlying requirements of the C library.
+
+CONTRACTING:
+  Howling Moon Software (Slembke's company) is available for contracting if you
+  want to make the physics in your game really stand out. Feel free to contact
+  them through their webpage: http://howlingmoonsoftware.com/contracting.php
+
+TODO:
+  * Allow several constructors to be more flexible and take nil as a default
+    argument.
+  * Try to prevent segfauts on incorrect use of certain methods, if possible.
+  * Get ready for chipmunk 5.3.5 and 6.x when they come out.
+  * Some more specs.
+  * Fix the gem when the upstream tools get fixed.
+
+INFO FOR MAINTAINERS:
+
+(1) 1/10/09 Cross-Platform Gem built by John Mair (banisterfiend)
+    * Just go: gem install chipmunk
+
+(2) Patched for 1.9.1 by Beoran (beoran@rubyforge.org)
+
+(3) How to build the gems? (maintainers only)
+    * Install rake-compiler (http://github.com/luislavena/rake-compiler)
+    * Install 1.9.1 and 1.8.6 mingw ruby versions (instructions above)
+    * Type: rake cross native gem RUBY_CC_VERSION=1.8.6:1.9.1
+    * Upload new gems to rubyforge and gemcutter.
+    

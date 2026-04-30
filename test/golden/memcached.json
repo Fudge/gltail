@@ -1,0 +1,160 @@
+[
+  {
+    "line": "3 & 1",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "memcached",
+          "name": "hit",
+          "color": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "memcached",
+          "name": "hit",
+          "color": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "memcached",
+          "name": "hit",
+          "color": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "memcached",
+          "name": "miss",
+          "color": [
+            1.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ]
+    ]
+  },
+  {
+    "line": "0 & 5",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "memcached",
+          "name": "miss",
+          "color": [
+            1.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "memcached",
+          "name": "miss",
+          "color": [
+            1.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "memcached",
+          "name": "miss",
+          "color": [
+            1.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "memcached",
+          "name": "miss",
+          "color": [
+            1.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "memcached",
+          "name": "miss",
+          "color": [
+            1.0,
+            0.0,
+            0.0,
+            1.0
+          ]
+        }
+      ]
+    ]
+  },
+  {
+    "line": "2 & 0",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "memcached",
+          "name": "hit",
+          "color": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+          ]
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "memcached",
+          "name": "hit",
+          "color": [
+            0.0,
+            1.0,
+            0.0,
+            1.0
+          ]
+        }
+      ]
+    ]
+  }
+]

@@ -3,9 +3,9 @@ module GlTail
   module Source
 
     class Local < Base
-      config_attribute :source, "The type of Source"
+      config_attribute :source, 'The type of Source'
       config_attribute :host
-      config_attribute :files, "The files to tail", :deprecated => "Should be embedded in the :command"
+      config_attribute :files, 'The files to tail', :deprecated => 'Should be embedded in the :command'
 
         def init
             @log = File.open(files)

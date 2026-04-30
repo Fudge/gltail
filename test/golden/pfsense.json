@@ -1,0 +1,72 @@
+[
+  {
+    "line": "2026-04-29 10:00:00 fw01 pf: 00:00:00.000000 rule 10/(match): pass in on em0: (proto tcp ttl 64) 10.0.0.1.54321 > 8.8.8.8.443: tcp 60 1234 win 1024 flags [S]",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "action",
+          "name": "pass"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "int",
+          "name": "fw01:em0"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "rule",
+          "name": "10"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "ipprotocol",
+          "name": "TCP"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "sourcehost",
+          "name": "10.0.0.1"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "sourceport",
+          "name": "54321"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "destinationhost",
+          "name": "8.8.8.8",
+          "type": 5
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "destinationport",
+          "name": "443",
+          "type": 5
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "sourcedestination",
+          "name": "10.0.0.1:54321 > 8.8.8.8:443 (TCP)"
+        }
+      ]
+    ]
+  }
+]

@@ -1,0 +1,65 @@
+[
+  {
+    "line": "@400000005f1234567890abcd vpopmail[123]: vchkpw-smtp: User 'alice@example.com' of 'example.com' logged in from 10.0.0.1",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "logins",
+          "name": "alice@example.com@example.com",
+          "size": 0.05
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "sites",
+          "name": "sample",
+          "size": 0.05
+        }
+      ]
+    ]
+  },
+  {
+    "line": "@400000005f1234567890abce qmail[124]: starting delivery 5: msg 1234 to local alice@example.com",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "mail to",
+          "name": "example.com",
+          "size": 0.05
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "sites",
+          "name": "sample",
+          "size": 0.05
+        }
+      ]
+    ]
+  },
+  {
+    "line": "@400000005f1234567890abcf qmail[125]: starting delivery 6: msg 1235 to remote bob@elsewhere.com",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "mail from",
+          "name": "elsewhere.com",
+          "size": 0.05
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "sites",
+          "name": "sample",
+          "size": 0.05
+        }
+      ]
+    ]
+  }
+]

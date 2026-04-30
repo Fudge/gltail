@@ -1,50 +1,52 @@
-# gl_tail.rb - OpenGL visualization of your server traffic
-# Copyright 2007 Erlend Simonsen <mr@fudgie.org>
-#
-# Licensed under the GNU General Public License v2 (see LICENSE)
-#
+# Cisco PIX / FWSM firewall log parser. Class registers as :pix.
 
-# Parser which handles logs from Cisco PIX or FWSM firewalls
-# should also handle ASA logs, with minimal change...
-# Leif Sawyer (leif@denali.net)
-#
+module GlTail::Adapters
+  class Pix < ::GlTail::Adapter
+    register :pix
+    BUILT  = /^.* \d+ \d+:\d+:\d+ \[?([a-zA-Z0-9\-]+)\/?\]?.* %(FWSM|PIX)-\d+-\d+: Built (\w+)bound \w+ connection \d+ for (\w+):([a-zA-Z0-9.]+)\/([a-zA-Z0-9.]+) \(.*\) to (\w+):([a-zA-Z0-9.]+)\/([a-zA-Z0-9.]+)/.freeze
+    URL    = /^.* \d+ \d+:\d+:\d+ \[?([a-zA-Z0-9\-]+)\/?\]?.* %(FWSM|PIX)-\d+-\d+: ([a-zA-Z0-9.]+) Accessed URL ([a-zA-Z0-9.]+):(.*)[\?]?/.freeze
+
+    def parse(line)
+      if line.include?(': Built') && (m = BUILT.match(line))
+        yield(
+          'kind' => :built, 'firewall' => m[1], 'type' => m[2], 'direction' => m[3],
+          'srcif' => m[4], 'src' => m[5], 'srcport' => m[6],
+          'dstif' => m[7], 'dst' => m[8], 'dstport' => m[9],
+        )
+      elsif line.include?('Accessed URL') && (m = URL.match(line))
+        yield(
+          'kind' => :url, 'firewall' => m[1], 'type' => m[2],
+          'client' => m[3], 'server' => m[4], 'url' => m[5],
+        )
+      end
+    end
+  end
+end
+
+module GlTail::Mappers
+  class Pix < ::GlTail::Mapper
+    register :pix
+    def emit(record)
+      add_activity(block: 'firewall', name: record['firewall'])
+      case record['kind']
+      when :built
+        if record['direction'] == 'out'
+          add_activity(block: 'hosts', name: record['src'])
+          add_activity(block: 'sites', name: record['dst'])
+        else
+          add_activity(block: 'hosts', name: record['dst'])
+          add_activity(block: 'sites', name: record['src'])
+        end
+      when :url
+        add_activity(block: 'hosts', name: record['client'])
+        add_activity(block: 'sites', name: record['server'])
+        add_activity(block: 'urls',  name: record['url'])
+      end
+    end
+  end
+end
 
 class PixParser < Parser
-  def parse( line )
-    if line.include?(': Built')
-        _, firewall, type, direction, srcif, src, srcport, dstif, dst, dstport =
-               /^.* \d+ \d+:\d+:\d+ \[?([a-zA-Z0-9\-]+)\/?\]?.* %(FWSM|PIX)-\d+-\d+: Built (\w+)bound \w+ connection \d+ for (\w+):([a-zA-Z0-9.]+)\/([a-zA-Z0-9.]+) \(.*\) to (\w+):([a-zA-Z0-9.]+)\/([a-zA-Z0-9.]+)/.match(line).to_a
-
-        if firewall
-          add_activity(:block => 'firewall', :name => firewall)
-          if direction == 'out'
-            add_activity(:block => 'hosts', :name => src)
-            add_activity(:block => 'sites', :name => dst)
-          else
-            add_activity(:block => 'hosts', :name => dst)
-            add_activity(:block => 'sites', :name => src)
-          end
-          printf("%sbound from %s firewall '%s', srcif=%s, src=%s, srcport=%s, dstif=%s, dst=%s, dstport=%s...\n", direction, type, firewall, srcif, src, srcport, dstif, dst, dstport ) if $VRB > 0
-        end
-
-    elsif line.include?('Accessed URL')
-          _, firewall, type, client, server, url = /^.* \d+ \d+:\d+:\d+ \[?([a-zA-Z0-9\-]+)\/?\]?.* %(FWSM|PIX)-\d+-\d+: ([a-zA-Z0-9.]+) Accessed URL ([a-zA-Z0-9.]+):(.*)[\?]?/.match(line).to_a
-        if firewall
-          add_activity(:block => 'firewall', :name => firewall)
-          add_activity(:block => 'hosts', :name => client)
-          add_activity(:block => 'sites', :name => server)
-          add_activity(:block => 'urls', :name => url)
-          printf("%s firewall '%s': client %s accessed url %s on host %s\n", type, firewall, client, url, server) if $VRB > 0
-        end
-
-#    elsif line.include?(': Deny')
-        # Deny udp src outside:_SRC_IP_/_SRC_PORT_ dst inside:_DST_IP_/_DST_PORT_ by access-group "_ACL_NAME"
-#       printf("ACL denied access ...\n") if $VRB > 0
-
-#    elsif line.include?('static translation')
-        # Teardown static translation from inside:_SRC_IP_ to dmz-anc-csa:_DST_IP_ duration 0:01:00
-#       printf("static translation ...\n") if $VRB > 0
-
-    end
- end
+  use_adapter :pix
+  use_mapper  :pix
 end

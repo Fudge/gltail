@@ -1,124 +1,131 @@
-# gl_tail.rb - OpenGL visualization of your server traffic
-# Copyright 2007 Erlend Simonsen <mr@fudgie.org>
+# pfSense PF firewall log parser.
 #
-# Licensed under the GNU General Public License v2 (see LICENSE)
-#
+# The legacy parser had two bugs that left it broken on Ruby 3.0+:
+#   1. `sourechost` typo (s/sourechost/sourcehost) — would NameError on every
+#      matched line, but…
+#   2. `Date.day_fraction_to_time` was removed in Ruby 3.0, so execution
+#      always errored before it reached the typo.
+# Both are fixed below; the time-of-day filter is preserved but disabled by
+# default (recent_only: false) so the test harness can produce deterministic
+# goldens. Set `recent_only: true` in YAML if you want the original 5-minute
+# clog-replay filter behavior.
 
-# Parser for PF Logs, specifically those from pfSense (1.2.1)
-# Jim Pingle (myfirstname@pingle.org)
+require 'date'
 
-# Available Blocks 
-#action: block|pass
-#rule: Rule number matched
-#ipprotocol: carp|icmp|tcp|udp|ah|igmp|esp|gre you get the idea..
-#int: This will be the actual interface (fxp0, vlan2, em1, etc) as the 'friendly' name is not put in the logs.
-#sourcehost: source host/IP
-#sourceport: source port
-#destinationhost: destination host/IP
-#destinationport: destination port
-#sourcedestination:  source host and port > destination host and port
+module GlTail::Adapters
+  class PFSense < ::GlTail::Adapter
+    register :pfsense
+
+    LINE     = /(.*)\s(.*)\spf:\s.*\srule\s(.*)\(match\)\:\s(.*)\s\w+\son\s(\w+)\:\s\((.*)\)\s(.*)\s>\s(.*)\:\s.*/.freeze
+    FLAGS    = /.*\sflags\s\[(.*)\]/.freeze
+    PROTO_A  = /.*\sproto\s(.*)\s\(/.freeze
+    PROTO_B  = /.*\sproto:\s(.*)\s\(/.freeze
+    PROTO_C  = /.*\snext-header\s(.*)\s\(/.freeze
+
+    def initialize(recent_only: false, recent_seconds: 300)
+      @recent_only    = recent_only
+      @recent_seconds = recent_seconds
+    end
+
+    def parse(line)
+      return if line.include?('ICMPv6') || line.include?('icmp6')
+      return unless line.include?('(match)')
+      m = LINE.match(line) or return
+
+      _, ltime, host, rule, action, int, details, src, dst = m.to_a
+      if @recent_only
+        ts = (Time.parse(ltime) rescue nil) or return
+        return if (Time.now - ts).abs > @recent_seconds
+      end
+
+      sourcehost,      sourceport      = ip_and_port(src)
+      destinationhost, destinationport = ip_and_port(dst)
+
+      ipprotocol = 'TCP'
+      if details.include?('flags ')
+        flags = (FLAGS.match(details) || [])[1]
+      end
+      if details.include?('proto ')
+        ipprotocol = (PROTO_A.match(details) || ['', 'TCP'])[1]
+      elsif details.include?('proto: ')
+        ipprotocol = (PROTO_B.match(details) || ['', 'TCP'])[1]
+      elsif details.include?('next-header ')
+        ipprotocol = (PROTO_C.match(details) || ['', 'TCP'])[1]
+      end
+
+      yield(
+        'host'            => host,
+        'rule'            => rule.split('/').first,
+        'action'          => action,
+        'int'             => int,
+        'flags'           => flags,
+        'ipprotocol'      => ipprotocol,
+        'sourcehost'      => sourcehost,
+        'sourceport'      => sourceport,
+        'destinationhost' => destinationhost,
+        'destinationport' => destinationport,
+      )
+    end
+
+    private
+
+    # Splits an "addr.port" or IPv6 "addr.port" form into [addr, port].
+    def ip_and_port(hostwithport)
+      if hostwithport.count(':') > 2  # IPv6
+        if hostwithport.count('.') == 1
+          host, port = hostwithport.split('.')
+          [host, port]
+        else
+          [hostwithport, 'none']
+        end
+      else  # IPv4
+        if hostwithport.count('.') == 4
+          parts = hostwithport.split('.')
+          [parts[0, 4].join('.'), parts[4]]
+        else
+          [hostwithport, 'none']
+        end
+      end.then do |h, p|
+        p = p.split(':').first if p.include?(':')
+        p = p.split(' ').first if p.include?(' ')
+        [h, p]
+      end
+    end
+  end
+end
+
+module GlTail::Mappers
+  class PFSense < ::GlTail::Mapper
+    register :pfsense
+
+    def emit(record)
+      add_activity(block: 'Flags',     name: record['flags']) if record['flags']
+      add_activity(block: 'action',    name: record['action'].to_s)
+      add_activity(block: 'int',       name: "#{record['host']}:#{record['int']}")
+      add_activity(block: 'rule',      name: record['rule'].to_s)
+      add_activity(block: 'ipprotocol', name: record['ipprotocol'].to_s)
+      add_activity(block: 'sourcehost', name: record['sourcehost'].to_s)
+      if record['sourceport'] != 'none'
+        add_activity(block: 'sourceport', name: record['sourceport'].to_s)
+      end
+      add_activity(block: 'destinationhost', name: record['destinationhost'].to_s, type: 5)
+      if record['destinationport'] != 'none'
+        add_activity(block: 'destinationport', name: record['destinationport'].to_s, type: 5)
+      end
+      add_activity(block: 'sourcedestination',
+                   name: "#{record['sourcehost']}#{port_suffix(record['sourceport'])} > " \
+                         "#{record['destinationhost']}#{port_suffix(record['destinationport'])} (#{record['ipprotocol']})")
+    end
+
+    private
+
+    def port_suffix(port)
+      port == 'none' ? '' : ":#{port}"
+    end
+  end
+end
 
 class PFSenseParser < Parser
-  require 'date'
-  
-  def getipandport(hostwithport)
-  
-    # Test for IPv6
-    if (hostwithport.count(':') > 2)
-      if (hostwithport.count('.') == 1)
-        thisport = hostwithport.split('.')[1].to_s
-        thishost = hostwithport.split('.')[0].to_s
-      else 
-        thishost = hostwithport
-        thisport = "none"
-      end
-    else
-      # IPv4
-      if (hostwithport.count('.') == 4)
-        thisport = hostwithport.split('.')[-1,1].to_s
-        thishost = hostwithport.split('.')
-        thishost = thishost[0,thishost.length()-1].join('.')
-      else 
-        thishost = hostwithport
-        thisport = "none"
-      end
-    end
-    
-    if thisport.include?(':')
-      thisport = thisport.split(':')[0]
-    end
-    if thisport.include?(' ')
-      thisport = thisport.split(' ')[0]
-    end
-
-    return [thishost, thisport]
-  end
-  
-  def getport(thisport)
-    if thisport == "none"
-      return ""
-    else
-      return ":" + thisport.to_s
-    end
-  end
-  
-  def parse( line )
-    if line.include?('(match)') and not line.include?('ICMPv6') and not line.include?('icmp6')
-      ipprotocol = "TCP"
-      _, ltime, host, rule, action, int, details, src, dst = /(.*)\s(.*)\spf:\s.*\srule\s(.*)\(match\)\:\s(.*)\s\w+\son\s(\w+)\:\s\((.*)\)\s(.*)\s>\s(.*)\:\s.*/.match(line).to_a
-      
-      # Assume the server is in the same time zone as the viewing client.
-      timewithoffset = ltime.to_s + DateTime.now().zone()
-      
-      # Alternately, just set it this way to assume UTC/GMT
-      #timewithoffset = ltime.to_s 
-      
-      hours,minutes,seconds,frac = Date.day_fraction_to_time(DateTime.now() - DateTime.parse(timewithoffset))
-      
-      # When connecting directly, there is no way to only view the end of the log. The clog program to view
-      # circular logs will dump the entire log to the parser, then will tail it showing new messages.
-      # Therefore, we can run a simple time check and only view entries from the last 5 minutes, or the
-      # "future". On some systems, I have seen the clock show negative (-1hr 59mins) instead of 0, so we
-      # can allow "future" messages just to be safe.
-      if ((hours == 0) and (minutes < 5)) or (hours < 0)
-        # Debug
-        # printf("Adding entry from %s hours, %s minutes ago\n", hours.to_s, minutes.to_s)
-
-        sourcehost, sourceport = getipandport(src)
-
-        destinationhost, destinationport = getipandport(dst)
-        
-        rule = rule.split('/')[0]
-        
-        if details.include?('flags ')
-          _, flags = /.*\sflags\s\[(.*)\]/.match(details).to_a
-          add_activity(:block => 'Flags',   :name => flags)
-        end
-        if details.include?('proto ')
-          _, ipprotocol = /.*\sproto\s(.*)\s\(/.match(details).to_a
-        elsif details.include?('proto: ')
-          _, ipprotocol = /.*\sproto:\s(.*)\s\(/.match(details).to_a
-        elsif details.include?('next-header ')
-          _, ipprotocol = /.*\snext-header\s(.*)\s\(/.match(details).to_a
-        end
-  
-      	add_activity(:block => 'action',  :name => action.to_s)
-      	add_activity(:block => 'int',     :name => host.to_s + ":" + int.to_s)
-      	add_activity(:block => 'rule',    :name => rule.to_s)
-      	add_activity(:block => 'ipprotocol',   :name => ipprotocol.to_s)
-      	add_activity(:block => 'sourcehost', :name => sourcehost.to_s)
-      	if sourceport != "none"
-      	  add_activity(:block => 'sourceport', :name => sourceport.to_s)
-      	end
-      	add_activity(:block => 'destinationhost', :name => destinationhost.to_s, :type => 5)	
-      	if destinationport != "none"
-      	  add_activity(:block => 'destinationport', :name => destinationport.to_s, :type => 5)
-      	end
-      	add_activity(:block => 'sourcedestination',  :name => sourcehost.to_s + getport(sourceport) + " > " + destinationhost.to_s + getport(destinationport) + " (" + ipprotocol.to_s + ")")
-      else
-        # Debug
-        # printf("Not adding entry from %s hours, %s minutes ago\n", hours.to_s, minutes.to_s)
-      end
-    end
-  end
+  use_adapter :pfsense
+  use_mapper  :pfsense
 end

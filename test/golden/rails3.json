@@ -1,0 +1,53 @@
+[
+  {
+    "line": "Started GET \"/users/show/1\" for 192.168.1.5 at 2026-04-29 10:00:00 +0000",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "urls",
+          "name": "/users/show/:id"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "users",
+          "name": "192.168.1.5"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "content",
+          "name": "page"
+        }
+      ]
+    ]
+  },
+  {
+    "line": "Completed 200 OK in 4659ms (Views: 3376.3ms | ActiveRecord: 0.0ms)",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "status",
+          "name": "200",
+          "size": 4.659
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "sites",
+          "name": "sample",
+          "size": 4.659
+        }
+      ]
+    ]
+  },
+  {
+    "line": "ActiveRecord::RecordNotFound (Couldn't find User with id=99):",
+    "calls": []
+  }
+]

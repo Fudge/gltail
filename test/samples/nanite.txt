@@ -1,0 +1,5 @@
+# Nanite log samples (RightScale's old messaging library).
+SEND /agent/run_recipe
+SEND /offline.failsafe/run_recipe
+RECV /run_result from mapper, target nanite-12345, payload {:status => :ok}
+Error (boom) something bad happened

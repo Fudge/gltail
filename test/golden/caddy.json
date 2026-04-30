@@ -1,0 +1,232 @@
+[
+  {
+    "line": "{\"level\":\"info\",\"ts\":1777494216.7,\"logger\":\"http.log.access.log1\",\"msg\":\"handled request\",\"request\":{\"remote_ip\":\"67.185.49.200\",\"client_ip\":\"67.185.49.200\",\"proto\":\"HTTP/1.1\",\"method\":\"GET\",\"host\":\"api.example.com\",\"uri\":\"/api/v1/users?page=1\",\"headers\":{\"User-Agent\":[\"python-httpx/0.28.1\"]}},\"duration\":0.07,\"size\":91,\"status\":200}",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "sites",
+          "name": "sample",
+          "size": 91
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "urls",
+          "name": "/api/v1/users"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "users",
+          "name": "67.185.49.200",
+          "size": 91,
+          "check_rate": 8
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "user agents",
+          "name": "python-httpx/0.28.1",
+          "type": 3
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "content",
+          "name": "page"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "status",
+          "name": "200",
+          "type": 3
+        }
+      ]
+    ]
+  },
+  {
+    "line": "{\"level\":\"info\",\"ts\":1777494220.1,\"request\":{\"client_ip\":\"10.0.0.1\",\"method\":\"POST\",\"host\":\"sample.example.com\",\"uri\":\"/login\",\"headers\":{\"User-Agent\":[\"Mozilla/5.0\"],\"Referer\":[\"https://sample.example.com/welcome\"]}},\"size\":0,\"status\":302}",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "sites",
+          "name": "sample",
+          "size": 0
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "urls",
+          "name": "/login"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "users",
+          "name": "10.0.0.1",
+          "size": 0,
+          "check_rate": 8
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "user agents",
+          "name": "Mozilla/5.0",
+          "type": 3
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "content",
+          "name": "page"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "status",
+          "name": "302",
+          "type": 3
+        }
+      ],
+      [
+        "add_event",
+        {
+          "block": "info",
+          "name": "Logins",
+          "message": "Login...",
+          "update_stats": true,
+          "color": [
+            1.5,
+            1.0,
+            0.5,
+            1.0
+          ]
+        }
+      ]
+    ]
+  },
+  {
+    "line": "{\"level\":\"info\",\"ts\":1777494221.5,\"request\":{\"client_ip\":\"8.8.8.8\",\"method\":\"GET\",\"host\":\"sample.example.com\",\"uri\":\"/static/app.js\",\"headers\":{\"User-Agent\":[\"GoogleBot\"]}},\"size\":4096,\"status\":200}",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "sites",
+          "name": "sample",
+          "size": 4096
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "urls",
+          "name": "/static/app.js"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "users",
+          "name": "8.8.8.8",
+          "size": 4096,
+          "check_rate": 8
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "user agents",
+          "name": "GoogleBot",
+          "type": 3
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "content",
+          "name": "javascript"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "status",
+          "name": "200",
+          "type": 3
+        }
+      ]
+    ]
+  },
+  {
+    "line": "{\"level\":\"info\",\"ts\":1777494222.8,\"request\":{\"client_ip\":\"2.2.2.2\",\"method\":\"GET\",\"host\":\"sample.example.com\",\"uri\":\"/missing\",\"headers\":{\"User-Agent\":[\"curl/8.5.0\"]}},\"size\":21,\"status\":404}",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "sites",
+          "name": "sample",
+          "size": 21
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "urls",
+          "name": "/missing"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "users",
+          "name": "2.2.2.2",
+          "size": 21,
+          "check_rate": 8
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "user agents",
+          "name": "curl/8.5.0",
+          "type": 3
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "content",
+          "name": "page"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "status",
+          "name": "404",
+          "type": 3
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "warnings",
+          "name": "404: /missing"
+        }
+      ]
+    ]
+  }
+]

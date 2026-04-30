@@ -1,56 +1,36 @@
-#-----------------------------------------------------------------------------------------------------------#
-#  Example:      
-#-----------------------------------------------------------------------------------------------------------#
-#
-#   - gl_tail.yaml config file:  
-#
-#     servers:
-#       server_named:
-#         host:     dns1.fooldns.com
-#         files:    /var/log/named_querylog
-#         parser:   named             
-#         command:  tail -f -n0
-#         user:     root    
-#
-#
-#     - blocks:
-#     
-#       date        time                host      port        view              query          type    
-#       01-Jul-2009 00:12:34.567 client 127.0.0.1#37534: view vistafool: query: www.thefool.it IN A +E
-#                
-#                                                                                                          
-#-----------------------------------------------------------------------------------------------------------#
+# BIND/named query log parser.
 
-class NamedParser < Parser
-  def parse( line )
-    _, date, time, host, port, view, query, type, type2 = /(\d+-\w+-\d+) (\d+:\d+:\d+\.\d+) client (\d+\.\d+\.\d+\.\d+)#(\d+): view (.+): query: (.*) (.*) (.*) (.*)/.match(line).to_a
-    
-    if host                                                                        
-      add_activity(:block => 'time', :name => time, :size => 1, :type => 3)         
-      add_activity(:block => 'host', :name => host, :size => 1, :type => 3)     
-      add_activity(:block => 'port', :name => host, :size => 1, :type => 3)
-      add_activity(:block => 'view', :name => host, :size => 1, :type => 3)   
-      user_id = Digest::MD5.hexdigest(host)                                       
-      add_activity(:block => 'dns_user_id', :name => user_id, :size => set_type_size(type))
-      add_activity(:block => 'query', :name => host, :size => set_type_size(type))   
-      add_activity(:block => 'type', :name => "#{type} #{type2}", :type => 3)
-    end
-    
-  end   
-       
-  # you can use size to distinguish request types
-  def set_type_size(type)
-    set_size = case type
-    when "A"     then 10
-    when "PTR"   then 90
-    when "AAAA"  then 70
-    when "TXT"   then 60
-    when "SOA"   then 50
-    when "MX"    then 40
-    when "SRV"   then 30
-    when "ANY"   then 100
-    else 
-      150
+module GlTail::Adapters
+  class Named < ::GlTail::Adapter
+    register :named
+    REGEX = /(\d+-\w+-\d+) (\d+:\d+:\d+\.\d+) client (?<host>\d+\.\d+\.\d+\.\d+)#(\d+) \((.+)\): query: (?<query>.+) (?<type>\S+) (?<type2>\S+) \((.*)\)/.freeze
+    def parse(line)
+      m = REGEX.match(line) or return
+      yield(
+        'host'  => m[:host],
+        'query' => m[:query],
+        'type'  => m[:type],
+        'type2' => m[:type2],
+      )
     end
   end
+end
+
+module GlTail::Mappers
+  class Named < ::GlTail::Mapper
+    register :named
+    TYPE_SIZE = { A: 30, SRV: 40, MX: 50, SOA: 60, TXT: 70, AAAA: 80, PTR: 90, ANY: 100 }.freeze
+
+    def emit(record)
+      add_activity(block: 'sites',     name: server.name)
+      add_activity(block: 'types',     name: "#{record['type']} #{record['type2']}")
+      add_activity(block: 'hosts',     name: record['host'], size: 1)
+      add_activity(block: 'dns query', name: record['query'], size: TYPE_SIZE[record['type'].to_sym] || 150)
+    end
+  end
+end
+
+class NamedParser < Parser
+  use_adapter :named
+  use_mapper  :named
 end

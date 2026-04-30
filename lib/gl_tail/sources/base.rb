@@ -17,7 +17,8 @@ module GlTail
       config_attribute :color, 'FIXME', :type => :color
       
       def parser=(name)
-        if klass = Parser.registry[name.to_sym]
+        klass = Parser.registry[name.to_sym]
+        if klass
           @parser = klass.new(self)
         else
           raise "Couldnt find a Parser by name: #{name}, try --parsers for a list of available parsers"

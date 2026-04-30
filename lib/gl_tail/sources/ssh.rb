@@ -4,16 +4,16 @@ module GlTail
   module Source
 
     class SSH < Base
-      config_attribute :source, "The type of Source"
-      config_attribute :command, "The Command to run"
-      config_attribute :files, "The files to tail", :deprecated => "Should be embedded in the :command"
-      config_attribute :host, "The Host to connect to"
-      config_attribute :command, "The Command to run"
-      config_attribute :user, "Username"
-      config_attribute :port, "Port"
-      config_attribute :keys, "Path to the ssh private key to use"
-      config_attribute :password, "Password"
-      config_attribute :gateway, "Gateway"
+      config_attribute :source, 'The type of Source'
+      config_attribute :command, 'The Command to run'
+      config_attribute :files, 'The files to tail', :deprecated => 'Should be embedded in the :command'
+      config_attribute :host, 'The Host to connect to'
+      config_attribute :command, 'The Command to run'
+      config_attribute :user, 'Username'
+      config_attribute :port, 'Port'
+      config_attribute :keys, 'Path to the ssh private key to use'
+      config_attribute :password, 'Password'
+      config_attribute :gateway, 'Gateway'
 
       def init
 
@@ -75,14 +75,14 @@ module GlTail
           parser.parse(line)
         end
 
-        @buffer = "" if @buffer.include? "\n"
+        @buffer = '' if @buffer.include? "\n"
       end
 
       def do_tail( file, command )
         @session.open_channel do |channel|
           puts "Channel opened on #{@session.host}...\n" if($VRB > 0 || $DBG > 0)
 
-          @buffer = ""
+          @buffer = ''
 #          channel.request_pty :want_reply => true
 
           channel.on_data do |ch, data|

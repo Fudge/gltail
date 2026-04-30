@@ -1,0 +1,4 @@
+# BIND/named query log samples.
+06-Oct-2014 00:16:40.464 client 127.0.0.1#42797 (vistafool): query: www.thefool.it IN A + (127.0.0.1)
+06-Oct-2014 00:16:41.123 client 10.0.0.1#54321 (other): query: example.com IN AAAA + (127.0.0.1)
+06-Oct-2014 00:16:42.000 client 8.8.8.8#12345 (mail): query: mx.example.com IN MX + (127.0.0.1)

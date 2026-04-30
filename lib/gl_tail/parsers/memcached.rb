@@ -1,21 +1,29 @@
-# gl_tail.rb - OpenGL visualization of your server traffic
-# Copyright 2007 Erlend Simonsen <mr@fudgie.org>
-#
-# Licensed under the GNU General Public License v2 (see LICENSE)
-#
+# Custom "n & n" memcached log: <hits> & <misses>.
+# Format originally by Magnus Holm <judofyr>.
 
-# Parser for a "n & n" custom memcached log format
-# Brilliant format design and code by Magnus Holm <judofyr>
-class MemcachedParser < Parser
-  def parse( line )
-    hits, miss = line.split(" & ").map { |x| x.to_i }
-
-    hits.times do
-      add_activity(:block => 'memcached', :name => 'hit', :color => [0.0, 1.0, 0.0, 1.0])
-    end
-
-    miss.times do
-      add_activity(:block => 'memcached', :name => 'miss', :color => [1.0, 0.0, 0.0, 1.0])
+module GlTail::Adapters
+  class Memcached < ::GlTail::Adapter
+    register :memcached
+    def parse(line)
+      hits, miss = line.split(' & ').map(&:to_i)
+      yield('hits' => hits, 'miss' => miss)
     end
   end
+end
+
+module GlTail::Mappers
+  class Memcached < ::GlTail::Mapper
+    register :memcached
+    HIT_COLOR  = [0.0, 1.0, 0.0, 1.0].freeze
+    MISS_COLOR = [1.0, 0.0, 0.0, 1.0].freeze
+    def emit(record)
+      record['hits'].times { add_activity(block: 'memcached', name: 'hit',  color: HIT_COLOR)  }
+      record['miss'].times { add_activity(block: 'memcached', name: 'miss', color: MISS_COLOR) }
+    end
+  end
+end
+
+class MemcachedParser < Parser
+  use_adapter :memcached
+  use_mapper  :memcached
 end

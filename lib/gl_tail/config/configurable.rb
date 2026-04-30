@@ -3,13 +3,13 @@ module GlTail
   module Configurable
 
     module ClassMethods
-      def config_attribute(id, description = "", opts = {})
+      def config_attribute(id, description = '', opts = {})
 
         rewrite_method = case opts[:type]
         when :color
-          "config_rewrite_color"
+          'config_rewrite_color'
         else
-          ""
+          ''
         end
 
         self.class_eval %{

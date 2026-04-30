@@ -12,7 +12,7 @@ file = 'gl_tail.yaml'
 ARGV.each do |arg|
   case arg
   when '-help','--help','-h'
-    puts "gl_tail [--help|-h] [--parsers|-p] [--verbose|-v] [--debug|-d] [--debug-ssh|-ds] [configfile]",
+    puts 'gl_tail [--help|-h] [--parsers|-p] [--verbose|-v] [--debug|-d] [--debug-ssh|-ds] [configfile]',
          '[--help|-h]        This help screen',
          '[--version]        Print version information',
          '[--new|-n]         Initialize config specified with default options',
@@ -59,34 +59,34 @@ if defined? @init_config
   end
 
   if File.exist? file
-    FileUtils.move(file, file + ".bak")
-    puts "Existing configuration moved to '#{file + '.bak'}'"
+    FileUtils.move(file, file + '.bak')
+    puts "Existing configuration moved to '#{file}.bak'"
   end
 
   FileUtils.copy(File.dirname(__FILE__) + '/../dist/config.yaml', file)
   puts "Example configuration installed in '#{file}'"
-  puts "Please edit it and change server and login information."
+  puts 'Please edit it and change server and login information.'
   exit
 elsif !File.exist?(file)
-  puts "Configuration file not found. Either supply the path to a config file as an argument to gl_tail,",
-       "or create a new one with:",
+  puts 'Configuration file not found. Either supply the path to a config file as an argument to gl_tail,',
+       'or create a new one with:',
        "  gl_tail --new #{file}"
   exit
 end
 
-require File.dirname(__FILE__) + '/../lib/gl_tail.rb'
+require_relative '../lib/gl_tail.rb'
 
 if defined? @print
   case @print
   when :parsers
-    puts "Supported Parsers [" + Parser::registry.keys.sort { |a,b| a.to_s <=> b.to_s }.collect{ |p| ":#{p.to_s}"}.join(", ") + "]"
+    puts 'Supported Parsers [' + Parser::registry.keys.sort { |a,b| a.to_s <=> b.to_s }.collect{ |p| ":#{p.to_s}"}.join(', ') + ']'
   when :options
     require 'pp'
-    puts "Supported Configuration Options"
+    puts 'Supported Configuration Options'
 
     pp(GlTail::CONFIG_OPTIONS)
   when :version
-    puts "gl_tail v" + GlTail::VERSION + " by Erlend Simonsen <mr@fudgie.org> - http://www.fudgie.org"
+    puts 'gl_tail v' + GlTail::VERSION + ' by Erlend Simonsen <mr@fudgie.org> - http://www.fudgie.org'
   end
   exit
 end
@@ -94,15 +94,15 @@ end
 
 ######## TRAP Interrupts and exit cleanly ########
 
-unless Gem.win_platform?
-	trap("HUP") { exit }
-	trap("INT") { exit }
-	trap("QUIT") { exit }
-	trap("ABRT") { exit }
-	trap("KILL") { exit }
-	trap("TERM") { exit }
+if RUBY_PLATFORM.split('-',2).last != 'mswin32'
+	trap('HUP') { exit }
+	trap('INT') { exit }
+	trap('QUIT') { exit }
+	trap('ABRT') { exit }
+	trap('TERM') { exit }
+	# SIGKILL cannot be trapped; previous code attempted to and crashed on modern Ruby.
 	#trap("USR1") { $VRB >= 1 ? $VRB = 0 : $VRB += 1; puts "verbose toggled" }
-	trap("USR2") { $DBG >= 2 ? $DBG = 0 : $DBG += 1; puts "debug level toggled" }
+	trap('USR2') { $DBG >= 2 ? $DBG = 0 : $DBG += 1; puts 'debug level toggled' }
 end
 
 config = GlTail::Config.parse_yaml(file)

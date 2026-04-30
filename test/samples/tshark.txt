@@ -1,0 +1,4 @@
+# tshark output samples
+12.345 192.168.1.1 -> 8.8.8.8 TCP 60 1234 -> 80
+12.346 192.168.1.1 -> 8.8.8.8 DNS Standard query A example.com
+12.347 8.8.8.8 -> 192.168.1.1 DNS Standard query response A example.com 93.184.216.34
