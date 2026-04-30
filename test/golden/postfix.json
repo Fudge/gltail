@@ -1,0 +1,58 @@
+[
+  {
+    "line": "Apr 29 10:00:00 mail postfix/smtpd[123]: connect from mail.example.com[10.0.0.1]",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "smtp",
+          "name": "mail.example.com",
+          "size": 0.03
+        }
+      ]
+    ]
+  },
+  {
+    "line": "Apr 29 10:00:01 mail postfix/smtpd[123]: connect from unknown[8.8.8.8]",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "smtp",
+          "name": "8.8.8.8",
+          "size": 0.03
+        }
+      ]
+    ]
+  },
+  {
+    "line": "Apr 29 10:00:05 mail postfix/smtpd[123]: AB12: client=mail.example.com[10.0.0.1], sasl_username=alice",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "logins",
+          "name": "alice/sasl",
+          "size": 0.1
+        }
+      ]
+    ]
+  },
+  {
+    "line": "Apr 29 10:00:10 mail postfix/cleanup[124]: CD34: message-id=<msg@example.com>",
+    "calls": []
+  },
+  {
+    "line": "Apr 29 10:00:11 mail postfix/qmgr[125]: CD34: from=<sender@example.com>, size=4096, nrcpt=1 (queue active)",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "mail from",
+          "name": "sender@example.com",
+          "size": 0.04096
+        }
+      ]
+    ]
+  }
+]

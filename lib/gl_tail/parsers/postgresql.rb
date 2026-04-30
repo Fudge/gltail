@@ -1,47 +1,61 @@
-# gl_tail.rb - OpenGL visualization of your server traffic
-# Copyright 2007 Erlend Simonsen <mr@fudgie.org>
-#
-# Licensed under the GNU General Public License v2 (see LICENSE)
-#
+# PostgreSQL log parser.
 
-# Parser which handles PostgreSQL logs
-class PostgreSQLParser < Parser
-  def parse( line )
-    # here's an example parser for postgres log files; adjust accordingly for different logfile setups.
-    #
-    # postgresql.conf:
-    #    log_line_prefix = '[%d, %t] '
-    #    log_connections = on
-    #    log_disconnections = on
-    #    log_duration = on
-    #    log_statement = 'all'
+module GlTail::Adapters
+  class PostgreSQL < ::GlTail::Adapter
+    register :postgresql
+    PREFIXED = /^\[(.*), (.* .* .*)\] LOG:  ([a-zA-Z0-9\s]*): (.*)/.freeze
+    SYSLOG   = /postgres\[\d+\]: \[\d+-\d+\] \[(.*), (.* .* .*)\] LOG:  ([a-zA-Z0-9\s]*): (.*)/.freeze
+    NAKED    = /(.* .* .*) LOG:  ([a-zA-Z0-9\s]*): (.*)/.freeze
 
-    _, database, datetime, activity, description = /^\[(.*), (.* .* .*)\] LOG:  ([a-zA-Z0-9\s]*): (.*)/.match(line).to_a
+    def parse(line)
+      record = {}
+      if (m = PREFIXED.match(line))
+        record['database'] = m[1]
+        record['activity'] = m[3]
+        record['description'] = m[4]
+      elsif (m = SYSLOG.match(line))
+        record['database'] = m[1]
+        record['activity'] = m[3]
+        record['description'] = m[4]
+      elsif (m = NAKED.match(line))
+        record['activity'] = m[2]
+        record['description'] = m[3]
+      else
+        return
+      end
 
-    unless _
-      _, database, datetime, activity, description = /postgres\[\d+\]: \[\d+-\d+\] \[(.*), (.* .* .*)\] LOG:  ([a-zA-Z0-9\s]*): (.*)/.match(line).to_a
-      syslog = true if _
+      record['activity'] = 'vacuum' if record['description'].include?('vacuum') || record['activity'] == 'autovacuum'
+      yield record
     end
+  end
+end
 
-    if database
-      add_activity(:block => 'database', :name => database, :size => 0.2)
-    else
-      _, datetime, activity, description = /(.* .* .*) LOG:  ([a-zA-Z0-9\s]*): (.*)/.match(line).to_a
-    end
+module GlTail::Mappers
+  class PostgreSQL < ::GlTail::Mapper
+    register :postgresql
+    def emit(record)
+      if record['database']
+        add_activity(block: 'database', name: record['database'], size: 0.2)
+      end
 
-    if activity
-      activity = 'vacuum' if(description.include?('vacuum') || activity == 'autovacuum')
+      activity    = record['activity']
+      description = record['description']
       case activity
       when 'duration'
-        add_activity(:block => 'database', :name => 'duration', :size => description.to_f / 100.0)
+        add_activity(block: 'database', name: 'duration', size: description.to_f / 100.0)
       when 'statement'
-        add_activity(:block => 'database', :name => 'activity', :size => 0.2)
+        add_activity(block: 'database', name: 'activity', size: 0.2)
       when 'connection authorized', 'disconnection'
-        add_activity(:block => 'database', :name => 'login/logout', :size => 0.2)
+        add_activity(block: 'database', name: 'login/logout', size: 0.2)
       when 'vacuum'
-        add_event(:block => 'database', :name => 'vacuum', :message => description, :update_stats => true, :color => [1.0, 1.0, 0.0, 1.0])
+        add_event(block: 'database', name: 'vacuum', message: description,
+                  update_stats: true, color: [1.0, 1.0, 0.0, 1.0])
       end
     end
-
   end
+end
+
+class PostgreSQLParser < Parser
+  use_adapter :postgresql
+  use_mapper  :postgresql
 end

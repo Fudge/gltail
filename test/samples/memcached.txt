@@ -1,0 +1,4 @@
+# Magnus Holm's "n & n" custom memcached log: <hits> & <misses>
+3 & 1
+0 & 5
+2 & 0

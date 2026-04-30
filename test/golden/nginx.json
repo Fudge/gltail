@@ -1,0 +1,177 @@
+[
+  {
+    "line": "127.0.0.1 - - [10/Oct/2000:13:55:36 -0700] \"GET /api/users HTTP/1.1\" 200 612 \"https://other.example.com/from\" \"Mozilla/5.0\"",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "sites",
+          "name": "sample",
+          "size": 612
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "urls",
+          "name": "/api/users"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "users",
+          "name": "-",
+          "size": 612
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "referrers",
+          "name": "https://other.example.com/from"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "user agents",
+          "name": "Mozilla/5.0",
+          "type": 3
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "content",
+          "name": "page"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "status",
+          "name": "200",
+          "type": 3
+        }
+      ]
+    ]
+  },
+  {
+    "line": "10.0.0.1 - - [29/Apr/2026:10:12:00 +0000] \"POST /login HTTP/1.1\" 302 0 \"-\" \"curl/8.5.0\"",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "sites",
+          "name": "sample",
+          "size": 0
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "urls",
+          "name": "/login"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "users",
+          "name": "-",
+          "size": 0
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "user agents",
+          "name": "curl/8.5.0",
+          "type": 3
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "content",
+          "name": "page"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "status",
+          "name": "302",
+          "type": 3
+        }
+      ],
+      [
+        "add_event",
+        {
+          "block": "info",
+          "name": "Logins",
+          "message": "Login...",
+          "update_stats": true,
+          "color": [
+            1.5,
+            1.0,
+            0.5,
+            1.0
+          ]
+        }
+      ]
+    ]
+  },
+  {
+    "line": "8.8.8.8 - - [29/Apr/2026:10:12:01 +0000] \"GET /missing.js HTTP/1.1\" 404 21 \"https://sample.example.com/\" \"GoogleBot\"",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "sites",
+          "name": "sample",
+          "size": 21
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "urls",
+          "name": "/missing.js"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "users",
+          "name": "-",
+          "size": 21
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "user agents",
+          "name": "GoogleBot",
+          "type": 3
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "content",
+          "name": "javascript"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "status",
+          "name": "404",
+          "type": 3
+        }
+      ]
+    ]
+  }
+]

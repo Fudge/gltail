@@ -1,0 +1,3 @@
+# Squid native log format samples — match SquidParser regex.
+1234567890.123    243 10.0.0.1.45678 TCP_MISS/200 5432 GET http://example.com/page user1 DIRECT/93.184.216.34 text/html
+1234567891.456    198 10.0.0.2.45679 TCP_HIT/200 1024 GET http://other.com/asset.css user2 DIRECT/1.2.3.4 text/css

@@ -1,0 +1,66 @@
+[
+  {
+    "line": "SEND /agent/run_recipe",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "mappers",
+          "name": "agent/run_recipe",
+          "size": 0.01,
+          "color": [
+            1.0,
+            0.4,
+            0.2,
+            1.0
+          ]
+        }
+      ]
+    ]
+  },
+  {
+    "line": "SEND /offline.failsafe/run_recipe",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "mappers",
+          "name": "offline.failsafe/run_recipe",
+          "size": 0.01,
+          "color": [
+            0.7,
+            0.7,
+            0.7,
+            0.7
+          ]
+        }
+      ]
+    ]
+  },
+  {
+    "line": "RECV /run_result from mapper, target nanite-12345, payload {:status => :ok}",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "agents",
+          "name": "nanite-12345",
+          "message": "run_result to nanite-12345",
+          "size": 0.005
+        }
+      ]
+    ]
+  },
+  {
+    "line": "Error (boom) something bad happened",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "warnings",
+          "name": "Error (boom) something bad happened"
+        }
+      ]
+    ]
+  }
+]

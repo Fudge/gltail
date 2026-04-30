@@ -1,0 +1,5 @@
+# Rails 2.x access log samples covering RailsParser branches.
+Completed in 0.02100 (47 reqs/sec) | Rendering: 0.01374 (65%) | DB: 0.00570 (27%) | 200 OK [http://example.com/users/show/1]
+Completed in 17ms (View: 0, DB: 11) | 200 OK [http://example.com/login]
+Processing UsersController#show (for 192.168.1.5 at 2007-10-05 22:34:33) [GET]
+ActiveRecord::RecordNotFound (Couldn't find User with id=99):

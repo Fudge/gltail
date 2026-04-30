@@ -1,25 +1,44 @@
-# gl_tail.rb - OpenGL visualization of your server traffic
-# Copyright 2007 Erlend Simonsen <mr@fudgie.org>
-#
-# Licensed under the GNU General Public License v2 (see LICENSE)
-#
+# Wireshark/tshark output parser.
 
-# Parser which handles tshark logs
-class TSharkParser < Parser
-
-  def parse( line )
-    if(line.include?('->'))
-      time, srcip, arrow, destip, type, = line.split(' ')
-      add_activity(:block => 'users', :name => srcip)
-      add_activity(:block => 'types', :name => type)
-    end
-
-    if(line.include?('DNS Standard query A'))
-      foo, name = line.split(' A ')
-      if(name != nil)
-        add_event(:block => 'status', :name => 'DNS Queries', :message => 'DNS Request: ' + name, :update_stats => true, :color => [1.5, 1.0, 0.5, 1.0])
+module GlTail::Adapters
+  class TShark < ::GlTail::Adapter
+    register :tshark
+    def parse(line)
+      record = { 'kinds' => [] }
+      if line.include?('->')
+        time, srcip, _arrow, _destip, type, _rest = line.split(' ')
+        record['kinds'] << :flow
+        record['srcip'] = srcip
+        record['type']  = type
       end
-    end 
-  end 
-    
+      if line.include?('DNS Standard query A')
+        _, name = line.split(' A ')
+        record['kinds'] << :dns_query
+        record['name']  = name
+      end
+      yield record unless record['kinds'].empty?
+    end
+  end
+end
+
+module GlTail::Mappers
+  class TShark < ::GlTail::Mapper
+    register :tshark
+    def emit(record)
+      if record['kinds'].include?(:flow)
+        add_activity(block: 'users', name: record['srcip'])
+        add_activity(block: 'types', name: record['type'])
+      end
+      if record['kinds'].include?(:dns_query) && record['name']
+        add_event(block: 'status', name: 'DNS Queries',
+                  message: 'DNS Request: ' + record['name'],
+                  update_stats: true, color: [1.5, 1.0, 0.5, 1.0])
+      end
+    end
+  end
+end
+
+class TSharkParser < Parser
+  use_adapter :tshark
+  use_mapper  :tshark
 end

@@ -1,0 +1,4 @@
+# PureFTPD pure-ftpd-Apache-format access log.
+10.0.0.1 anon ftp [29/Apr/2026:10:00:00 +0000] "GET /pub/file.tgz" 200 12345
+10.0.0.2 - alice [29/Apr/2026:10:00:01 +0000] "PUT /upload/document.pdf" 226 4096
+10.0.0.3 anon ftp [29/Apr/2026:10:00:02 +0000] "GET /pub/missing" 550 0

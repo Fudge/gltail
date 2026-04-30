@@ -1,0 +1,107 @@
+[
+  {
+    "line": "06-Oct-2014 00:16:40.464 client 127.0.0.1#42797 (vistafool): query: www.thefool.it IN A + (127.0.0.1)",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "sites",
+          "name": "sample"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "types",
+          "name": "A +"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "hosts",
+          "name": "127.0.0.1",
+          "size": 1
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "dns query",
+          "name": "www.thefool.it IN",
+          "size": 30
+        }
+      ]
+    ]
+  },
+  {
+    "line": "06-Oct-2014 00:16:41.123 client 10.0.0.1#54321 (other): query: example.com IN AAAA + (127.0.0.1)",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "sites",
+          "name": "sample"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "types",
+          "name": "AAAA +"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "hosts",
+          "name": "10.0.0.1",
+          "size": 1
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "dns query",
+          "name": "example.com IN",
+          "size": 80
+        }
+      ]
+    ]
+  },
+  {
+    "line": "06-Oct-2014 00:16:42.000 client 8.8.8.8#12345 (mail): query: mx.example.com IN MX + (127.0.0.1)",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "sites",
+          "name": "sample"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "types",
+          "name": "MX +"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "hosts",
+          "name": "8.8.8.8",
+          "size": 1
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "dns query",
+          "name": "mx.example.com IN",
+          "size": 50
+        }
+      ]
+    ]
+  }
+]

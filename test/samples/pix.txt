@@ -1,0 +1,4 @@
+# Cisco PIX/FWSM log samples — match PixParser regexes.
+Apr 29 10:00:00 fw-1 1 10:00:00 fw-1 %FWSM-6-302013: Built outbound TCP connection 12345 for outside:1.2.3.4/80 (1.2.3.4/80) to inside:10.0.0.1/54321
+Apr 29 10:00:01 fw-1 2 10:00:01 fw-1 %PIX-6-302013: Built inbound UDP connection 54321 for inside:10.0.0.2/1234 (10.0.0.2/1234) to outside:8.8.8.8/53
+Apr 29 10:00:02 fw-1 3 10:00:02 fw-1 %FWSM-5-304001: 10.0.0.5 Accessed URL example.com:/path/to/page

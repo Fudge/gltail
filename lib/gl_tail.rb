@@ -36,6 +36,10 @@ require 'gl_tail/sources/local'
 
 %w(version engine activity block item element parser resolver blob_store font_store).each {|f| require "gl_tail/#{f}" }
 
+# Adapter / Mapper plug-ins. Loaded before parsers so register hooks fire first.
+Dir.glob( "#{File.dirname(__FILE__)}/gl_tail/adapters/*.rb" ).each {|f| require f }
+Dir.glob( "#{File.dirname(__FILE__)}/gl_tail/mappers/*.rb"  ).each {|f| require f }
+
 Dir.glob( "#{File.dirname(__FILE__)}/gl_tail/parsers/*.rb" ).each {|f| require f }
 
 

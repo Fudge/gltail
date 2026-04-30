@@ -1,0 +1,4 @@
+# IIS W3C extended log samples — snapshotting current IISParser behavior.
+2026-04-29 10:12:00 192.168.1.1 GET /index.html - 80 1234 10.0.0.5 Mozilla/5.0 200 0 312
+2026-04-29 10:12:01 192.168.1.1 POST /login - 80 0 10.0.0.6 curl/8.5.0 302 0 88
+2026-04-29 10:12:02 192.168.1.1 GET /static/app.js https://sample.example.com/ 80 8192 10.0.0.7 Mozilla/5.0 200 0 421

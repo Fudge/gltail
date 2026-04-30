@@ -1,0 +1,74 @@
+[
+  {
+    "line": "12.345 192.168.1.1 -> 8.8.8.8 TCP 60 1234 -> 80",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "users",
+          "name": "192.168.1.1"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "types",
+          "name": "TCP"
+        }
+      ]
+    ]
+  },
+  {
+    "line": "12.346 192.168.1.1 -> 8.8.8.8 DNS Standard query A example.com",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "users",
+          "name": "192.168.1.1"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "types",
+          "name": "DNS"
+        }
+      ],
+      [
+        "add_event",
+        {
+          "block": "status",
+          "name": "DNS Queries",
+          "message": "DNS Request: example.com",
+          "update_stats": true,
+          "color": [
+            1.5,
+            1.0,
+            0.5,
+            1.0
+          ]
+        }
+      ]
+    ]
+  },
+  {
+    "line": "12.347 8.8.8.8 -> 192.168.1.1 DNS Standard query response A example.com 93.184.216.34",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "users",
+          "name": "8.8.8.8"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "types",
+          "name": "DNS"
+        }
+      ]
+    ]
+  }
+]

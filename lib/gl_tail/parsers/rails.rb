@@ -1,49 +1,71 @@
-# gl_tail.rb - OpenGL visualization of your server traffic
-# Copyright 2007 Erlend Simonsen <mr@fudgie.org>
-#
-# Licensed under the GNU General Public License v2 (see LICENSE)
-#
+# Rails 2.x access log parser.
 
-# Parser which handles Rails access logs
-class RailsParser < Parser
-  def parse( line )
-    #Completed in 0.02100 (47 reqs/sec) | Rendering: 0.01374 (65%) | DB: 0.00570 (27%) | 200 OK [http://example.com/whatever/whatever]
-    if matchdata = /^Completed in ([\d.]+) .* \[([^\]]+)\]/.match(line)
-    	_, ms, url = matchdata.to_a
-	url = nil if url == 'http:// /' # mod_proxy health checks?
-    #Rails 2.2.2+: Completed in 17ms (View: 0, DB: 11) | 200 OK [http://example.com/etc/etc]
-    elsif matchdata = /^Completed in ([\d]+)ms .* \[([^\]]+)\]/.match(line)
-    	_, new_ms, url = matchdata.to_a
-	ms = new_ms.to_f / 1000
-	url = nil if url == 'http:// /' # mod_proxy health checks?
-    end
+module GlTail::Adapters
+  class Rails < ::GlTail::Adapter
+    register :rails
+    OLD_COMPLETE = /^Completed in ([\d.]+) .* \[([^\]]+)\]/.freeze
+    NEW_COMPLETE = /^Completed in ([\d]+)ms .* \[([^\]]+)\]/.freeze
+    PROCESSING   = /^Processing .* \(for (\d+.\d+.\d+.\d+) at .*\).*$/.freeze
+    ERROR        = /^([^ ]+Error) \((.*)\):/.freeze
 
-    if url
-      _, host, url = /^http[s]?:\/\/([^\/]*)(.*)/.match(url).to_a
-
-      add_activity(:block => 'sites', :name => host, :size => ms.to_f) # Size of activity based on request time.
-      add_activity(:block => 'urls', :name => HttpHelper.generalize_url(url), :size => ms.to_f)
-      add_activity(:block => 'slow requests', :name => HttpHelper.generalize_url(url), :size => ms.to_f)
-      add_activity(:block => 'content', :name => 'page')
-
-      # Events to pop up
-      add_event(:block => 'info', :name => 'Logins', :message => 'Login...', :update_stats => true, :color => [0.5, 1.0, 0.5, 1.0]) if url.include?('/login')
-      add_event(:block => 'info', :name => 'Sales', :message => '$', :update_stats => true, :color => [1.5, 0.0, 0.0, 1.0]) if url.include?('/checkout')
-      add_event(:block => 'info', :name => 'Signups', :message => 'New User...', :update_stats => true, :color => [1.0, 1.0, 1.0, 1.0]) if(url.include?('/signup') || url.include?('/users/create'))
-    elsif line.include?('Processing ')
-      #Processing TasksController#update_sheet_info (for 123.123.123.123 at 2007-10-05 22:34:33) [POST]
-      _, host = /^Processing .* \(for (\d+.\d+.\d+.\d+) at .*\).*$/.match(line).to_a
-      if host
-        add_activity(:block => 'users', :name => host)
-      end
-    elsif line.include?('Error (')
-      _, error, msg = /^([^ ]+Error) \((.*)\):/.match(line).to_a
-      if error
-        add_event(:block => 'info', :name => 'Exceptions', :message => error, :update_stats => true, :color => [1.0, 0.0, 0.0, 1.0])
-        add_event(:block => 'info', :name => 'Exceptions', :message => msg, :update_stats => false, :color => [1.0, 0.0, 0.0, 1.0])
-        add_activity(:block => 'warnings', :name => msg)
-
+    def parse(line)
+      if (m = NEW_COMPLETE.match(line))
+        url = m[2]
+        url = nil if url == 'http:// /'
+        ms  = m[1].to_f / 1000
+        yield('kind' => :complete, 'ms' => ms, 'url' => url) if url
+      elsif (m = OLD_COMPLETE.match(line))
+        url = m[2]
+        url = nil if url == 'http:// /'
+        yield('kind' => :complete, 'ms' => m[1].to_f, 'url' => url) if url
+      elsif line.include?('Processing ') && (m = PROCESSING.match(line))
+        yield('kind' => :processing, 'host' => m[1])
+      elsif line.include?('Error (') && (m = ERROR.match(line))
+        yield('kind' => :error, 'error' => m[1], 'msg' => m[2])
       end
     end
   end
+end
+
+module GlTail::Mappers
+  class Rails < ::GlTail::Mapper
+    register :rails
+
+    def emit(record)
+      case record['kind']
+      when :complete
+        emit_complete(record)
+      when :processing
+        add_activity(block: 'users', name: record['host'])
+      when :error
+        add_event(block: 'info', name: 'Exceptions', message: record['error'],
+                  update_stats: true, color: [1.0, 0.0, 0.0, 1.0])
+        add_event(block: 'info', name: 'Exceptions', message: record['msg'],
+                  update_stats: false, color: [1.0, 0.0, 0.0, 1.0])
+        add_activity(block: 'warnings', name: record['msg'])
+      end
+    end
+
+    private
+
+    def emit_complete(record)
+      _, host, url = %r{^https?://([^/]*)(.*)}.match(record['url']).to_a
+      ms = record['ms']
+      add_activity(block: 'sites', name: host, size: ms)
+      add_activity(block: 'urls', name: HttpHelper.generalize_url(url), size: ms)
+      add_activity(block: 'slow requests', name: HttpHelper.generalize_url(url), size: ms)
+      add_activity(block: 'content', name: 'page')
+      add_event(block: 'info', name: 'Logins',  message: 'Login...', update_stats: true,
+                color: [0.5, 1.0, 0.5, 1.0]) if url.include?('/login')
+      add_event(block: 'info', name: 'Sales',   message: '$',        update_stats: true,
+                color: [1.5, 0.0, 0.0, 1.0]) if url.include?('/checkout')
+      add_event(block: 'info', name: 'Signups', message: 'New User...', update_stats: true,
+                color: [1.0, 1.0, 1.0, 1.0]) if url.include?('/signup') || url.include?('/users/create')
+    end
+  end
+end
+
+class RailsParser < Parser
+  use_adapter :rails
+  use_mapper  :rails
 end

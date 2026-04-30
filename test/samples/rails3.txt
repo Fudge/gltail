@@ -1,0 +1,4 @@
+# Rails 3 access log samples covering Rails3Parser branches.
+Started GET "/users/show/1" for 192.168.1.5 at 2026-04-29 10:00:00 +0000
+Completed 200 OK in 4659ms (Views: 3376.3ms | ActiveRecord: 0.0ms)
+ActiveRecord::RecordNotFound (Couldn't find User with id=99):

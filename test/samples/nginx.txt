@@ -1,0 +1,6 @@
+# Standard nginx combined log format (matches fluentd's NginxParser).
+# The original gltail regex put status BEFORE the request — that was a bug;
+# we normalize to standard format for the new pipeline.
+127.0.0.1 - - [10/Oct/2000:13:55:36 -0700] "GET /api/users HTTP/1.1" 200 612 "https://other.example.com/from" "Mozilla/5.0"
+10.0.0.1 - - [29/Apr/2026:10:12:00 +0000] "POST /login HTTP/1.1" 302 0 "-" "curl/8.5.0"
+8.8.8.8 - - [29/Apr/2026:10:12:01 +0000] "GET /missing.js HTTP/1.1" 404 21 "https://sample.example.com/" "GoogleBot"

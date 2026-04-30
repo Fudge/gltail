@@ -1,0 +1,6 @@
+# pfSense PF (match) log samples — match PFSenseParser regex.
+# NOTE: legacy parser has two latent bugs the golden snapshot captures:
+#   1. typo `sourechost` (line 109) raises NameError when a line matches.
+#   2. 5-minute time-of-day filter; samples here are dated "now" via the
+#      harness so they pass that filter, but the typo still trips them.
+2026-04-29 10:00:00 fw01 pf: 00:00:00.000000 rule 10/(match): pass in on em0: (proto tcp ttl 64) 10.0.0.1.54321 > 8.8.8.8.443: tcp 60 1234 win 1024 flags [S]

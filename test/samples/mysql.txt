@@ -1,0 +1,6 @@
+# MySQL general query log samples covering each MysqlParser branch.
+2026-04-29T10:00:00Z   1 Connect  alice@10.0.0.1 on testdb
+2026-04-29T10:00:01Z   1 Init DB  testdb
+2026-04-29T10:00:02Z   1 Query    SELECT * FROM users
+2026-04-29T10:00:03Z   1 Query    UPDATE users SET email='x' WHERE id=1
+2026-04-29T10:00:10Z   1 Quit

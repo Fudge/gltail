@@ -35,6 +35,10 @@ Gem::Specification.new do |gem|
   # Required by net-ssh to read ed25519 keys (now the openssh default).
   gem.add_dependency('ed25519', '~> 1.2')
   gem.add_dependency('bcrypt_pbkdf', '~> 1.0')
+  # Used as a parser library: Fluent::Plugin::Apache2Parser, NginxParser,
+  # JSONParser, RegexpParser, etc. We do not run the daemon; the gem is
+  # imported solely for its parser plugins via lib/gl_tail/adapters/fluentd.rb.
+  gem.add_dependency('fluentd', '~> 1.19')
 end
 
 # vim: syntax=Ruby

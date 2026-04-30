@@ -1,0 +1,170 @@
+[
+  {
+    "line": "2026-04-29 10:12:00 192.168.1.1 GET /index.html - 80 1234 10.0.0.5 Mozilla/5.0 200 0 312",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "sites",
+          "name": "sample",
+          "size": 1234
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "urls",
+          "name": "/index.html"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "users",
+          "name": "10.0.0.5",
+          "size": 1234
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "user agents",
+          "name": "Mozilla/5.0",
+          "type": 3
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "content",
+          "name": "page"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "status",
+          "name": "200",
+          "type": 3
+        }
+      ]
+    ]
+  },
+  {
+    "line": "2026-04-29 10:12:01 192.168.1.1 POST /login - 80 0 10.0.0.6 curl/8.5.0 302 0 88",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "sites",
+          "name": "sample",
+          "size": 0
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "urls",
+          "name": "/login"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "users",
+          "name": "10.0.0.6",
+          "size": 0
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "user agents",
+          "name": "curl/8.5.0",
+          "type": 3
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "content",
+          "name": "page"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "status",
+          "name": "302",
+          "type": 3
+        }
+      ],
+      [
+        "add_event",
+        {
+          "block": "info",
+          "name": "Logins",
+          "message": "Login...",
+          "update_stats": true,
+          "color": [
+            1.5,
+            1.0,
+            0.5,
+            1.0
+          ]
+        }
+      ]
+    ]
+  },
+  {
+    "line": "2026-04-29 10:12:02 192.168.1.1 GET /static/app.js https://sample.example.com/ 80 8192 10.0.0.7 Mozilla/5.0 200 0 421",
+    "calls": [
+      [
+        "add_activity",
+        {
+          "block": "sites",
+          "name": "sample",
+          "size": 8192
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "urls",
+          "name": "/static/app.js"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "users",
+          "name": "10.0.0.7",
+          "size": 8192
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "user agents",
+          "name": "Mozilla/5.0",
+          "type": 3
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "content",
+          "name": "javascript"
+        }
+      ],
+      [
+        "add_activity",
+        {
+          "block": "status",
+          "name": "200",
+          "type": 3
+        }
+      ]
+    ]
+  }
+]

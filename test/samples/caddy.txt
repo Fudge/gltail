@@ -1,0 +1,5 @@
+# Caddy v2 JSON access-log samples (single-line per record).
+{"level":"info","ts":1777494216.7,"logger":"http.log.access.log1","msg":"handled request","request":{"remote_ip":"67.185.49.200","client_ip":"67.185.49.200","proto":"HTTP/1.1","method":"GET","host":"api.example.com","uri":"/api/v1/users?page=1","headers":{"User-Agent":["python-httpx/0.28.1"]}},"duration":0.07,"size":91,"status":200}
+{"level":"info","ts":1777494220.1,"request":{"client_ip":"10.0.0.1","method":"POST","host":"sample.example.com","uri":"/login","headers":{"User-Agent":["Mozilla/5.0"],"Referer":["https://sample.example.com/welcome"]}},"size":0,"status":302}
+{"level":"info","ts":1777494221.5,"request":{"client_ip":"8.8.8.8","method":"GET","host":"sample.example.com","uri":"/static/app.js","headers":{"User-Agent":["GoogleBot"]}},"size":4096,"status":200}
+{"level":"info","ts":1777494222.8,"request":{"client_ip":"2.2.2.2","method":"GET","host":"sample.example.com","uri":"/missing","headers":{"User-Agent":["curl/8.5.0"]}},"size":21,"status":404}
